@@ -1,3 +1,21 @@
+1️⃣ ServiceAccount → exists ONLY in Kubernetes (EKS), NOT in AWS IAM.
+```
+kubectl get sa -n kube-system
+```
+🔹 This ServiceAccount:
+
+Exists only inside the EKS cluster
+Is stored in etcd (Kubernetes)
+❌ Will NOT appear in AWS IAM
+❌ Cannot be seen in AWS Console → IAM → Users/Roles
+
+🧠 Common confusion (very important)
+
+❌ Wrong thinking  -->  “ServiceAccount is created in IAM”
+
+### ✅ Correct thinking
+“ServiceAccount exists in Kubernetes, IAM Role exists in AWS, and IRSA securely links them using OIDC.”
+
 ### Why ServiceAccount is important in AWS EKS
 A ServiceAccount (SA):
 ServiceAccounts provide authentication + authorization for pods.
