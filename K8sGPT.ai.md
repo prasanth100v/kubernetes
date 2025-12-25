@@ -63,6 +63,13 @@ helm install k8sgpt k8sgpt/k8sgpt \
 ```
 🔐 Uses in-cluster RBAC → no kubeconfig needed on laptops.
 
+### CLI Installation (Optional)
+# Using wget
+```
+wget https://github.com/k8sgpt-ai/k8sgpt/releases/latest/download/k8sgpt_Linux_x86_64.tar.gz
+tar -xzf k8sgpt_Linux_x86_64.tar.gz
+sudo mv k8sgpt /usr/local/bin/
+```
 ### ✅ K8sGPT Commands
 | Category              | Command                                                | What it does                  | When to use                |
 | --------------------- | ------------------------------------------------------ | ----------------------------- | -------------------------- |
