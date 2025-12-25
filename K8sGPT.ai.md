@@ -1,5 +1,5 @@
 ### 🤔 Why use K8sGPT and what are the benefits?
-K8sGPT exists for one simple reason:
+ `K8sGPT` exists for one simple reason:
 ```
 🎯 Kubernetes tells you what failed — K8sGPT tells you why and how to fix it.
 🎯 K8sGPT uses AI to analyze Kubernetes state and events, identify root causes, 
