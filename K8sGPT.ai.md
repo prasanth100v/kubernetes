@@ -1,4 +1,4 @@
-### 🤔 Why use `K8sGPT` and what are the benefits?
+# 🤔 Why use `K8sGPT` and what are the benefits?
  `K8sGPT` exists for one simple reason:
 ```
 🎯 Kubernetes tells you what failed — K8sGPT tells you why and how to fix it.
@@ -50,7 +50,7 @@ k8sgpt analyze --namespace monitoring --explain
 k8sgpt analyze --filters=PVC --explain
 ```
 
-### (Optional) Run K8sGPT inside the cluster (Helm)
+# (Optional) Run K8sGPT inside the cluster (Helm)
 ```
 helm repo add k8sgpt https://charts.k8sgpt.ai
 helm repo update
@@ -63,8 +63,8 @@ helm install k8sgpt k8sgpt/k8sgpt \
 ```
 🔐 Uses in-cluster RBAC → no kubeconfig needed on laptops.
 
-### CLI Installation (Optional)
-# Using wget
+# CLI Installation (Optional)
+### Using wget
 ```
 wget https://github.com/k8sgpt-ai/k8sgpt/releases/latest/download/k8sgpt_Linux_x86_64.tar.gz
 tar -xzf k8sgpt_Linux_x86_64.tar.gz
