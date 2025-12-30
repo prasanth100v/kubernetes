@@ -1,7 +1,5 @@
-
-
-
-
+## 👉 IRSA = OIDC + IAM role + ServiceAccount
+“OIDC is the authentication mechanism, while IRSA is how Amazon EKS uses OIDC to securely grant IAM permissions to Kubernetes pods.”
 
 ### 🔹IAM User
   A long-term AWS identity with access keys (username/password or keys).
