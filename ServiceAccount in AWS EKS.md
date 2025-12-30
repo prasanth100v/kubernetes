@@ -1,3 +1,11 @@
+
+## 👉 IRSA = OIDC + IAM role + ServiceAccount
+“OIDC is the authentication mechanism, while IRSA is how Amazon EKS uses OIDC to securely grant IAM permissions to Kubernetes pods.”
+
+
+
+
+
 1️⃣ ServiceAccount → exists ONLY in Kubernetes (EKS), NOT in AWS IAM.
 ```
 kubectl get sa -n kube-system
