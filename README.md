@@ -94,5 +94,52 @@
 | **NodeSelector**                | Simple placement      | Run pod on specific node               |
 | **Pod Anti-Affinity**           | Separation rule       | Spread pods across nodes               |
 
-
+## 📘 AWS EKS (Elastic Kubernetes Service) Glossary
+| Term                                    | What It Is                | Simple Explanation / Real Use              |
+| --------------------------------------- | ------------------------- | ------------------------------------------ |
+| **Amazon Web Services**                 | Cloud platform            | Provides infrastructure & managed services |
+| **Amazon EKS**                          | Managed Kubernetes        | AWS manages control plane                  |
+| **EKS Cluster**                         | Kubernetes cluster        | Runs Kubernetes on AWS                     |
+| **Control Plane**                       | Managed by AWS            | API server, etcd, scheduler                |
+| **Worker Node**                         | EC2 instance              | Runs application pods                      |
+| **Managed Node Group**                  | AWS-managed nodes         | AWS handles upgrades                       |
+| **Self-Managed Node Group**             | User-managed nodes        | Full control over EC2                      |
+| **Fargate**                             | Serverless compute        | Run pods without EC2                       |
+| **EKS Add-ons**                         | Managed components        | CoreDNS, kube-proxy                        |
+| **Cluster Endpoint**                    | API endpoint              | kubectl connects here                      |
+| **IAM Role**                            | AWS identity              | Controls access to AWS                     |
+| **IAM Role for Service Account (IRSA)** | Pod-level IAM             | Secure AWS access for pods                 |
+| **aws-auth ConfigMap**                  | Auth mapping              | Maps IAM users to RBAC                     |
+| **OIDC Provider**                       | Identity provider         | Enables IRSA                               |
+| **VPC**                                 | Network boundary          | Isolates EKS cluster                       |
+| **Subnets**                             | Network segments          | Public / private nodes                     |
+| **Security Group**                      | Firewall rules            | Controls traffic                           |
+| **ENI**                                 | Elastic Network Interface | Pod networking                             |
+| **VPC CNI**                             | AWS network plugin        | Assigns VPC IPs to pods                    |
+| **Pod IP**                              | VPC IP                    | Pods get real AWS IP                       |
+| **Service IP**                          | Virtual IP                | Internal cluster access                    |
+| **LoadBalancer Service**                | AWS ELB                   | Creates ALB/NLB                            |
+| **ALB Ingress Controller**              | Ingress handler           | Uses AWS ALB                               |
+| **NLB**                                 | Network Load Balancer     | High performance                           |
+| **EBS CSI Driver**                      | Block storage             | Persistent volumes                         |
+| **EFS CSI Driver**                      | Shared storage            | Multiple pods share files                  |
+| **PersistentVolume (PV)**               | Actual storage            | Backed by EBS/EFS                          |
+| **PersistentVolumeClaim (PVC)**         | Storage request           | Pod asks for storage                       |
+| **Cluster Autoscaler**                  | Node scaling              | Adds/removes nodes                         |
+| **HPA**                                 | Pod autoscaling           | CPU/memory based                           |
+| **Karpenter**                           | Smart autoscaler          | Fast node provisioning                     |
+| **CloudWatch Logs**                     | Logging                   | Centralized logs                           |
+| **Container Insights**                  | Monitoring                | CPU, memory metrics                        |
+| **ECR**                                 | Container registry        | Stores Docker images                       |
+| **EKS Upgrade**                         | Version update            | AWS upgrades control plane                 |
+| **Node AMI**                            | OS image                  | Used by worker nodes                       |
+| **eksctl**                              | CLI tool                  | Creates EKS clusters                       |
+| **kubectl**                             | Kubernetes CLI            | Manage resources                           |
+| **Helm on EKS**                         | Package manager           | App deployments                            |
+| **Private Cluster**                     | No public endpoint        | Secure cluster access                      |
+| **Public Endpoint**                     | Internet accessible       | Easier access                              |
+| **Endpoint Access Control**             | Security setting          | Public / private / both                    |
+| **Multi-AZ**                            | High availability         | Nodes across AZs                           |
+| **Regional Cluster**                    | Region-wide               | Control plane HA                           |
+| **EKS Pricing**                         | Cluster cost              | Per-hour cluster fee                       |
 
