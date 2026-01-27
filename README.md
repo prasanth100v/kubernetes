@@ -47,6 +47,52 @@
 | **Probe (Readiness)**           | Traffic check                    | Controls traffic flow                                  |
 | **Probe (Startup)**             | Boot check                       | For slow-starting apps                                 |
 
+## 📗 Advanced Kubernetes Glossary
+| Term                            | What it Is            | Simple Explanation / Real Use          |
+| ------------------------------- | --------------------- | -------------------------------------- |
+| **Kubernetes API Group**        | Resource category     | Example: `apps/v1`, `batch/v1`         |
+| **API Version**                 | Resource version      | Example: `apps/v1` for Deployment      |
+| **Manifest**                    | YAML file             | Describes Kubernetes objects           |
+| **Desired State**               | Target configuration  | What you *want* Kubernetes to maintain |
+| **Current State**               | Actual condition      | What is currently running              |
+| **Reconciliation Loop**         | Continuous check      | K8s keeps fixing differences           |
+| **Admission Controller**        | Request validator     | Allows or denies API requests          |
+| **Mutating Webhook**            | Modifies requests     | Adds labels automatically              |
+| **Validating Webhook**          | Validates rules       | Blocks wrong configs                   |
+| **CNI**                         | Networking plugin     | Calico, Flannel                        |
+| **CSI**                         | Storage plugin        | Connects storage systems               |
+| **kube-proxy**                  | Network manager       | Enables service networking             |
+| **Endpoint**                    | Pod IP list           | Actual backend pods                    |
+| **EndpointSlice**               | Scalable endpoints    | Improved endpoint handling             |
+| **Service Mesh**                | Traffic control       | Istio, Linkerd                         |
+| **Sidecar**                     | Helper container      | Logging, proxy container               |
+| **Init Container**              | Pre-run container     | Runs before app starts                 |
+| **Eviction**                    | Pod removal           | Due to memory/disk pressure            |
+| **OOMKilled**                   | Memory crash          | Pod killed due to RAM limit            |
+| **Resource Request**            | Minimum resource      | Guaranteed CPU/memory                  |
+| **Resource Limit**              | Max resource          | Prevents overuse                       |
+| **QoS Class**                   | Priority level        | Guaranteed / Burstable / BestEffort    |
+| **Node Pressure**               | Resource shortage     | Memory, disk, PID pressure             |
+| **Pod Disruption Budget (PDB)** | Availability rule     | Limits pod down during updates         |
+| **Leader Election**             | Master selection      | Used by controllers                    |
+| **Finalizer**                   | Cleanup hook          | Runs before delete                     |
+| **Garbage Collection**          | Auto cleanup          | Deletes unused resources               |
+| **Custom Controller**           | Custom logic          | Watches CRDs                           |
+| **Operator Pattern**            | App automation        | DB lifecycle management                |
+| **Blue-Green Deployment**       | Zero-risk release     | Switch traffic instantly               |
+| **Canary Deployment**           | Gradual rollout       | Test with few users                    |
+| **Node Drain**                  | Safe node maintenance | Moves pods before shutdown             |
+| **Cordoning**                   | Block scheduling      | Prevent new pods on node               |
+| **Static Pod**                  | Node-level pod        | Managed by kubelet only                |
+| **Mirror Pod**                  | API reflection        | Static pod visible in API              |
+| **RBAC**                        | Access control        | Who can do what                        |
+| **Role**                        | Namespace permission  | Limited access                         |
+| **ClusterRole**                 | Cluster-wide access   | Admin-level permissions                |
+| **ServiceAccount**              | Pod identity          | Used for API access                    |
+| **Token**                       | Authentication key    | Used by pods                           |
+| **Audit Log**                   | Activity log          | Tracks API actions                     |
+| **NodeSelector**                | Simple placement      | Run pod on specific node               |
+| **Pod Anti-Affinity**           | Separation rule       | Spread pods across nodes               |
 
 
 
