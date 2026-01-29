@@ -91,7 +91,7 @@
 | **ServiceAccount**              | Pod identity Used for API access (non-human account) |   ServiceAccount is an identity used by applications (Pods) to talk securely to the Kubernetes API or other external services.            |
 | **Token**                       | Authentication key    | Used by pods (token is a credential used to authenticate to the Kubernetes API server.)    |
 | **Audit Log**      | Activity log (CCTV for your cluster API 🔍)  | Audit Logs record WHO did WHAT, WHEN, WHERE, and RESULT for every request made to the API Server.   |
-| **NodeSelector**                | Simple placement      | Run pod on specific node               |
+| **NodeSelector**                | Simple placement      | Run pod on specific node ( ✅ “Run this Pod only on nodes with these labels.” ) |
 
 
 ## 📘 AWS EKS (Elastic Kubernetes Service) Glossary
@@ -140,6 +140,5 @@
 | **Public Endpoint**                     | Internet accessible       | Easier access                              |
 | **Endpoint Access Control**             | Security setting          | Public / private / both                    |
 | **Multi-AZ**                            | High availability         | Nodes across AZs                           |
-| **Regional Cluster**                    | Region-wide               | Control plane HA                           |
 | **EKS Pricing**                         | Cluster cost              | Per-hour cluster fee                       |
 
