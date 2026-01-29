@@ -22,7 +22,7 @@
 | **Secret**                      | Sensitive data                   | Stores passwords, tokens                               |
 | **Volume**                      | Storage                          | Data shared with containers                            |
 | **PersistentVolume (PV)**       | Actual storage                   | Disk provided by admin/cloud (storage volume that is used to persist application data.)  |
-| **PersistentVolumeClaim (PVC)** | Storage request                  | Pod asks for storage                                   |
+| **PersistentVolumeClaim (PVC)** | Storage request                  | Pod asks for storage  (request for storage)            |
 | **StatefulSet**                 | Stateful apps                    | For DBs like MySQL                                     |
 | **DaemonSet**                   | One pod per node                 | Log agents, monitoring                                 |
 | **Job**                         | One-time task                    | Runs once (backup, batch job)                          |
