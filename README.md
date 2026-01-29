@@ -31,7 +31,8 @@
 | **Selector**                    | Matching rule                    | Connects service to pods                               |
 | **Taint**                       | Node restriction                 | Prevents pod scheduling                                |
 | **Toleration**                  | Taint override                   | Allows pod on tainted node                             |
-| **Affinity**                    | Pod placement                    | Controls where pods run                                |
+| **Affinity**                    | Pod placement                    | Controls where pods run  (✅ “Place this Pod here / near this.”)           |
+| **Pod Anti-Affinity**           | Separation rule  ( improves availability )   | Spread pods across nodes  (❌ “Do NOT place this Pod on the same node (or zone)) |
 | **HPA**                         | Auto scaling                     | Scales pods based on CPU                               |
 | **Rolling Update**              | Zero downtime deploy             | Updates pods gradually                                 |
 | **kubectl**                     | CLI tool                         | Command line for Kubernetes                            |
@@ -73,9 +74,8 @@
 | **Resource Limit**              | Max resource          | Prevents overuse                       |
 | **QoS Class**                   | Priority level (Quality of Service (QoS) classes)   | to decide which Pods to evict from a Node experiencing Node Pressure.   |
 | **Node Pressure**               | Resource shortage     | Memory, disk, PID pressure             |
-| **Pod Disruption Budget (PDB)** | Availability rule     | Limits pod down during updates         |
+| **Pod Disruption Budget (PDB)** | Availability rule     | Limits pod down and ensuring high availability in a Kubernetes during node maintenance, cluster upgrades |
 | **Leader Election**             | Master selection      | Used by controllers                    |
-| **Finalizer**                   | Cleanup hook          | Runs before delete                     |
 | **Garbage Collection**          | Auto cleanup          | Deletes unused resources               |
 | **Custom Controller**           | Custom logic          | Watches CRDs                           |
 | **Operator Pattern**            | App automation        | DB lifecycle management                |
@@ -85,14 +85,14 @@
 | **Cordoning**                   | Block scheduling      | Prevent new pods on node               |
 | **Static Pod**                  | Node-level pod        | Managed by kubelet only                |
 | **Mirror Pod**                  | API reflection        | Static pod visible in API              |
-| **RBAC**                        | Access control        | Who can do what                        |
+| **RBAC**                        | Access control        | Who can do what (define roles and permissions for users, groups, or service accounts.)     |
 | **Role**                        | Namespace permission  | Limited access                         |
 | **ClusterRole**                 | Cluster-wide access   | Admin-level permissions                |
-| **ServiceAccount**              | Pod identity          | Used for API access                    |
-| **Token**                       | Authentication key    | Used by pods                           |
-| **Audit Log**                   | Activity log          | Tracks API actions                     |
+| **ServiceAccount**              | Pod identity Used for API access (non-human account) |   ServiceAccount is an identity used by applications (Pods) to talk securely to the Kubernetes API or other external services.            |
+| **Token**                       | Authentication key    | Used by pods (token is a credential used to authenticate to the Kubernetes API server.)    |
+| **Audit Log**      | Activity log (CCTV for your cluster API 🔍)  | Audit Logs record WHO did WHAT, WHEN, WHERE, and RESULT for every request made to the API Server.   |
 | **NodeSelector**                | Simple placement      | Run pod on specific node               |
-| **Pod Anti-Affinity**           | Separation rule       | Spread pods across nodes               |
+
 
 ## 📘 AWS EKS (Elastic Kubernetes Service) Glossary
 | Term                                    | What It Is                | Simple Explanation / Real Use              |
