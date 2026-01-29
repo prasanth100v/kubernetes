@@ -21,7 +21,7 @@
 | **ConfigMap**                   | Non-secret config                | Stores env variables, configs                          |
 | **Secret**                      | Sensitive data                   | Stores passwords, tokens                               |
 | **Volume**                      | Storage                          | Data shared with containers                            |
-| **PersistentVolume (PV)**       | Actual storage                   | Disk provided by admin/cloud                           |
+| **PersistentVolume (PV)**       | Actual storage                   | Disk provided by admin/cloud (storage volume that is used to persist application data.)  |
 | **PersistentVolumeClaim (PVC)** | Storage request                  | Pod asks for storage                                   |
 | **StatefulSet**                 | Stateful apps                    | For DBs like MySQL                                     |
 | **DaemonSet**                   | One pod per node                 | Log agents, monitoring                                 |
