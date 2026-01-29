@@ -60,7 +60,7 @@
 | **Mutating Webhook**            | Modifies requests     | Adds labels automatically              |
 | **Validating Webhook**          | Validates rules       | Blocks wrong configs                   |
 | **CNI**                         | Networking plugin     | Calico, Flannel                        |
-| **CSI**                         | Storage plugin        | Connects storage systems               |
+| **CSI**                         | (Container Storage Interface)  Storage plugin        | Connects storage systems               |
 | **kube-proxy**                  | Network manager       | Enables service networking             |
 | **Endpoint**                    | Pod IP list           | Actual backend pods                    |
 | **EndpointSlice**               | Scalable endpoints    | Improved endpoint handling             |
@@ -71,7 +71,7 @@
 | **OOMKilled**                   | Memory crash          | Pod killed due to RAM limit            |
 | **Resource Request**            | Minimum resource      | Guaranteed CPU/memory                  |
 | **Resource Limit**              | Max resource          | Prevents overuse                       |
-| **QoS Class**                   | Priority level        | Guaranteed / Burstable / BestEffort    |
+| **QoS Class**                   | Priority level (Quality of Service (QoS) classes)   | to decide which Pods to evict from a Node experiencing Node Pressure.   |
 | **Node Pressure**               | Resource shortage     | Memory, disk, PID pressure             |
 | **Pod Disruption Budget (PDB)** | Availability rule     | Limits pod down during updates         |
 | **Leader Election**             | Master selection      | Used by controllers                    |
