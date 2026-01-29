@@ -50,7 +50,7 @@
 ## 📗 Advanced Kubernetes Glossary
 | Term                            | What it Is            | Simple Explanation / Real Use          |
 | ------------------------------- | --------------------- | -------------------------------------- |
-| **Kubernetes API Group**        | Resource category     | Example: `apps/v1`, `batch/v1`         |
+| **Kubernetes API Group**        | Resource category (API groups make it easier to extend the Kubernetes API) to solve specific user needs.| Example: `apps/v1`, `batch/v1`|
 | **API Version**                 | Resource version      | Example: `apps/v1` for Deployment      |
 | **Manifest**                    | YAML file             | Describes Kubernetes objects           |
 | **Desired State**               | Target configuration  | What you *want* Kubernetes to maintain |
