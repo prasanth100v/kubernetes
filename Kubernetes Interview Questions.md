@@ -34,6 +34,29 @@ Service exposes Pods using a stable IP & DNS.
 ## What is Namespace?
 Namespace is used to logically isolate resources.
 > Examples: default & kube-system & dev / prod
+## What is ConfigMap?
+Stores non-sensitive configuration data ***Not encrypted*** (env variables, config files).
+## What is Secret?
+Stores sensitive data like: passwords & tokens and certificates (Base64 encoded)
+## What is Volume?
+Volume is used for data persistence in Pods.
+## What is PersistentVolume (PV)?
+PV is cluster-level storage resource.
+## What is PersistentVolumeClaim (PVC)?
+PVC is a request for storage by a Pod.
+## What is HPA?
+Horizontal Pod Autoscaler automatically scales Pods based on: CPU & Memory and Custom metrics
+## What is Self-Healing in Kubernetes?
+Kubernetes automatically: Restarts failed containers & Recreates Pods and Reschedules Pods on healthy nodes
+## What is kube-proxy?
+Handles network rules and service traffic routing.
+## What is Ingress?
+Ingress manages external HTTP/HTTPS access to services.
+## What is Service Account?
+Used by Pods to authenticate with Kubernetes API.
+## What is RBAC?
+Role-Based Access Control controls: Who can access and What actions they can perform
+
 
 
 
