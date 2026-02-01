@@ -56,9 +56,12 @@ Ingress manages external HTTP/HTTPS access to services.
 Used by Pods to authenticate with Kubernetes API.
 ## What is RBAC?
 Role-Based Access Control controls: Who can access and What actions they can perform
-
-
-
+## What is CrashLoopBackOff?
+Pod keeps crashing and restarting due to: App error & Wrong command or Missing config
+## What is Taint & Toleration?
+Taint → Applied on Node & Toleration → Applied on Pod 👉 Controls where Pods can run.
+## What is Node Affinity?
+Rules to schedule Pods on specific nodes.
 
 
 
