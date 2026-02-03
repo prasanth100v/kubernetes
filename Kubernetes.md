@@ -74,7 +74,9 @@ Even **NASA** uses Kubernetes for space missions and satellite data processing �
 kubectl delete --all
 ```
 - (if misused) can delete an entire cluster in seconds 😬
-👉 Accidentally deleting a namespace will permanently remove all resources inside it (pods, services, configs, secrets, etc.).
+- 👉 Accidentally deleting a namespace will permanently remove all resources inside it (pods, services, configs, secrets, etc.).
+  
+
 
 
 
