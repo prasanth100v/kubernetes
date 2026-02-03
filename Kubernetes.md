@@ -102,7 +102,7 @@ kubectl delete --all
 
 ---
 
-👉 Pod
+### 👉 Pod
 - A Pod is the smallest deployable unit in Kubernetes.
 - A pod can contain one or more containers.
 - Containers in a pod share the same network and storage.
