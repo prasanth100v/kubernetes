@@ -88,5 +88,60 @@ A production-grade Kubernetes cluster on AWS typically includes:
 This setup ensures **high availability, scalability, security, and fault tolerance** for real-world workloads.
 
 ---
+# AWS CLI, kubectl, eksctl
+### eks_tools_setup.sh  
+```
+#!/bin/bash
 
-⭐ Star the repository if this helps you build production-ready Kubernetes on AWS!
+echo "==== Installing unzip package ===="
+sudo yum install -y unzip 2>/dev/null || sudo apt-get install -y unzip
+
+echo "==== Installing AWS CLI v2 ===="
+curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+unzip awscliv2.zip
+sudo ./aws/install
+aws --version
+
+echo "==== Installing kubectl ===="
+curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.26.4/2023-05-11/bin/linux/amd64/kubectl
+chmod +x kubectl
+sudo mv kubectl /usr/local/bin/kubectl
+kubectl version --client
+
+echo "==== Installing eksctl ===="
+curl --silent --location \
+"https://github.com/weaveworks/eksctl/releases/latest/download/eksctl_$(uname -s)_amd64.tar.gz" \
+| tar xz -C /tmp
+
+sudo mv /tmp/eksctl /usr/local/bin/eksctl
+eksctl version
+
+echo "==== Installation Completed Successfully! ===="
+```
+##✅ scripts-for-eks (🚀 How to Use)
+```
+vi eks tools setup.sh
+chmod +x eks tools setup.sh
+./eks tools setup.sh
+```
+## Create EKS Cluster yaml
+#### ekscluster.yml
+```
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+metadata:
+  name: eks-cluster
+  region: ap-south-1
+  version: "1.29"
+managedNodeGroups:
+  - name: node-group-1
+    instanceType: t3.medium
+    desiredCapacity: 2
+    minSize: 2
+    maxSize: 3
+```
+### ✅ Create EKS Cluster using eksctl command
+```
+eksctl create cluster -f ekscluster.yml
+```
+
