@@ -66,7 +66,7 @@ If a Pod uses the image stored in **AWS ECR**:
 
 ---
 
-🔄 End-to-End Flow Summary
+## 🔄 End-to-End Flow Summary
 ```
 User Request
    ↓
