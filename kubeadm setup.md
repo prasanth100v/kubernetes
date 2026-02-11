@@ -75,12 +75,12 @@ sudo apt-mark hold kubeadm kubelet kubectl
 ------------------------------------------------------------------------
 
 ## Step 3: Initialize the Master Node
-
+Once Docker and Kubernetes tools are installed, initialize the Kubernetes cluster on the master node using kubeadm init
 ``` bash
 sudo kubeadm init --pod-network-cidr=192.168.0.0/16
 ```
-
-Save the **join command** displayed in the output:
+- After the master node is initialized, you will see an output with a join command. This command allows worker nodes to join the cluster
+- Save the **join command** displayed in the output:
 
 ``` bash
 kubeadm join <master-ip>:6443 --token <token> --discovery-token-ca-cert-hash sha256:<hash>
@@ -89,32 +89,35 @@ kubeadm join <master-ip>:6443 --token <token> --discovery-token-ca-cert-hash sha
 ------------------------------------------------------------------------
 
 ## Step 4: Set Up kubectl on the Master Node
+We need to set up kubectl to interact with the Kubernetes cluster from the master node.
 
 ``` bash
 mkdir -p $HOME/.kube
 sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
 sudo chown $(id -u):$(id -g) $HOME/.kube/config
 ```
+> 👉 Now, you can interact with the cluster using kubectl.
 
 ------------------------------------------------------------------------
 
-## Step 5: Install Calico CNI Plugin (Master Only)
-
+## Step 5: Install Calico CNI Plugin (Pod Network) (Master node Only)
+To allow pods to communicate, you need a network plugin.
 ``` bash
 kubectl apply -f https://raw.githubusercontent.com/projectcalico/calico/v3.26.1/manifests/calico.yaml
 ```
+👉 Calico creates a network between your pods, so they can talk to each other across different nodes.
 
 ------------------------------------------------------------------------
 
 ## Step 6: Join Worker Nodes
-
+On the worker nodes, run the join command you saved from Step 3:
 Run on worker nodes:
 
 ``` bash
 kubeadm join <master-ip>:6443 --token <token> --discovery-token-ca-cert-hash sha256:<hash>
 ```
 
-If lost:
+👉 To retrieve the join command again If lost:
 
 ``` bash
 kubeadm token create --print-join-command
@@ -123,7 +126,7 @@ kubeadm token create --print-join-command
 ------------------------------------------------------------------------
 
 ## Step 7: Verify the Cluster
-
+#### After joining the worker nodes, verify everything is working correctly
 On the master node:
 
 ``` bash
