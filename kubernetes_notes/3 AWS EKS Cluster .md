@@ -88,7 +88,16 @@ A production-grade Kubernetes cluster on AWS typically includes:
 This setup ensures **high availability, scalability, security, and fault tolerance** for real-world workloads.
 
 ---
-# AWS CLI, kubectl, eksctl
+
+# AWS EKS (Elastic Kubernetes Service) Setup Guide
+
+## Step 1: Install Required Tools
+Install the following tools on your local machine:
+
+- AWS CLI
+- kubectl (Kubernetes CLI)
+- eksctl (EKS setup tool)
+  
 ### eks_tools_setup.sh  
 ```
 #!/bin/bash
@@ -124,6 +133,17 @@ vi eks tools setup.sh
 chmod +x eks tools setup.sh
 ./eks tools setup.sh
 ```
+
+## Configure AWS CLI
+```
+aws configure
+```
+Provide:
+- Access Key
+- Secret Key
+- Region (example: us-west-2)
+- Output: json
+
 ## Create EKS Cluster yaml
 #### ekscluster.yml
 ```
@@ -144,3 +164,9 @@ managedNodeGroups:
 ```
 eksctl create cluster -f ekscluster.yml
 ```
+### Verify EKS Cluster
+```
+kubectl get nodes
+```
+If nodes show Ready, your AWS EKS cluster is successfully created.
+
