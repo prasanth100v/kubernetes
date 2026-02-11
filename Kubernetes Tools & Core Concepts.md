@@ -44,3 +44,52 @@ It is widely used in production environments because it provides:
 - Network Policies for security
 - Works on cloud and on-prem environments
 
+## K3s
+K3s is a lightweight Kubernetes distribution for edge devices and IoT (Internet of Things) devices.
+##### Why K3s is used
+- Lightweight – Very small binary size compared to standard Kubernetes
+- Low resource usage – Runs on devices with low CPU/RAM (edge devices, IoT)
+- Easy installation – Single-command install
+- The single-command installation for K3s on Linux is: ****curl -sfL https://get.k3s.io | sh -***
+
+## 1. Managed Kubernetes Services (Cloud Providers)
+| Cloud Provider  | Kubernetes Service Name                 |
+| --------------- | --------------------------------------- |
+| AWS             | Amazon EKS (Elastic Kubernetes Service) |
+| Microsoft Azure | Azure AKS (Azure Kubernetes Service)    |
+| Google Cloud    | Google GKE (Google Kubernetes Engine)   |
+| Oracle Cloud    | Oracle OKE (Oracle Kubernetes Engine)   |
+| IBM Cloud       | IBM Cloud Kubernetes Service            |
+
+## 2. Kubernetes Installers / Tools (Self-Hosting)
+| Tool      | Description                                  |
+| --------- | -------------------------------------------- |
+| kubeadm   | Official Kubernetes tool to set up clusters  |
+| kops      | Automates Kubernetes cluster setup on AWS    |
+| Rancher   | GUI-based management for Kubernetes clusters |
+| Kubespray | Ansible-based Kubernetes deployment tool     |
+| MicroK8s  | Lightweight Kubernetes for local/dev use     |
+| Minikube  | Runs Kubernetes locally for testing          |
+| Kind      | Kubernetes in Docker for testing clusters    |
+
+## 3. Enterprise / Commercial Distributions
+| Distribution            | Description                                         |
+| ----------------------- | --------------------------------------------------- |
+| Red Hat OpenShift       | Enterprise Kubernetes with CI/CD, security features |
+| SUSE Rancher Kubernetes | Enterprise Kubernetes management platform           |
+
+## 4. Lightweight / Edge Kubernetes
+| Distribution | Description                                    |
+| ------------ | ---------------------------------------------- |
+| k3s          | Lightweight Kubernetes by Rancher for edge/IoT |
+
+## Top 3 Most Popular Kubernetes Flavors in Production
+| Service    | Cloud           | Key Advantages                                        |
+| ---------- | --------------- | ----------------------------------------------------- |
+| Amazon EKS | AWS             | Fully managed, scalable, integrates with AWS services |
+| Google GKE | Google Cloud    | Feature-rich, stable, created by Kubernetes founders  |
+| Azure AKS  | Microsoft Azure | Easy Azure integration, enterprise-friendly           |
+| OpenShift  | Enterprise      | Built-in CI/CD, security, enterprise support          |
+
+
+
