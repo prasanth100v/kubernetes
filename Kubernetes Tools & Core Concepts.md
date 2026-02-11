@@ -1,7 +1,4 @@
-
 # 🧰 Kubernetes Tools & Core Concepts
-
-------------------------------------------------------------------------
 
 ## Minikube
 **Minikube** is a tool that allows you to run a **single-node Kubernetes cluster locally** on your laptop or desktop. 
