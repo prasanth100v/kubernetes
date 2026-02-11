@@ -96,6 +96,7 @@ K3s is a lightweight Kubernetes distribution for edge devices and IoT (Internet 
 | Azure AKS  | Microsoft Azure | Easy Azure integration, enterprise-friendly           |
 | OpenShift  | Enterprise      | Built-in CI/CD, security, enterprise support          |
 
+------------------------------------------------------------------------
 
 ## KOPS
 
