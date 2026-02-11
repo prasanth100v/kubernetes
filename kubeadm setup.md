@@ -2,7 +2,7 @@
 
 ## Disable Swap
 
-Kubernetes does not work with swap memory enabled.
+Kubernetes does not work with swap memory enabled. so we need to disable it.
 
 **Temporary:**
 
@@ -19,8 +19,10 @@ sudo sed -i '/ swap / s/^\(.*\)$/#\1/g' /etc/fstab
 ------------------------------------------------------------------------
 
 ## Load Required Kernel Modules and Set sysctl Parameters
-
-Run on **both master and worker nodes**.
+these commands are compulsory (required) for a successful kubeadm Kubernetes setup — especially on bare
+metal or on-premises servers.
+> These enable container networking support & help Kubernetes pods talk to each other.
+### Run on **both master and worker nodes**.
 
 ``` bash
 cat <<EOF | sudo tee /etc/modules-load.d/k8s.conf
@@ -42,7 +44,8 @@ sudo sysctl --system
 
 ------------------------------------------------------------------------
 
-## Step 1: Install Docker on All Nodes
+## Step 1: Install Docker on All Nodes (master and worker).
+Kubernetes requires Docker (or another container runtime) to run containers.
 
 ``` bash
 sudo apt update
@@ -54,6 +57,9 @@ sudo systemctl start docker
 ------------------------------------------------------------------------
 
 ## Step 2: Install kubeadm, kubelet, kubectl
+- kubeadm: Used to set up the cluster.
+- kubelet: Runs on all nodes, ensuring containers are running.
+- kubectl: Command-line tool to interact with the cluster.
 
 ``` bash
 sudo apt update && sudo apt install -y apt-transport-https curl
