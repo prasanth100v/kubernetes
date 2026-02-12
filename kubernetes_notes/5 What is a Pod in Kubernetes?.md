@@ -3,7 +3,7 @@
 A **Pod** is the **smallest deployable unit** in Kubernetes.
 It represents **one or more containers that run together on the same node** and share:
 
-* **Network (same IP address)**
+* **same IP address (Network)**
 * **Storage (shared volumes)**
 * **Configuration**
 
@@ -13,11 +13,11 @@ It represents **one or more containers that run together on the same node** and 
 * Containers inside the same Pod can communicate using **localhost** because they share the same network.
 * Pods are **temporary (ephemeral)**. If a Pod fails, Kubernetes creates a **new Pod with a new IP**.
 * Kubernetes **manages Pods**, not individual containers.
-* Pods are typically created by controllers like:
+* Pods are typically created and managed by higher-level controllers like:
 
   * Deployment
   * StatefulSet
-  * DaemonSet
+  * DaemonSet (which handle scaling and lifecycle management.)
 
 ---
 
