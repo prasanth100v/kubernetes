@@ -39,9 +39,11 @@ If you run ***kubectl get pods -n kube-system,*** you’ll see – kube-dns, cor
 -   Deploy same application in different stages
 -   Apply different resource limits
 -   Restrict access using Role and RoleBinding
+-   Developer only access resources in the dev namespace, not in prod. Use Role and RoleBinding in specific namespaces to restrict access. So one team/user can't affect another team's resources.
 -   Filter monitoring tools (Prometheus, Grafana, Fluentd)
 
 ## Example Commands
+You want to deploy the same application in different stages, Create 3 namespaces: dev, stag, prod.
 
 ``` bash
 kubectl create ns dev
@@ -70,4 +72,24 @@ metadata:
   labels:
     environment: dev
     app: frontend
+```
+> Apply it: kubectl apply -f dev-namespace.yaml
+
+## Common Namespace Commands
+```bash
+# Create a namespace
+kubectl create namespace dev
+
+# List namespaces
+kubectl get namespaces
+kubectl get ns
+
+# Create resources in a namespace
+kubectl apply -f deployment.yaml -n dev
+
+# View resources in a namespace
+kubectl get pods -n dev
+
+# WARNING: Deletes ALL resources in the namespace!
+kubectl delete namespace dev
 ```
