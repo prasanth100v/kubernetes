@@ -18,7 +18,7 @@ like resource limits or RBAC (access control).
 
 ## Default Namespaces in Kubernetes
 
-1.  **default** -- Used when no namespace is specified.
+1.  **default** -- Used when no namespace is specified. ***(If you don't specify a namespace, Kubernetes uses default namespace.)***
 2.  **kube-system** -- Holds Kubernetes internal components like API
     server, scheduler, etc.
 3.  **kube-public** -- Readable by all users; used for cluster-wide
@@ -31,6 +31,7 @@ Example:
 ``` bash
 kubectl get pods -n kube-system
 ```
+If you run ***kubectl get pods -n kube-system,*** you’ll see – kube-dns, coredns, kube-proxy, etcd
 
 ## Why Use Namespaces
 
