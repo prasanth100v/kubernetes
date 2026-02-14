@@ -11,6 +11,7 @@ Example: `app=frontend`
 ## Real-Life Analogy
 - **Namespaces** are like different folders in your computer — each is separate.  
 - **Labels** are like tags on files — you can add multiple tags to the same file for search/filtering.
+- Labels are metadata used for ***grouping and selection,*** One resource can have multiple labels
 
 ---
 
