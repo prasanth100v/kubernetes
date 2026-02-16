@@ -48,3 +48,57 @@ spec:
       containers:
       - name: nginx          # Container name
         image: nginx:1.21    # NGINX container image version 1.21
+```
+# ReplicaSet Troubleshooting and Commands
+
+## Troubleshooting
+
+- **Pods not created? Check:**
+  - Selector matches pod labels
+  - Resource quotas are not exceeded
+  - Node availability is sufficient
+
+- **Too many pods? Verify:**
+  - No other controllers are managing the same pods
+  - Correct replica count is set
+
+- The labels in `template.metadata.labels` **must match** the `selector.matchLabels`.
+
+- Do not forget:
+  ```yaml
+  apiVersion: apps/v1
+  kind: ReplicaSet
+  
+ - ReplicaSet does not support rolling updates like Deployments.
+ - If you update the image in the ReplicaSet YAML, existing pods will not automatically update.
+ - When you manually delete the old pods, the ReplicaSet creates new ones with the updated image.
+
+## ReplicaSet Commands
+```bash
+# Create a ReplicaSet from YAML
+kubectl apply -f replicaset.yaml
+
+# List all ReplicaSets
+kubectl get rs
+
+# Get detailed information including events and selector labels
+kubectl describe rs <replicaset-name>
+
+# Change the number of replicas
+kubectl scale rs <replicaset-name> --replicas=5
+
+# Delete a ReplicaSet
+kubectl delete rs <replicaset-name>
+
+# View Pods created by a ReplicaSet
+kubectl get pods --selector=app=nginx
+
+# List all pods along with their labels
+kubectl get pods --show-labels
+
+# Watch real-time updates of pods
+kubectl get pods -w
+
+# Edit a ReplicaSet
+kubectl edit rs <replicaset-name>
+```
