@@ -1,58 +1,59 @@
 # Kubernetes NGINX Deployment Example
 
 ```yaml
-apiVersion: apps/v1
-kind: Deployment
+apiVersion: apps/v1                     # API version for Deployment
+kind: Deployment                        # Resource type
 metadata:
-  name: nginx-deployment
+  name: nginx-deployment                # Deployment name
   labels:
-    app: nginx
+    app: nginx                          # Label for Deployment
 
 spec:
-  replicas: 3
+  replicas: 3                           # Number of desired Pods
 
   selector:
     matchLabels:
-      app: nginx
+      app: nginx                        # Select Pods with label app=nginx
 
   strategy:
-    type: RollingUpdate
+    type: RollingUpdate                 # Update strategy
     rollingUpdate:
-      maxSurge: 1
-      maxUnavailable: 1
+      maxSurge: 1                       # Allow 1 extra Pod during update
+      maxUnavailable: 1                 # Allow 1 Pod unavailable during update
 
-  template:
+  template:                             # Pod template
     metadata:
       labels:
-        app: nginx
+        app: nginx                      # Pod label (must match selector)
+
     spec:
       containers:
-      - name: nginx-container
-        image: nginx:1.25
+      - name: nginx-container           # Container name
+        image: nginx:1.25               # Container image version
         ports:
-        - containerPort: 80
+        - containerPort: 80             # Exposed container port
 
-        resources:
+        resources:                      # Resource configuration
           requests:
-            cpu: "100m"
-            memory: "128Mi"
+            cpu: "100m"                 # Minimum CPU required
+            memory: "128Mi"             # Minimum memory required
           limits:
-            cpu: "200m"
-            memory: "256Mi"
+            cpu: "200m"                 # Maximum CPU allowed
+            memory: "256Mi"             # Maximum memory allowed
 
-        livenessProbe:
+        livenessProbe:                  # Checks container health
           httpGet:
             path: /
             port: 80
-          initialDelaySeconds: 10
-          periodSeconds: 15
+          initialDelaySeconds: 10       # Wait before first check
+          periodSeconds: 15             # Check interval
 
-        readinessProbe:
+        readinessProbe:                 # Checks readiness for traffic
           httpGet:
             path: /
             port: 80
-          initialDelaySeconds: 5
-          periodSeconds: 10
+          initialDelaySeconds: 5        # Delay before first check
+          periodSeconds: 10             # Check interval
 ```
 
 ---
@@ -109,6 +110,10 @@ spec:
     targetPort: 8080
 ```
 
-**Traffic Flow:**
+## **Traffic Flow:**
+
+-   **port**: 80 → Clients connect to the Service
+-   **targetPort**: 8080 → Service forwards traffic to this Pod port
+-   **containerPort**: 8080 → App inside container listens here
 
 Client → Service **port 80** → Pod **targetPort 8080** → Container **containerPort 8080**
