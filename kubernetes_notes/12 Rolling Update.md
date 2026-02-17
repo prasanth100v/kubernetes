@@ -1,4 +1,4 @@
-# Kubernetes Deployment Rolling Update Guide
+# 💥Kubernetes Deployment Rolling Update Guide
 ## 1. Rolling Update (Default)
 **How it works:** Gradually replaces old Pods with new ones  
 **Benefit:** No downtime  
@@ -11,6 +11,52 @@ Controlled by:
 - Production environments requiring zero downtime
 - Web and stateless applications
 
+## 🔄 Kubernetes Deployment YAML with Rolling Update strategy:
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+  labels:
+    app: nginx
+spec:
+  replicas: 4
+  selector:
+    matchLabels:
+      app: nginx
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1            # Extra pods allowed during update
+      maxUnavailable: 1      # Max unavailable pods during update
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:1.25
+        ports:
+        - containerPort: 80
+```
+
+## Useful Commands
+
+``` bash
+kubectl apply -f deployment.yaml                                       # Apply deployment
+kubectl get deployments
+kubectl get pods
+kubectl describe deployment nginx-deployment
+kubectl scale deployment nginx-deployment --replicas=5
+kubectl set image deployment nginx-deployment nginx=nginx:1.26         # Update image (Rolling Update happens automatically)
+kubectl rollout undo deployment nginx-deployment                       # Rollback if needed
+kubectl rollout status deployment <name>                               # Check rollout status
+kubectl rollout history deployment <name>
+kubectl get endpoints
+```
+
+------------------------------------------------------------------------
 
 ## 💥🔄 Rolling Update Example
 
@@ -67,47 +113,3 @@ Kubernetes will:
 
 ------------------------------------------------------------------------
 
-## Kubernetes Deployment YAML with Rolling Update strategy:
-```yaml
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: nginx-deployment
-  labels:
-    app: nginx
-spec:
-  replicas: 4
-  selector:
-    matchLabels:
-      app: nginx
-  strategy:
-    type: RollingUpdate
-    rollingUpdate:
-      maxSurge: 1            # Extra pods allowed during update
-      maxUnavailable: 1      # Max unavailable pods during update
-  template:
-    metadata:
-      labels:
-        app: nginx
-    spec:
-      containers:
-      - name: nginx
-        image: nginx:1.25
-        ports:
-        - containerPort: 80
-```
-
-## Useful Commands
-
-``` bash
-kubectl apply -f deployment.yaml                                       # Apply deployment
-kubectl get deployments
-kubectl get pods
-kubectl describe deployment nginx-deployment
-kubectl scale deployment nginx-deployment --replicas=5
-kubectl set image deployment nginx-deployment nginx=nginx:1.26         # Update image (Rolling Update happens automatically)
-kubectl rollout undo deployment nginx-deployment                       # Rollback if needed
-kubectl rollout status deployment <name>                               # Check rollout status
-kubectl rollout history deployment <name>
-kubectl get endpoints
-```
