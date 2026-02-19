@@ -1,4 +1,15 @@
-# 📊 metrics-server in Kubernetes
+# 🚀 1. Horizontal Pod Autoscaler (HPA)
+
+Scales number of pods in a Deployment/ReplicaSet based on resource
+utilization.
+
+**What it does** - Automatically adds or removes Pod replicas based on
+CPU, memory, or custom metrics (like request count).
+
+**Example Use Case** A web app getting more traffic increases pods to
+handle load.
+
+## 📊 metrics-server in Kubernetes
 
 `metrics-server` is a Kubernetes component that collects live resource
 metrics like CPU and memory usage of pods and nodes.
