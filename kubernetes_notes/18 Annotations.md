@@ -73,12 +73,12 @@ metadata:
 
 ## 🔥 Key Difference Summary
 
-  Feature                     Labels      Annotations
-  --------------------------- ----------- -------------
-  Used for Selection          ✅ Yes      ❌ No
-  Used by Selectors           ✅ Yes      ❌ No
-  Store Extra Metadata        ❌ No       ✅ Yes
-  Used by Tools/Controllers   ❌ Rarely   ✅ Yes
+ | Feature                   | Labels      | Annotations |
+|---------------------------|------------|------------|
+| Used for Selection        | ✅ Yes     | ❌ No      |
+| Used by Selectors         | ✅ Yes     | ❌ No      |
+| Store Extra Metadata      | ❌ No      | ✅ Yes     |
+| Used by Tools/Controllers | ❌ Rarely  | ✅ Yes     |
 
 ------------------------------------------------------------------------
 
