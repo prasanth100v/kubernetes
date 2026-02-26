@@ -97,38 +97,50 @@ kubectl delete statefulset <statefulset-name>
 
 ``` yaml
 apiVersion: apps/v1
-kind: StatefulSet
+kind: StatefulSet  # Ensures unique, ordered pods with stable storage
+
 metadata:
-  name: nginx
+  name: nginx  # Name of the StatefulSet
+
 spec:
-  serviceName: "nginx"   # Must match the Headless Service name
-  replicas: 3
+  serviceName: nginx  # Must match the Headless Service name
+  replicas: 3  # Number of NGINX pods to create
+
   selector:
     matchLabels:
-      app: nginx
+      app: nginx  # Matches labels on the pod template
+
   template:
     metadata:
       labels:
-        app: nginx
+        app: nginx  # Label used by service to select pods
+
     spec:
-      terminationGracePeriodSeconds: 10
+      terminationGracePeriodSeconds: 10  # Wait time before forcibly killing pod
+
       containers:
-        - name: nginx
-          image: nginx
-          ports:
-            - containerPort: 80
-              name: web
-          volumeMounts:
-            - name: www
-              mountPath: /usr/share/nginx/html
-  volumeClaimTemplates:
-    - metadata:
-        name: www
-      spec:
-        accessModes: ["ReadWriteOnce"]
-        resources:
-          requests:
-            storage: 1Gi
+      - name: nginx  # Container name
+        image: nginx  # Container image to use
+
+        ports:
+        - containerPort: 80  # Expose port 80
+          name: web
+
+        volumeMounts:
+        - name: www  # Mount volume named 'www'
+          mountPath: /usr/share/nginx/html  # Mount path inside the container
+
+  volumeClaimTemplates:  # Template to request storage for each pod
+  - metadata:
+      name: www  # Volume name used in volumeMounts
+
+    spec:
+      accessModes:
+      - ReadWriteOnce  # Can be mounted as read-write by a single node
+
+      resources:
+        requests:
+          storage: 1Gi  # Size of storage requested
 ```
 
 ### Apply Command:
