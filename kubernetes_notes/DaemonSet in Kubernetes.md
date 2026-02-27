@@ -83,53 +83,73 @@ Required to access host log files: - `/var/log` -
 
 ``` yaml
 apiVersion: apps/v1
-kind: DaemonSet
+kind: DaemonSet  # Ensures one pod runs on every node
+
 metadata:
   name: fluentd
-  namespace: kube-system
+  namespace: kube-system  # Common namespace for system services
   labels:
-    app: fluentd
+    app: fluentd  # Label to identify the DaemonSet
+
 spec:
   selector:
     matchLabels:
-      app: fluentd
+      app: fluentd  # DaemonSet manages pods with this label
+
   template:
     metadata:
       labels:
-        app: fluentd
+        app: fluentd  # Pod label (must match selector)
+
     spec:
       tolerations:
-      - key: "node-role.kubernetes.io/master"
-        operator: "Exists"
-        effect: "NoSchedule"
+        # Allow scheduling on master/control-plane nodes
+        - key: "node-role.kubernetes.io/master"
+          operator: "Exists"
+          effect: "NoSchedule"
+
       containers:
-      - name: fluentd
-        image: fluent/fluentd-kubernetes-daemonset:v1.16
-        resources:
-          limits:
-            memory: 200Mi
-          requests:
-            cpu: 100m
-            memory: 200Mi
-        volumeMounts:
-        - name: varlog
-          mountPath: /var/log
-        - name: dockercontainers
-          mountPath: /var/lib/docker/containers
-          readOnly: true
-        - name: fluentd-config
-          mountPath: /fluentd/etc
-      terminationGracePeriodSeconds: 30
+        - name: fluentd
+          image: fluent/fluentd-kubernetes-daemonset:v1.16
+
+          resources:
+            limits:
+              memory: 200Mi
+            requests:
+              cpu: 100m
+              memory: 200Mi
+
+          volumeMounts:
+            # Mount host /var/log inside container
+            - name: varlog
+              mountPath: /var/log
+
+            # Mount Docker container logs (read-only)
+            - name: dockercontainers
+              mountPath: /var/lib/docker/containers
+              readOnly: true
+
+            # Mount ConfigMap for Fluentd configuration
+            - name: fluentd-config
+              mountPath: /fluentd/etc
+
+      terminationGracePeriodSeconds: 30  # Allow graceful shutdown
+
       volumes:
-      - name: varlog
-        hostPath:
-          path: /var/log
-      - name: dockercontainers
-        hostPath:
-          path: /var/lib/docker/containers
-      - name: fluentd-config
-        configMap:
-          name: fluentd-config
+        # Host system log directory
+        - name: varlog
+          hostPath:
+            path: /var/log
+
+        # Docker container logs directory
+        - name: dockercontainers
+          hostPath:
+            path: /var/lib/docker/containers
+
+        # ConfigMap containing fluent.conf
+        - name: fluentd-config
+          configMap:
+            name: fluentd-config
 ```
 
 ------------------------------------------------------------------------
