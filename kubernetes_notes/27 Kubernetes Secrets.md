@@ -266,4 +266,5 @@ kubectl get configmap my-config -o yaml
 
 ------------------------------------------------------------------------
 
-
+✅ **Tip:** Use **Secrets + RBAC + Encryption at Rest** for better
+security in production clusters.
