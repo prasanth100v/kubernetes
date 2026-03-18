@@ -49,23 +49,36 @@ Step 6: Pod uses PVC
 # 🔹 Step 1️⃣ StorageClass (EBS CSI Driver)
 
 ```yaml
+# ============================================
+# 🚀 AWS EBS StorageClass (gp3 - Recommended)
+# ============================================
+
 apiVersion: storage.k8s.io/v1
 kind: StorageClass
-metadata:
-  name: ebs-sc
 
-provisioner: ebs.csi.aws.com
+metadata:
+  name: ebs-sc   # 🏷️ Name of the StorageClass
+
+# 🔌 CSI Provisioner (AWS EBS)
+provisioner: ebs.csi.aws.com   # ✅ Recommended CSI driver for EBS
 
 parameters:
-  type: gp3
-  fsType: ext4
-  encrypted: "true"
-  iopsPerGB: "10"
-  throughput: "125"
+  type: gp3            # 💽 Volume type (gp2 | gp3 | io1 | io2)
+  fsType: ext4         # 📁 Filesystem type inside the volume
+  encrypted: "true"    # 🔐 Enable encryption using AWS KMS
 
-reclaimPolicy: Delete
-volumeBindingMode: WaitForFirstConsumer
-allowVolumeExpansion: true
+  # ⚡ Performance tuning (gp3 specific)
+  iopsPerGB: "10"      # 🚀 IOPS per GB (valid for gp3, io1, io2)
+  throughput: "125"    # 📊 Throughput in MB/s (gp3 only)
+
+reclaimPolicy: Delete   # ❌ Deletes EBS volume when PVC is deleted  # ♻️ Reclaim policy
+
+# ⏳ Volume binding behavior
+volumeBindingMode: WaitForFirstConsumer  
+# 🧠 Volume is created only when a Pod uses the PVC (better scheduling)
+
+# 📈 Enable resizing
+allowVolumeExpansion: true   # 🔄 Allows PVC/EBS volume resize without downtime
 ```
 
 ---
@@ -93,13 +106,13 @@ metadata:
 
 spec:
   accessModes:
-  - ReadWriteOnce
+  - ReadWriteOnce     # Only one node can write at a time
 
   resources:
     requests:
-      storage: 5Gi
+      storage: 5Gi      # Requesting 5Gi of storage
 
-  storageClassName: ebs-sc
+  storageClassName: ebs-sc   # Refers to the StorageClass above
 ```
 
 ---
@@ -117,12 +130,12 @@ spec:
 ```yaml
 volumeMounts:
 - name: ebs-volume
-  mountPath: /usr/share/nginx/html
+  mountPath: /usr/share/nginx/html   # EBS volume mounted here
 
 volumes:
 - name: ebs-volume
   persistentVolumeClaim:
-    claimName: ebs-pvc
+    claimName: ebs-pvc          # Mounts the PVC to this pod
 ```
 
 ---
@@ -242,5 +255,3 @@ Dynamic provisioning is a **must-know concept** for:
 ✔ CKA / CKAD exams  
 
 ---
-
-💡 *Add this guide to your GitHub or LinkedIn portfolio to showcase your expertise!*
