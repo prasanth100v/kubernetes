@@ -219,7 +219,6 @@ volumeMounts:
 
 # 🧾 Useful kubectl Commands
 
----
 # ============================================
 # 📦 Kubernetes Storage Commands Cheat Sheet
 # ============================================
@@ -261,7 +260,6 @@ tips:
   - "⚠️ Pending PVC → Check StorageClass & provisioner"
   - "🔐 Use encrypted storage in production"
   - "📍 Use namespace flag (-n) for multi-tenant clusters"
----
 
 # 🎯 Real-World Use Cases
 
