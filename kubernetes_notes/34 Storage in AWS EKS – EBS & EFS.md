@@ -5,9 +5,7 @@
 
 ---
 
-# 🔐 Tip for AWS EKS
-
-In **Amazon EKS**:
+# 🔐 In **Amazon EKS**:
 
 ✔ Use **Amazon EBS** → Block storage (RWO)  
 ✔ Use **Amazon EFS** → NFS-based shared storage (RWX)  
