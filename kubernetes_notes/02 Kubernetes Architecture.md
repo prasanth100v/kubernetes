@@ -148,14 +148,18 @@ Each worker node contains:
 ### 🔹 kube-proxy
 
 **kube-proxy** handles **network routing and service communication**.
+**kube-proxy** is a component that: Runs on every node, ***Manages network rules*** and Routes traffic to the correct Pod (via Services)
 
 #### How kube-proxy Works:
 
 1. Watches API Server for Services and Endpoints
 2. Updates routing rules on each node
 3. Uses:
-   - **iptables** or
-   - **IPVS**
+   - **iptables** or **IPVS**
+   - ***iptables*** 
+   - Uses Linux iptables rules (Client → Service IP → iptables rules → Pod) Default in Kubernetes; No extra setup required
+   - ***IPVS***
+   - Uses Linux IPVS (IP Virtual Server) (Client → Service IP → IPVS load balancer → Pod) Supports advanced load balancing ; High performance and scalability
 4. Load-balances traffic across healthy Pods
 5. Routes traffic across nodes if needed
 
