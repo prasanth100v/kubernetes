@@ -247,7 +247,8 @@ commands:
   - tcpdump     # 📌 Packet capture
 
 # ✅ Tips:
-# ✔ Check labels match between Pods & Services
-# ✔ Verify NetworkPolicies are not blocking traffic
-# ✔ Always test DNS before debugging connectivity
-# ✔ Check CNI health if networking fails
+-  ✔ Check labels match between Pods & Services
+-  ✔ Verify NetworkPolicies are not blocking traffic
+-  ✔ Always test DNS before debugging connectivity
+-  ✔ Check CNI health if networking fails
+  
