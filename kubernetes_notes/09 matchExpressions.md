@@ -44,5 +44,17 @@ template:
 ## Key Points
 - matchExpressions provides ***advanced filtering logic for label selection***
 - Multiple expressions are combined using **AND** logic (all conditions must match).
+```
+matchExpressions:
+  - key: env
+    operator: In
+    values: [prod]
+
+  - key: tier
+    operator: In
+    values: [frontend]
+```
+✔️ Only if both match → pod/node selected  ❌ If any one fails → not selected
+
 - Useful when selecting resources based on multiple label conditions.
 
