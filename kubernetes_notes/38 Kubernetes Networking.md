@@ -192,11 +192,11 @@ backend-service.default.svc.cluster.local
 
 # 🚀 Best Practices
 
-✔ 🟢 Use CNI with NetworkPolicy support (Calico)
-✔ 🌐 Use Ingress instead of NodePort
-✔ 📊 Monitor latency & bandwidth 
-✔ 🔒 Secure traffic using **NetworkPolicy or Service Mesh (mTLS)**  
-✔ Use DNS instead of hardcoded IPs  
+- ✔ 🟢 Use CNI with NetworkPolicy support (Calico)
+- ✔ 🌐 Use Ingress instead of NodePort
+- ✔ 📊 Monitor latency & bandwidth 
+- ✔ 🔒 Secure traffic using **NetworkPolicy or Service Mesh (mTLS)**
+- ✔ Use DNS instead of hardcoded IPs  
 
 ---
 
