@@ -193,3 +193,61 @@ External traffic via cloud provider
 - NetworkPolicy → security
 
 ---
+
+# 🌐 Kubernetes Networking Debug Cheat Sheet
+
+commands:
+```
+  # 🔍 Pod Checks
+  - kubectl get pods -o wide        # 📌 Check Pod IPs and nodes
+  - kubectl get pods -A             # 📌 Check all Pods status (all namespaces)
+  - kubectl get pods --show-labels  # 📌 Verify Pod labels
+
+  # 🔗 Service Checks
+  - kubectl get svc                 # 📌 List all Services
+
+  # 🔐 Network Policies
+  - kubectl get networkpolicy       # 📌 List NetworkPolicies (current namespace)
+  - kubectl get networkpolicy -A    # 📌 List all NetworkPolicies
+  - kubectl describe networkpolicy <np-name>  # 📌 Inspect policy rules
+
+  # ⚙️ CNI Plugin Checks
+  - kubectl get pods -n kube-system # 📌 Check CNI (calico/flannel/aws-node)
+  - kubectl logs -n kube-system <cni-pod>  # 📌 View CNI logs
+
+  # 🌍 DNS / CoreDNS
+  - kubectl get pods -n kube-system -l k8s-app=kube-dns  # 📌 Check CoreDNS Pods
+  - kubectl exec -it <pod-name> -- nslookup <service-name>  # 📌 Test DNS resolution
+
+  # 🔎 Pod Details
+  - kubectl describe pod <pod-name>  # 📌 Check Pod network settings
+
+  # 🔗 Connectivity Testing
+  - kubectl exec -it <pod-name> -- /bin/sh  # 📌 Enter Pod shell
+  - ping <target-pod-ip>                   # 📌 Test Pod-to-Pod connectivity
+  - curl <service-name>:<port>             # 📌 Test Service access
+  - wget <service-name>:<port>             # 📌 Alternative to curl
+
+  # 🖥️ Node Networking
+  - kubectl get nodes -o wide  # 📌 Check node internal IPs
+
+  # 🧪 Service Testing from Pod
+  - kubectl exec -it <pod-name> -- curl <service-name>:<port>
+  - kubectl exec -it <pod-name> -- wget <service-name>:<port>
+
+  # 🔄 Port Forwarding (Local Test)
+  - kubectl port-forward svc/<service-name> 8080:<port>  # 📌 Access service locally
+```
+  # 🛠️ Tools inside Pod
+  - curl        # 📌 HTTP testing
+  - ping        # 📌 Connectivity check
+  - traceroute  # 📌 Network path
+  - dig         # 📌 DNS query
+  - nslookup    # 📌 DNS lookup
+  - tcpdump     # 📌 Packet capture
+
+# ✅ Tips:
+# ✔ Check labels match between Pods & Services
+# ✔ Verify NetworkPolicies are not blocking traffic
+# ✔ Always test DNS before debugging connectivity
+# ✔ Check CNI health if networking fails
