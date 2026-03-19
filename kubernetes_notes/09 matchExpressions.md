@@ -54,7 +54,7 @@ matchExpressions:
     operator: In
     values: [frontend]
 ```
-✔️ env must be prod ✅ AND tier must be frontend ✅
+***✔️ env must be prod ✅ AND tier must be frontend ✅***
 ✔️ Only if both match → pod/node selected  ❌ If any one fails → not selected
 
 - Useful when selecting resources based on multiple label conditions.
