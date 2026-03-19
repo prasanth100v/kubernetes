@@ -8,10 +8,16 @@ It supports operators such as **In**, **NotIn**, **Exists**, and **DoesNotExist*
 
 ## Supported Operators
 - **In** – Matches if the label value is in the specified list
-- **NotIn** – Matches if the label value is NOT in the specified list
-- **Exists** – Matches if the label key exists (any value)
+- **NotIn** – Matches if the label value is NOT in the specified list (label value is NOT in the list)
+- **Exists** – Select resources if the label key is present (value doesn’t matter) (any value)
 - **DoesNotExist** – Matches if the label key does not exist
 
+  ## Even Simpler (1-line each)
+- In → Allow only these values   👉  Matches: environment=prod ✅
+- NotIn → Exclude these values   👉  environment=dev ❌
+- Exists → Label key must be there (- key: environment) , Value doesn’t matter (values: production, staging)
+- DoesNotExist → Label key must NOT be there  👉 environment=prod ❌
+  
 ---
 
 ## Example Selector Using matchExpressions
