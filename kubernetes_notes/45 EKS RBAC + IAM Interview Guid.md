@@ -154,4 +154,137 @@ Even if:
 - aws-auth → IAM mapping  
 - kubectl auth can-i → Permission check  
 - IAM + RBAC → Both required  
-- IRSA → Pod to AWS access  
+- IRSA → Pod to AWS access
+
+
+# 🔑 Kubernetes RBAC Key Concepts 
+## 🌟 RBAC = Who Can Do What
+
+RBAC controls:
+
+- 👤 Who → User / Group / ServiceAccount  
+- ⚙️ What action → get, list, create, delete  
+- 📦 On what resource → pods, secrets, deployments  
+
+👉 RBAC = Who + Action + Resource
+
+---
+
+## 🎯 Role vs ClusterRole
+
+### 🔹 Role
+- Namespace-level access  
+- Use when restricting access within ONE namespace  
+
+---
+
+### 🔹 ClusterRole
+- Cluster-wide access  
+- Use for:
+  - All namespaces  
+  - Non-namespaced resources (nodes, PVs)  
+
+---
+
+## 🔐 Important Concept
+
+### RBAC ONLY controls Kubernetes API access
+
+❌ It does NOT control:
+- Container-level permissions  
+- Network traffic  
+- Pod-to-Pod communication  
+
+---
+
+## 🔑 Authentication vs Authorization
+
+- 🔐 Authentication → Who you are  
+  (IAM, Certificates, Tokens)
+
+- 🔒 Authorization (RBAC) → What you can do  
+
+👉 Both are required  
+
+---
+
+## 🔐 Key RBAC Rules
+
+### 🧾 1. Roles = What can be done
+
+Define:
+
+- Verbs:
+  - get, list, watch → Read  
+  - create, update, patch, delete → Write  
+  - * → All actions  
+
+- Resources:
+  - pods  
+  - services  
+  - deployments  
+  - secrets  
+
+---
+
+### 🔗 2. Bindings = Who can do it
+
+Subjects can be:
+
+- 👤 User  
+- 👥 Group  
+- 📦 ServiceAccount  
+
+---
+
+## ⚠️ Important Warning
+
+❌ Avoid using:
+system:masters  
+
+👉 Because:
+- Gives FULL admin access  
+- Bypasses all RBAC rules  
+
+---
+
+## 🔐 Security Best Practices
+
+- ✅ Follow least privilege principle  
+- ✅ Give only required permissions  
+- ✅ Avoid "*" (wildcards) in resources  
+- ✅ Be very strict with secrets access  
+- ✅ Use groups instead of individual users  
+
+---
+
+## 📂 Git Best Practice
+
+Store all RBAC YAML files in Git:
+
+- Role  
+- RoleBinding  
+- ClusterRole  
+- ClusterRoleBinding  
+
+👉 Benefits:
+- Version control  
+- Easy auditing  
+- Change tracking  
+
+---
+
+## 🧠 Quick Revision
+
+- RBAC = Who + What + Resource  
+- Role → Namespace  
+- ClusterRole → Cluster  
+- Binding → Assign permission  
+- Avoid system:masters  
+- Avoid "*" in roles  
+
+---
+
+## 🎯 One-Line Answer
+
+RBAC controls who can perform what actions on which Kubernetes resources using roles and bindings.
