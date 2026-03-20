@@ -12,6 +12,7 @@
 💡 Reason:
 - Authentication may succeed (IAM)
 - But Authorization (RBAC) fails
+- ❌ No permissions = No access
 
 ---
 
@@ -34,8 +35,9 @@
 Check if a user/service account has permission
 
 ### 📌 Example:
+```
 kubectl auth can-i create pods --as=dev-user -n dev
-
+```
 👉 Output:
 - yes ✅ → allowed  
 - no ❌ → denied  
@@ -64,13 +66,13 @@ EKS uses:
 ---
 
 ### 📌 Example:
-
+```
 mapUsers:
 - userarn: arn:aws:iam::111122223333:user/dev-user  
   username: dev-user  
   groups:
     - dev-group  
-
+```
 ---
 
 ## ⚠️ Important Limitation
@@ -89,8 +91,9 @@ Attach same IAM Role to multiple users
 ## 🧪 Testing Access in EKS
 
 ### 📌 Command:
+```
 kubectl auth can-i get pods --as=dev-user -n dev
-
+```
 👉 Checks:
 - If IAM mapping + RBAC both allow access  
 
