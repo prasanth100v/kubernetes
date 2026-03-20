@@ -63,39 +63,60 @@ RBAC (Role-Based Access Control) is a security mechanism in Kubernetes that cont
 
 ### 🧾 Role (Permissions inside namespace)
 ```
-apiVersion: rbac.authorization.k8s.io/v1  
-kind: Role  
-metadata:  
-  namespace: development  
-  name: developer-role  
-rules:  
-- apiGroups: [""]  
-  resources: ["pods","services","configmaps"]  
-  verbs: ["get","list","create","update","delete"]  
-- apiGroups: ["apps"]  
-  resources: ["deployments"]  
-  verbs: ["get","list","create"]  
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: developer-role              # 🏷️ Role name
+  namespace: development           # 📦 Applies ONLY to this namespace
+
+rules:
+  # 🔹 Core API Group ("" = core resources)
+  - apiGroups: [""]
+    resources:
+      - pods
+      - services
+      - configmaps
+    verbs:
+      - get
+      - list
+      - create
+      - update
+      - delete
+
+  # 🔹 Apps API Group (deployments etc.)
+  - apiGroups: ["apps"]
+    resources:
+      - deployments
+    verbs:
+      - get
+      - list
+      - create
 ```
 ---
 
-### 🔗 RoleBinding (Assign Role)
+### 🔗 ROLE BINDING (Attach Role to Users/Groups)
 ```
-apiVersion: rbac.authorization.k8s.io/v1  
-kind: RoleBinding  
-metadata:  
-  name: developer-binding  
-  namespace: development  
-subjects:  
-- kind: User  
-  name: johndoe@company.com  
-  apiGroup: rbac.authorization.k8s.io  
-- kind: Group  
-  name: dev-team  
-  apiGroup: rbac.authorization.k8s.io  
-roleRef:  
-  kind: Role  
-  name: developer-role  
-  apiGroup: rbac.authorization.k8s.io  
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: developer-binding          # 🏷️ Binding name
+  namespace: development           # ⚠️ Must match Role namespace
+
+subjects:
+  # 👤 Specific User
+  - kind: User
+    name: johndoe@company.com
+    apiGroup: rbac.authorization.k8s.io
+
+  # 👥 Group of Users
+  - kind: Group
+    name: dev-team
+    apiGroup: rbac.authorization.k8s.io
+
+roleRef:
+  kind: Role
+  name: developer-role             # 🔗 Must match Role name
+  apiGroup: rbac.authorization.k8s.io
 ```
 🧩 Use Case:
 - 👉 Used when access should be limited to a specific namespace
@@ -106,37 +127,57 @@ roleRef:
 
 ### 🧾 ClusterRole (Cluster-wide permissions)
 ```
-apiVersion: rbac.authorization.k8s.io/v1  
-kind: ClusterRole  
-metadata:  
-  name: global-viewer  
-rules:  
-- apiGroups: [""]  
-  resources: ["nodes","namespaces","persistentvolumes"]  
-  verbs: ["get","list","watch"]  
-- apiGroups: ["rbac.authorization.k8s.io"]  
-  resources: ["roles","rolebindings"]  
-  verbs: ["get","list"]  
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: global-viewer              # 🏷️ Cluster-wide role (no namespace)
+
+rules:
+  # 🔹 Cluster-level core resources
+  - apiGroups: [""]
+    resources:
+      - nodes
+      - namespaces
+      - persistentvolumes
+    verbs:
+      - get
+      - list
+      - watch
+
+  # 🔹 RBAC resources visibility
+  - apiGroups: ["rbac.authorization.k8s.io"]
+    resources:
+      - roles
+      - rolebindings
+    verbs:
+      - get
+      - list
+
 ```
 ---
 
 ### 🔗 ClusterRoleBinding (Global access)
 ```
-apiVersion: rbac.authorization.k8s.io/v1  
-kind: ClusterRoleBinding  
-metadata:  
-  name: viewer-global-binding  
-subjects:  
-- kind: User  
-  name: auditor@company.com  
-  apiGroup: rbac.authorization.k8s.io  
-- kind: Group  
-  name: security-team  
-  apiGroup: rbac.authorization.k8s.io  
-roleRef:  
-  kind: ClusterRole  
-  name: global-viewer  
-  apiGroup: rbac.authorization.k8s.io  
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: viewer-global-binding      # 🏷️ Binding name
+
+subjects:
+  # 👤 Auditor User
+  - kind: User
+    name: auditor@company.com
+    apiGroup: rbac.authorization.k8s.io
+
+  # 👥 Security Team Group
+  - kind: Group
+    name: security-team
+    apiGroup: rbac.authorization.k8s.io
+
+roleRef:
+  kind: ClusterRole
+  name: global-viewer              # 🔗 Must match ClusterRole name
+  apiGroup: rbac.authorization.k8s.io
 ```
 🧩 Use Case:
 - 👉 Used for global access across the cluster
