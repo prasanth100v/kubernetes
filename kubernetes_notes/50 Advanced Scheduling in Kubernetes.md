@@ -211,26 +211,29 @@ spec:
 👉 Defines grouping for scheduling  
 
 ### 📌 Common Keys:
-- kubernetes.io/hostname → Node level  
-- topology.kubernetes.io/zone → Zone level  
+- kubernetes.io/hostname → Node level       (Single node)
+- topology.kubernetes.io/zone → Zone level  (Entire zone)
 
+🌐 AWS EKS Cloud Provider-Specific Topology Labels:
+```
+topologyKeys:
+- topology.kubernetes.io/zone        # us-east-1a, us-east-1b
+- topology.kubernetes.io/region      # us-east-1
+- node.kubernetes.io/instance-type   # t3.medium, m5.large
+```
+### 💡Best Practices
+- For High Availability: Use ***topology.kubernetes.io/zone** for anti-affinity
+- For Low Latency: Use ***kubernetes.io/hostname** for affinity
+- Combine Both: Use zone-level for HA, node-level for performance
+
+#### Check Available Labels: 
+```
+kubectl describe node <node-name> | grep topology
+kubectl get nodes --show-labels
+```
 ---
 
-## 5. Topology Spread Constraints (⚖️ Even Distribution)
-
-👉 Ensures Pods are evenly distributed  , Spread replicas across zones 
-
-✔ Prevents:
-- All Pods in one zone  
-
-### 💡 Benefit:
-- Prevent all pods in one zone ❌
-- Improves HA ✅
- 
-
----
-
-## 6. Taints & Tolerations (🚫 + 🔓 Control Access)
+## 5. Taints & Tolerations (🚫 + 🔓 Control Access)
 #### 🚫 Taints (Node Protection) (Block Nodes)
 👉 Prevent Pods from scheduling on a node
 
@@ -308,134 +311,3 @@ spec:
 
 ---
 
-## 7. Priority Classes & Preemption (🔥 Critical Pods First)
-#### 🏆 Priority Class
-
-- 👉 Assign priority (importance) to Pods
-- ✔ Higher priority → Scheduled first  
-
----
-
-## ⚡ Preemption
-👉 High-priority Pod can:
-
-- ❌ Evict lower-priority Pods
-- 📦 Take their resources
-
-💡 Use Case:
-- Production > Testing
-- Critical apps always run
----
-
-## 9. schedulerName (🧠 Custom Scheduler)
-
-👉 Use custom scheduler instead of default  
-```
-schedulerName: my-custom-scheduler
-```
-💡 Use Case:
-- Cost-aware scheduling 💰
-- Latency-aware scheduling ⚡ 
-
----
-
-## 10. Resource Requests & Limits (🧮 Smart Placement)
-👉 Help scheduler decide placement  
-```
-resources:
-  requests:
-    cpu: "500m"
-    memory: "256Mi"
-```
-💡 Benefit: Prevent node overload, Better utilization
----
-
-## 11. Default Scheduler
-
-👉 Built-in Kubernetes scheduler  
-
-✔ Used unless custom scheduler specified  
-
----
-
-## 12. Descheduler (🔄 Rebalancing)
-
-👉 Rebalances Pods AFTER scheduling  
-
-✔ Use case:
-- Node changes  
-- Cluster scaling  
-
----
-
-## 13. DaemonSet (📦 One Pod Per Node)
-👉 Ensures one Pod runs on every node  
-
-💡 Use Case:
-- Logging agents 📜
-- Monitoring tools 📊 
-
----
-
-# 🧪 Real-Life Examples
-
-- GPU workloads → nodeSelector / taints  
-- Microservices → podAffinity  
-- HA systems → podAntiAffinity  
-- Multi-zone apps → topologySpreadConstraints  
-
----
-
-# 🔧 Important Commands
-```
-kubectl get nodes --show-labels                            # 🔍 Check Node Labels
-kubectl label nodes <node-name> disktype=ssd               # 🏷 Add Label to Node
-kubectl label nodes <node-name> zone=us-east-1a            # 📍 Assign Zone Label
-kubectl taint nodes <node-name> dedicated=ml:NoSchedule    # 🚫 Taint a Node
-kubectl describe node <node-name> | grep Taints            ## 🔍 Check Taints
-kubectl get events --watch                                 ## 🔁 Watch Events (Real-Time)
-kubectl describe pod <pod-name>                            ## 🔎 Check Pod Scheduling Info 
-```
-
-## 💡 Example: E-commerce App
-| Component  | Scheduling Strategy    |
-| ---------- | ---------------------- |
-| Frontend   | Spread across zones    |
-| Backend    | Pod affinity with DB   |
-| Database   | Dedicated tainted node |
-| Monitoring | DaemonSet              |
-
-## ⚖️ Summary Table
-| Feature         | Purpose               |
-| --------------- | --------------------- |
-| nodeSelector    | Simple node selection |
-| nodeAffinity    | Advanced node rules   |
-| podAffinity     | Place pods together   |
-| podAntiAffinity | Spread pods apart     |
-| topologySpread  | Even distribution     |
-| taints          | Block nodes           |
-| tolerations     | Allow specific pods   |
-| priorityClass   | Pod importance        |
-| preemption      | Evict lower priority pods  |
-| schedulerName   | Custom scheduler      |
-| descheduler     | Rebalance pods        |
-| DaemonSet       | One pod per node      |
-
----
-
-# 🧠 Quick Revision
-
-- nodeSelector → Simple placement  
-- nodeAffinity → Advanced rules  
-- podAffinity → Together  
-- podAntiAffinity → Separate  
-- taints → Block  
-- tolerations → Allow  
-- topologySpread → Balance  
-- priority → Importance  
-
----
-
-# 🎯 One-Line Answer
-
-Advanced scheduling in Kubernetes allows precise control over Pod placement using affinity rules, taints, topology, and priority mechanisms.
