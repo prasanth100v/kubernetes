@@ -12,12 +12,12 @@
 --- 
 
 ## 7. Priority Classes & Preemption (🔥 Critical Pods First)
-#### 🏆 Priority Class
+### 🏆 Priority Class
 
 - 👉 A PriorityClass defines the **importance of Pods**
 - ✔ Higher priority → Scheduled first  ( Higher value)
 
-## 🧾 Define a PriorityClass
+#### 🧾 Define a PriorityClass
 ```
 apiVersion: scheduling.k8s.io/v1  
 kind: PriorityClass  
@@ -29,7 +29,7 @@ description: "High priority pods"
 ```
 ---
 
-## 🧠 Explanation
+#### 🧠 Explanation
 | Field         | Meaning                                   |
 | ------------- | ----------------------------------------- |
 | name          | Used in Pod spec                          |
@@ -39,7 +39,7 @@ description: "High priority pods"
 
 ---
 
-## 📦 Use in Pod
+### 📦 Use in Pod
 ```
 apiVersion: v1  
 kind: Pod  
@@ -53,7 +53,7 @@ spec:
 ```
 ---
 
-## 🔥 What Happens?
+#### 🔥 What Happens?
 
 👉 If cluster is full:
 - Low-priority Pods → removed ( Evicted Pods → go to Pending )
@@ -61,7 +61,7 @@ spec:
 
 ---
 
-## ⚠️ Important Notes
+#### ⚠️ Important Notes
 
 - Preemption only happens if needed  
 - Only lower-priority Pods are evicted  
@@ -109,116 +109,58 @@ Schedule High Priority Pod ✅
 4. Lower-priority Pods are evicted ❌  
 5. High-priority Pod gets scheduled ✅  
 
-
-## 8. schedulerName (🧠 Custom Scheduler)
-
-👉 Use custom scheduler instead of default  
-```
-schedulerName: my-custom-scheduler
-```
-💡 Use Case:
-- Cost-aware scheduling 💰
-- Latency-aware scheduling ⚡ 
-
 ---
 
-## 9. Resource Requests & Limits (🧮 Smart Placement)
-👉 Help scheduler decide placement  
+## 8. Resource Requests & Limits (🧮 Smart Placement)
+Scheduler uses resource requests to decide : 👉 “Can this Pod fit on this node?”
+
+### 🌟 What are Requests?
+👉 Minimum resources required for scheduling  
+
+### 🌟 What are Limits?
+👉 Maximum resources container can use  
+
+### 👉 Help scheduler decide placement  
 ```
 resources:
   requests:
     cpu: "500m"
     memory: "256Mi"
+  limits:
+    cpu: "1"
+    memory: "512Mi"
 ```
 💡 Benefit: Prevent node overload, Better utilization
----
 
-## 10. Default Scheduler
+## 🧠 Explanation
+- CPU: 500m → 0.5 CPU  
+- Memory: 256Mi
+- 👉 Node must have at least this much free
+- Pod cannot exceed: 1 CPU, 512Mi memory
 
-👉 Built-in Kubernetes scheduler  
+### ⚠️ If Limit Exceeded
+| Resource | Behavior                  |
+| -------- | ------------------------- |
+| CPU      | Throttled 🐢              |
+| Memory   | Container killed (OOM) 💥 |
 
-✔ Used unless custom scheduler specified  
+👉 Scheduler will:
+✔ Find node with enough free resources  
 
----
+## ⚠️ Why Important?
+- Without requests : Scheduler may overload node
+- With limits : Prevents resource abuse (overuse)
+- With Both : ✅ Balanced scheduling ✅ Stable performance
 
-## 11. Descheduler (🔄 Rebalancing)
+## 🎯⚙️ Resources
+- 📦 Requests → Scheduling
+- 🚫 Limits → Runtime control
 
-👉 Rebalances Pods AFTER scheduling  
+###⚠️ Best Practices
+- ✅ Use PriorityClasses for critical apps  
+- ✅ Avoid unnecessary high priorities  
+- ✅ Define proper resource requests  
+- ✅ Use limits to prevent overuse 
 
-✔ Use case:
-- Node changes  
-- Cluster scaling  
-
----
-
-## 12. DaemonSet (📦 One Pod Per Node)
-👉 Ensures one Pod runs on every node  
-
-💡 Use Case:
-- Logging agents 📜
-- Monitoring tools 📊 
-
----
-
-# 🧪 Real-Life Examples
-
-- GPU workloads → nodeSelector / taints  
-- Microservices → podAffinity  
-- HA systems → podAntiAffinity  
-- Multi-zone apps → topologySpreadConstraints  
 
 ---
-
-# 🔧 Important Commands
-```
-kubectl get nodes --show-labels                            # 🔍 Check Node Labels
-kubectl label nodes <node-name> disktype=ssd               # 🏷 Add Label to Node
-kubectl label nodes <node-name> zone=us-east-1a            # 📍 Assign Zone Label
-kubectl taint nodes <node-name> dedicated=ml:NoSchedule    # 🚫 Taint a Node
-kubectl describe node <node-name> | grep Taints            ## 🔍 Check Taints
-kubectl get events --watch                                 ## 🔁 Watch Events (Real-Time)
-kubectl describe pod <pod-name>                            ## 🔎 Check Pod Scheduling Info 
-```
-
-## 💡 Example: E-commerce App
-| Component  | Scheduling Strategy    |
-| ---------- | ---------------------- |
-| Frontend   | Spread across zones    |
-| Backend    | Pod affinity with DB   |
-| Database   | Dedicated tainted node |
-| Monitoring | DaemonSet              |
-
-## ⚖️ Summary Table
-| Feature         | Purpose               |
-| --------------- | --------------------- |
-| nodeSelector    | Simple node selection |
-| nodeAffinity    | Advanced node rules   |
-| podAffinity     | Place pods together   |
-| podAntiAffinity | Spread pods apart     |
-| topologySpread  | Even distribution     |
-| taints          | Block nodes           |
-| tolerations     | Allow specific pods   |
-| priorityClass   | Pod importance        |
-| preemption      | Evict lower priority pods  |
-| schedulerName   | Custom scheduler      |
-| descheduler     | Rebalance pods        |
-| DaemonSet       | One pod per node      |
-
----
-
-# 🧠 Quick Revision
-
-- nodeSelector → Simple placement  
-- nodeAffinity → Advanced rules  
-- podAffinity → Together  
-- podAntiAffinity → Separate  
-- taints → Block  
-- tolerations → Allow  
-- topologySpread → Balance  
-- priority → Importance  
-
----
-
-# 🎯 One-Line Answer
-
-Advanced scheduling in Kubernetes allows precise control over Pod placement using affinity rules, taints, topology, and priority mechanisms.
