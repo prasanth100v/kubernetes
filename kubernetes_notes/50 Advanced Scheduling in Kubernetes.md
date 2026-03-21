@@ -216,7 +216,7 @@ spec:
 
 ---
 
-## 6. Topology Spread Constraints (⚖️ Even Distribution)
+## 5. Topology Spread Constraints (⚖️ Even Distribution)
 
 👉 Ensures Pods are evenly distributed  , Spread replicas across zones 
 
@@ -230,18 +230,53 @@ spec:
 
 ---
 
-## 7. Taints & Tolerations (🚫 + 🔓 Control Access)
+## 6. Taints & Tolerations (🚫 + 🔓 Control Access)
 #### 🚫 Taints (Node Protection) (Block Nodes)
 👉 Prevent Pods from scheduling on a node
 
 ### 📌 Example:
 ```
-kubectl taint nodes node1 dedicated=ml:NoSchedule
+# Three types of effects
+kubectl taint nodes node1 key=value:NoSchedule        # Hard - won't schedule
+kubectl taint nodes node1 key=value:PreferNoSchedule  # Soft - tries to avoid
+kubectl taint nodes node1 key=value:NoExecute         # Evict existing pods
+```
+- NoSchedule        :	New pods won't be scheduled unless they tolerate
+- PreferNoSchedule	:  Scheduler tries to avoid, but not guaranteed
+- NoExecute         : 	New pods won't schedule + existing pods without toleration are evicted
+```
+kubectl taint nodes node1 app=database:NoSchedule       # Hard - won't schedule
 ```
 ## 🧠 Meaning
 - No pod will run on node1  
 - Unless it tolerates this taint
+
+### Common Use Cases
+| **Use Case**         | **Taint**                         | **Toleration**               |
+| -------------------- | --------------------------------- | ---------------------------- |
+| GPU Nodes            | nvidia.com/gpu=true:NoSchedule    | ML/AI workloads              |
+| Infrastructure Nodes | node-type=infra:NoSchedule        | Monitoring, logging, ingress |
+| SSD Nodes            | disk=ssd:NoSchedule               | Database workloads           |
+| Maintenance          | maintenance=in-progress:NoExecute | None (evict all)             |
+| Dedicated Tenants    | tenant=team-a:NoSchedule          | Team-specific workloads      |
+
+-  NoSchedule = prevent scheduling, NoExecute = evict existing pods
+-  Combine with nodeSelector or nodeAffinity for precise placement
+-  Use operator: "Exists" to tolerate any value for a key
 ---
+
+## 🔥 Taint Effects
+| Effect           | Behavior               |
+| ---------------- | ---------------------- |
+| NoSchedule       | ❌ Block scheduling     |
+| PreferNoSchedule | ⚠️ Try to avoid        |
+| NoExecute        | 🚫 Remove running pods |
+
+## 🎯 Use Cases
+- GPU nodes  
+- Database nodes  
+- Critical workloads  
+- Infrastructure nodes
 
 ## 🔓 Tolerations (Pod Permission)
 👉 Allow Pods to run on tainted nodes
@@ -262,19 +297,6 @@ spec:
 - Pod can run on node with taint:
   app=database:NoSchedule  
 
-## 🔥 Taint Effects
-| Effect           | Behavior               |
-| ---------------- | ---------------------- |
-| NoSchedule       | ❌ Block scheduling     |
-| PreferNoSchedule | ⚠️ Try to avoid        |
-| NoExecute        | 🚫 Remove running pods |
-
-## 🎯 Use Cases
-- GPU nodes  
-- Database nodes  
-- Critical workloads  
-- Infrastructure nodes
-
  ### 🎯 Real-World Scenario
 🛒 E-Commerce System
 | Component | Strategy                   |
@@ -286,7 +308,7 @@ spec:
 
 ---
 
-## 8. Priority Classes & Preemption (🔥 Critical Pods First)
+## 7. Priority Classes & Preemption (🔥 Critical Pods First)
 #### 🏆 Priority Class
 
 - 👉 Assign priority (importance) to Pods
