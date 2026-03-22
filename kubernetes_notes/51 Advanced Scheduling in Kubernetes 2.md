@@ -48,12 +48,35 @@ topologySpreadConstraints:
 - Zone B → 2 Pods  
 - Zone C → 2 Pods  
 
-✔ Prevents:
-- All Pods in one zone  
+✔ Prevents : All Pods in one zone  
 
 ### 💡 Benefit:
 - Prevent all pods in one zone ❌
 - Improves HA ✅
+
+### 🧾👉 maxSkew controls how strictly Kubernetes balances Pods across nodes.
+#### 📊 maxSkew Values & Meaning
+| **maxSkew Value** | **Distribution Behavior**            | **Strictness Level** | **Common Usage**        |
+| ----------------- | ------------------------------------ | -------------------- | ----------------------- |
+| 1                 | Almost equal distribution            | Very High            | High availability apps  |
+| 2                 | Small imbalance allowed              | High                 | General workloads       |
+| 3                 | Moderate imbalance                   | Medium               | Flexible scheduling     |
+| 4–10              | Loose distribution                   | Low                  | Less critical workloads |
+| >10               | Very relaxed (almost no restriction) | Very Low             | Rarely used             |
+
+#### 📊 maxSkew in Topology Spread Constraints
+| **Scenario** | **Node A** | **Node B** | **Node C** | **Skew (Max Difference)** | **Allowed?** |
+| ------------ | ---------- | ---------- | ---------- | ------------------------- | ------------ |
+| 3 Pods       | 1          | 1          | 1          | 0                         | ✓            |
+| 4 Pods       | 2          | 1          | 1          | 1                         | ✓            |
+| 5 Pods       | 2          | 2          | 1          | 1                         | ✓            |
+| 6 Pods       | 2          | 2          | 2          | 0                         | ✓            |
+| 4 Pods       | 3          | 1          | 0          | 3                         | ✗            |
+
+```
+kubectl get pods -o wide | grep myapp                    # Check Pod distribution across nodes
+kubectl get nodes -L topology.kubernetes.io/zone           # Check Pod distribution across zones
+```
 
 # 🧠 Quick Revision
 
