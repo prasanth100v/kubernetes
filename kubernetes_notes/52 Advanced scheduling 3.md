@@ -1,15 +1,16 @@
 
-## 9. schedulerName (🧠 Custom Scheduler)
+## 9. schedulerName (💡 Custom Scheduler)
 
 👉 Use custom scheduler instead of default  
 ```
 schedulerName: my-custom-scheduler
 ```
-💡 Use Case:
-- Cost-aware scheduling 💰
-- Latency-aware scheduling ⚡ 
+#### 💡Use Case: 💰 Cost-aware scheduling, ⚡Latency-aware scheduling  
 
-
+### Simple Understanding
+- 👉 Kubernetes uses default-scheduler by default
+- 👉 You can override it with your own scheduler logic
+- 👉 schedulerName lets you replace Kubernetes default scheduling logic with your own decision-making system.
 
 ## 10. Default Scheduler
 
