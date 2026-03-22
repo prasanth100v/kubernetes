@@ -90,6 +90,26 @@ strategies:
 
 ## 🔧 Important Commands
 ```
+kubectl get pods                     # 📦 List all pods
+kubectl get pods -o wide             # 📦 Pods with node info
+kubectl get nodes                    # 🖥️ List nodes
+kubectl describe node <node-name>    # 🖥️ Node details (labels, taints, capacity)
+
+# 🏷️ Labels & Node Selection
+kubectl label nodes <node-name> disktype=ssd          # Add label to node
+kubectl get nodes --show-labels                       # View node labels
+
+
+# Add taint to node
+kubectl taint nodes <node-name> node-type=infra:NoSchedule
+
+# Remove taint
+kubectl taint nodes <node-name> node-type=infra:NoSchedule-
+
+# View taints
+kubectl describe node <node-name> | grep Taints
+
+
 kubectl get nodes --show-labels                            # 🔍 Check Node Labels
 kubectl label nodes <node-name> disktype=ssd               # 🏷 Add Label to Node
 kubectl label nodes <node-name> zone=us-east-1a            # 📍 Assign Zone Label
