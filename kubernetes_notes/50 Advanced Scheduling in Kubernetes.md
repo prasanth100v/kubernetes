@@ -127,7 +127,36 @@ operator: NotIn
 #### 🎯 Use Case
 - Prefer specific zones 🌍
 - Avoid expensive nodes 💰
-  
+
+---
+
+## 🎮 GPU Scheduling in Kubernetes
+### 🔹 Using nodeSelector
+```
+spec:
+  nodeSelector:
+    gpu: "true"
+```
+
+### 🔹 Using nodeAffinity
+```
+spec:
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: gpu
+            operator: In
+            values:
+            - "true"
+```
+#### 🚀 When to Use What?
+| Method       | Use Case             |
+| ------------ | -------------------- |
+| nodeSelector | Simple GPU selection |
+| nodeAffinity | Flexible rules       |
+
 ---
 
 ## 3. Pod Affinity (🤝 Stay Together)
