@@ -95,19 +95,28 @@ kubectl get pods -o wide             # 📦 Pods with node info
 kubectl get nodes                    # 🖥️ List nodes
 kubectl describe node <node-name>    # 🖥️ Node details (labels, taints, capacity)
 
+
 # 🏷️ Labels & Node Selection
 kubectl label nodes <node-name> disktype=ssd          # Add label to node
 kubectl get nodes --show-labels                       # View node labels
 
 
-# Add taint to node
-kubectl taint nodes <node-name> node-type=infra:NoSchedule
+#⚖️ Topology Spread
+kubectl get pods -o wide                       # Check pod distribution across nodes
+kubectl get pods --show-labels                 # Check labels used in affinity
 
-# Remove taint
-kubectl taint nodes <node-name> node-type=infra:NoSchedule-
 
-# View taints
-kubectl describe node <node-name> | grep Taints
+# 🔄 Drain & Rebalance (like Descheduler)
+kubectl drain <node-name> --ignore-daemonsets     # Safely remove pods from node
+kubectl uncordon <node-name>                        # Make node schedulable again
+
+
+# ⚠️ Taints & Tolerations
+kubectl taint nodes <node-name> node-type=infra:NoSchedule              # Add taint to node
+kubectl taint nodes <node-name> node-type=infra:NoSchedule-             # Remove taint
+kubectl describe node <node-name> | grep Taints                         # View taints
+kubectl describe pod <pod-name>                     # Check why pod is not scheduled
+kubectl get pods -w                                 # Watch pod scheduling live
 
 
 kubectl get nodes --show-labels                            # 🔍 Check Node Labels
