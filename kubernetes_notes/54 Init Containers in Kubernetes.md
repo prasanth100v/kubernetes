@@ -26,23 +26,22 @@ They are mainly used for:
 ---
 
 ## ⚖️ Init Container vs Sidecar
+| Feature        | Init Container 🚀      | Sidecar 🔄         |
+| -------------- | ---------------------- | ------------------ |
+| Execution Time | Before app starts      | Runs with app      |
+| Purpose        | Setup / initialization | Continuous support |
+| Lifecycle      | Runs once              | Runs always        |
+| Example        | DB readiness check     | Logging / proxy    |
 
-| Feature | Init Container | Sidecar |
-|--------|---------------|--------|
-| Execution | Runs once | Runs continuously |
-| Purpose | Setup | Support |
-| Lifecycle | Before app | Along with app |
 
 💡 Summary:
 - Init = **Preparation**
 - Sidecar = **Ongoing support**
 
----
-
 ## 🎯 Why Init Containers are Useful
 
 - Prevent app from starting too early ⏳
-- Avoid connection errors 💥
+- Avoid connection errors due to missing dependencies 💥
 - Ensure dependencies are ready ✅
 - Improve application stability 🚀
 
@@ -61,10 +60,8 @@ kubectl logs <pod-name> -c wait-for-mysql
 ## 🧠 Real-World Use Case: Wait for MySQL
 
 👉 App should start **only after MySQL is ready**
-
----
-
 ## 📦 Deployment YAML Example
+### 👉 Problem: App may start before MySQL is ready ❌ , 👉 Solution: Use an Init Container to wait until MySQL is available ✅
 
 ```yaml
 apiVersion: apps/v1
@@ -118,13 +115,15 @@ spec:
           value: "3306"
 ```
 
----
+### 🔁 Logic Flow
+- Check MySQL → Not Ready ❌ → Wait 5s → Retry 🔁
+- Check MySQL → Ready ✅ → Exit → Start App 🚀
 
 ## 📝 Explanation
-
-- **busybox** → lightweight Linux image 🪶  
-- **nc -z mysql 3306** → checks if MySQL is reachable  
-- **loop + sleep** → retries every 5 seconds ⏱️  
+##### 🔧 What Does the Init Container Do?
+- Uses **busybox** → lightweight Linux image 🪶  
+- Runs a command **nc -z mysql 3306** → to checks if MySQL is reachable  
+- **loop + sleep** → keep retries every 5 seconds ⏱️  
 - Main app starts only after DB is ready ✅  
 
 ---
@@ -133,8 +132,18 @@ spec:
 
 - ✅ Use **lightweight images** (Alpine / Busybox)
 - ✅ Keep init containers **simple**
-- ✅ Set **resource limits**
+- ✅ Keep logic simple and fast
+- ✅ Set **resource limits** (CPU & Memory)
 - ✅ Use for **one-time setup only**
+- ✅ Avoid long-running tasks
+- ✅ Use retries with delay (avoid tight loops)
+
+### 📝 Key Notes
+- 🔁 Init Containers run once per Pod
+- ⚡ Must complete successfully
+- 🧩 Can define multiple init containers
+- 🐧 busybox is commonly used (lightweight)
+- 🔌 nc helps check service availability
 
 ---
 
