@@ -10,7 +10,6 @@
 🎯 Helm = Package manager that simplifies Kubernetes deployments
 
 ## 🚀 Why Use Helm?
-
 ### 1️⃣ Simplifies Deployments
 ⏱️ Deploy complex apps with a single command  
 Example:
@@ -191,11 +190,22 @@ resources:                    # ⚙ Resource requests & limits
 ✔ Central place to manage configs
 ✔ Can override during install
 ---
+### What are Templates in Helm?
+In Helm, the templates/ folder contains Kubernetes YAML files with dynamic values.
+
+👉 These files use Go templating ({{ }}) to inject values from:
+   - values.yaml ⚙️
+   - Helm system variables 🔧
+#### 🔄 How Templating Works
+```
+values.yaml ⚙️ → templates/ 📄 → Rendered YAML → Kubernetes 🚀
+```
+✔ Helm replaces placeholders ({{ }}) with actual values during deployment
+
 ### 📄 templates/deployment.yaml (Helm Templated Deployment)
 ```
 apiVersion: apps/v1                 # 📌 API version for Deployment
 kind: Deployment                   # 🚀 Kubernetes Deployment resource
-
 metadata:
   name: {{ .Release.Name }}-deployment   # 🏷 Dynamic name (release-based)
 
@@ -213,14 +223,11 @@ spec:
 
     spec:
       containers:
-        - name: {{ .Release.Name }}     # 📦 Container name
-
+        - name: {{ .Release.Name }}                                          # 📦 Container name
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"     # 🐳 Image + tag (from values.yaml)
-
-          imagePullPolicy: {{ .Values.image.pullPolicy }}         # ⬇ Image pull behavior
-
+          imagePullPolicy: {{ .Values.image.pullPolicy }}                     # ⬇ Image pull behavior
           ports:
-            - containerPort: {{ .Values.containerPort }}          # 📡 Port inside container
+            - containerPort: {{ .Values.containerPort }}                      # 📡 Port inside container
 
           resources:
             limits:
@@ -232,6 +239,7 @@ spec:
               memory: {{ .Values.resources.requests.memory }}         # ✅ Guaranteed memory
 ```
 ### 📄 templates/service.yaml (Helm Templated Service)
+ 📘 Purpose : Defines a Kubernetes Service to expose your application.
 ```
 apiVersion: v1                     # 📌 API version for Service
 kind: Service                     # 🌐 Kubernetes Service resource
@@ -245,26 +253,23 @@ spec:
     - port: {{ .Values.service.port }}        # 🌍 External service port
       targetPort: {{ .Values.containerPort }} # 📡 Container port inside pod
 ```
-💡 Key DevOps Insights (Important)
-🔗 Selector must match labels → otherwise Service won’t work
-🔁 replicas controlled via values.yaml → easy scaling
-🐳 Image fully dynamic → change version without editing template
-⚙ Resources prevent overuse → production best practice
+### 🔐 Best Practices
+- ✅ Use .Values instead of hardcoding
+- ✅ Keep templates clean and readable
 
-
-
-
-
-## 🎯 Key Benefits
-
-- 📦 Package YAMLs into charts
-- 🔄 Easy upgrades & rollbacks
-- ⚙️ Configurable deployments
-- 🚀 Faster DevOps workflows
-- 🔐 Enterprise-ready deployments
-- 🌀 GitOps integration
+### ⚠️ Common Mistakes
+- ❌ Hardcoding image names
+- ❌ Mismatched labels between Service & Deployment
+- ❌ Missing resource limits
+- ❌ Incorrect indentation (YAML sensitive!)
 
 ---
+
+## 💡 Key DevOps Insights (Important)
+- 🔗 Selector must match labels → otherwise Service won’t work
+- 🔁 replicas controlled via values.yaml → easy scaling
+- 🐳 Image fully dynamic → change version without editing template
+- ⚙ Resources prevent overuse → production best practice
 
 ## 💡 Pro Tips
 
