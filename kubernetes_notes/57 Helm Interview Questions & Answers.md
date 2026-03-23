@@ -219,6 +219,13 @@ helm rollback <release-name> <revision>
 ```
   helm create <chart-name>                                      #📦 new Helm chart # 🏗 Generates a standard Helm chart structure
 
+  helm repo add <name> <url>                                               #➕ Add a Repository
+   # 📌 Example: helm repo add bitnami https://charts.bitnami.com/bitnami
+
+  helm repo update                                                   #  🔄 Update Repositories
+
+  helm search repo nginx                                         # ✔ Lists all charts matching "nginx"
+
   helm install <release-name> <chart-path> [flags]              # 🚀 2. Install a chart (Deploy application)
   # 📌 Example:  helm install my-nginx ./nginx-chart
 
