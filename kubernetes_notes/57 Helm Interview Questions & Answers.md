@@ -212,14 +212,6 @@ helm rollback <release-name> <revision>
 ## ❓ How to manage secrets in Helm?
 👉 Use Kubernetes Secrets / SealedSecrets / External Secrets.
 
----
-
-# 🚀 Final Summary
-
-✔ Helm simplifies Kubernetes deployments  
-✔ Supports versioning & rollback  
-✔ Enables GitOps workflows  
-✔ Best for microservices & reusable configs  
 
 ---
 
@@ -269,3 +261,10 @@ helm rollback <release-name> <revision>
   helm help                                      # 🆘 15. Help command  # 📌 Shows all Helm commands
 
   ```
+
+## 🚀 Final Summary
+
+✔ Helm simplifies Kubernetes deployments  
+✔ Supports versioning & rollback  
+✔ Enables GitOps workflows  
+✔ Best for microservices & reusable configs  
