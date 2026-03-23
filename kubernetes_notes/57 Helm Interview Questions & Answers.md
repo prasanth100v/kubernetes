@@ -223,4 +223,49 @@ helm rollback <release-name> <revision>
 
 ---
 
-🎉 Happy Learning Helm (Interview Ready)!
+# 🎯 Helm Commands
+```
+  helm create <chart-name>                                      #📦 new Helm chart # 🏗 Generates a standard Helm chart structure
+
+  helm install <release-name> <chart-path> [flags]              # 🚀 2. Install a chart (Deploy application)
+  # 📌 Example:  helm install my-nginx ./nginx-chart
+
+  helm upgrade <release-name> <chart-path> --set key=value       # 🔄 3. Upgrade an existing release
+  # 📌 Example:
+  helm upgrade my-nginx ./nginx-chart --set image.tag=1.25
+
+  helm uninstall <release-name>                                  # ❌ 4. Uninstall a release (Delete everything)
+  # 📌 Deletes release + all Kubernetes resources
+
+  helm list                                                      # 📌 List all releases in current namespace
+
+  helm status <release-name>                                      # 🔍 6. Show release status/details
+  # 📌 Example: helm status myapp
+
+  helm rollback <release-name> <revision>                       # ⏪ 7. Rollback to previous version
+  # 📌 Example: helm rollback my-nginx 1
+
+  helm template <chart-path>                                     # 🧪 8. Render templates (no install)
+  # 📌 Shows raw Kubernetes YAML output
+
+  helm install --dry-run --debug <release-name> <chart-path>       # 🧪 9. Dry-run (test install/upgrade)
+  # 📌 Preview without deploying
+
+  helm lint <chart-path>                                               # 🧹 10. Lint chart (validate syntax)
+  # 📌 Detects errors & bad practices
+
+  helm repo add <name> <url>                                                  # 📦 11. Add Helm repository
+  # 📌 Example: helm repo add bitnami https://charts.bitnami.com/bitnami
+
+  helm repo update                                                            # 🔄 12. Update repositories
+  # 📌 Fetch latest charts metadata
+
+  helm search repo <keyword>                                                  # 🔎 13. Search charts in repo
+  # 📌 Example: helm search repo nginx
+
+  helm pull <repo>/<chart>                                             # ⬇ 14. Download chart (no install)
+  # 📌 Example: helm pull bitnami/nginx
+
+  helm help                                      # 🆘 15. Help command  # 📌 Shows all Helm commands
+
+  ```
