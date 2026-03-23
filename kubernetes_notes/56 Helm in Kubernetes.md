@@ -139,22 +139,27 @@ rm -rf templates/* charts/ Chart.lock
 ## 📂 Generated Structure
 
 ```
-my-nodejs/
-├── Chart.yaml
-├── values.yaml
-├── charts/
-└── templates/
+my-Node.js/
+├── Chart.yaml        # 📄 Chart metadata
+├── values.yaml       # ⚙ Default config values
+├── charts/           # 📦 Dependencies (sub-charts)
+└── templates/        # 🧩 Kubernetes YAML templates
+    ├── deployment.yaml   # 🚀 App deployment
+    ├── service.yaml      # 🌐 Service exposure
+    └── ingress.yaml      # 🌍 Optional ingress
 ```
 
 ## 📄 Chart.yaml Example
 Describes chart metadata:
 ```yaml
-apiVersion: v2
-name: myapp
-description: A Helm chart for Node.js microservice
-type: application
-version: 0.1.0
-appVersion: "1.0.0"
+apiVersion: v2                 # 📌 Helm chart API version (v2 for Helm 3)
+name: myapp                   # 📦 Name of your Helm chart
+description: A Helm chart for a Node.js microservice  # 📝 Short description
+
+type: application             # 🚀 application = deployable app (not library)
+
+version: 0.1.0                # 🔖 Chart version (Helm chart version)
+appVersion: "1.0.0"           # 🎯 Actual app version (Docker image version)
 ```
 ✔ Chart identity
 ✔ Version tracking
@@ -163,29 +168,92 @@ appVersion: "1.0.0"
 ## 📄 values.yaml Example
 Default configuration values:
 ```yaml
-replicaCount: 2
+replicaCount: 2                # 🔁 Number of application replicas (Pods)
 
-image:
-  repository: myregistry/myapp
-  tag: "1.0.0"
-  pullPolicy: IfNotPresent
+image:                         # 🐳 Docker image configuration
+  repository: myregistry/myapp   # 📦 Your Docker image (change this)
+  tag: "1.0.0"                   # 🏷 Image version/tag
+  pullPolicy: IfNotPresent       # ⬇ Pull only if not already present
 
-service:
-  type: ClusterIP
-  port: 80
-  containerPort: 3000
+service:                      # 🌐 Service configuration
+  type: ClusterIP                # 🔗 Service type (ClusterIP / NodePort / LoadBalancer)
+  port: 80                       # 🌍 Service exposed port
+  containerPort: 3000            # 📡 App port inside container
 
-resources:
+resources:                    # ⚙ Resource requests & limits
   limits:
-    cpu: 200m
-    memory: 256Mi
+    cpu: 200m                    # 🚫 Max CPU usage
+    memory: 256Mi                # 🚫 Max memory usage
   requests:
-    cpu: 100m
-    memory: 128Mi
+    cpu: 100m                    # ✅ Guaranteed CPU
+    memory: 128Mi                # ✅ Guaranteed memory
 ```
 ✔ Central place to manage configs
 ✔ Can override during install
 ---
+### 📄 templates/deployment.yaml (Helm Templated Deployment)
+```
+apiVersion: apps/v1                 # 📌 API version for Deployment
+kind: Deployment                   # 🚀 Kubernetes Deployment resource
+
+metadata:
+  name: {{ .Release.Name }}-deployment   # 🏷 Dynamic name (release-based)
+
+spec:
+  replicas: {{ .Values.replicaCount }}  # 🔁 Number of pod replicas
+
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}          # 🎯 Select pods with this label
+
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}        # 🏷 Pod label (must match selector)
+
+    spec:
+      containers:
+        - name: {{ .Release.Name }}     # 📦 Container name
+
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"     # 🐳 Image + tag (from values.yaml)
+
+          imagePullPolicy: {{ .Values.image.pullPolicy }}         # ⬇ Image pull behavior
+
+          ports:
+            - containerPort: {{ .Values.containerPort }}          # 📡 Port inside container
+
+          resources:
+            limits:
+              cpu: {{ .Values.resources.limits.cpu }}                 # 🚫 Max CPU usage
+              memory: {{ .Values.resources.limits.memory }}           # 🚫 Max memory usage
+
+            requests:
+              cpu: {{ .Values.resources.requests.cpu }}               # ✅ Guaranteed CPU
+              memory: {{ .Values.resources.requests.memory }}         # ✅ Guaranteed memory
+```
+### 📄 templates/service.yaml (Helm Templated Service)
+```
+apiVersion: v1                     # 📌 API version for Service
+kind: Service                     # 🌐 Kubernetes Service resource
+metadata:
+  name: {{ .Release.Name }}-service   # 🏷 Dynamic service name
+spec:
+  type: {{ .Values.service.type }}    # 🔗 Service type (ClusterIP / NodePort / LB)
+  selector:
+    app: {{ .Release.Name }}          # 🎯 Routes traffic to matching pods
+  ports:
+    - port: {{ .Values.service.port }}        # 🌍 External service port
+      targetPort: {{ .Values.containerPort }} # 📡 Container port inside pod
+```
+💡 Key DevOps Insights (Important)
+🔗 Selector must match labels → otherwise Service won’t work
+🔁 replicas controlled via values.yaml → easy scaling
+🐳 Image fully dynamic → change version without editing template
+⚙ Resources prevent overuse → production best practice
+
+
+
+
 
 ## 🎯 Key Benefits
 
