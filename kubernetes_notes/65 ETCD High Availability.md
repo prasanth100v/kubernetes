@@ -182,4 +182,3 @@ In EKS, etcd is fully managed by AWS, so we don’t handle etcd backups manually
 ### 🧩 Ultimate One-Line
 etcd ensures Kubernetes reliability using clustering, Raft consensus, and quorum-based operations, while backups protect against total failure.
 
-🎉 Master ETCD like a PRO!
