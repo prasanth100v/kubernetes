@@ -99,9 +99,10 @@ Lens is a desktop-based Kubernetes GUI tool (like an IDE for Kubernetes).
 - Linux
 
 ## 🎉 Why Lens is Powerful?
-✔ No need to install anything inside cluster
-✔ Works locally
-✔ Supports multiple clusters
+- ✔ No need to install anything inside cluster
+- ✔ Works locally
+- ✔ Supports multiple clusters
+
 ---
 
 ### 🔧 Key Features
@@ -175,9 +176,9 @@ Lens Desktop 💻 → kubeconfig 🔑 → Kubernetes Cluster 🚀
      
 ## 🎯 Final Summary
 
-✔ Dashboard 📋 → Simple UI inside cluster
-✔ Lens 💻 → Powerful IDE outside cluster 
-✔ Both simplify management  
-✔ Use Lens for better UX 🚀  
+- ✔ Dashboard 📋 → Simple UI inside cluster
+- ✔ Lens 💻 → Powerful IDE outside cluster 
+- ✔ Both simplify management  
+- ✔ Use Lens for better UX 🚀  
 
 🎉 Happy Learning Kubernetes!
