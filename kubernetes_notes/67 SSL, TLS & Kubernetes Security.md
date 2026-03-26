@@ -122,14 +122,15 @@ Kubernetes uses **X.509 certificates**
 
 ## 🔐 TLS Usage in Kubernetes
 👉 TLS in Kubernetes = Secure communication everywhere (user ↔ cluster ↔ internal services) 🔐
-| 🧩 Area                       | 🔍 Where Used                   | 💡 What It Means                                                       |
-| ----------------------------- | ------------------------------- | ---------------------------------------------------------------------- |
-| 🔗 API Server Communication   | Between components & API server | 🔒 All requests (kubectl, controllers) are encrypted and authenticated |
-| 💾 etcd Database Encryption   | Kubernetes database             | 🔐 Stores secrets/data securely so attackers can't read them           |
-| 🖥️ kubelet Communication     | API Server ↔ Nodes              | 🤝 Secure communication with worker nodes                              |
-| 🌐 Ingress HTTPS              | External traffic → Cluster      | 🌍 Users access apps using **HTTPS (TLS)**                             |
-| 🔄 Webhooks                   | Admission controllers           | 🛡️ Secure validation/mutation requests                                |
-| 🕸️ Service Mesh (Istio mTLS) | Pod ↔ Pod communication         | 🔐 Encrypts service-to-service traffic inside cluster                  |
+| 🧩 Component                      | 📌 Where Used               | 💡 Explanation                               |
+| --------------------------------- | --------------------------- | -------------------------------------------- |
+| 🔗 API Server                     | 🌐 `kubectl → API Server`   | 🔒 All API requests (kubectl, controllers) are encrypted and authenticated (TLS secured) |
+| 💾 etcd                           | 🗄️ Database communication  | 🔐 Stores cluster data securely (encrypted)  so attackers can't read them  |
+| 🖥️ kubelet ↔ API Server          | 🤝 Secure worker Node communication   | 🔐 Uses **mTLS** for mutual authentication  (🤝 Secure communication)   |
+| ⚙️ Controller Manager & Scheduler | 🔄 Control plane components | 🛡️ Secure communication with API Server     |
+| 🌐 Ingress                        | 🌍 External traffic         | 🔒 Provides **HTTPS (TLS)** access to applications     |
+| 🔄 Admission Webhooks             | 🧠 Validation/Mutation      | 🔐 Secure API calls during resource creation |
+| 🕸️ Service Mesh (Istio mTLS)   | Pod ↔ Pod communication         | 🔐 Encrypts service-to-service traffic inside cluster                  |
 | 🤖 cert-manager               | Certificate automation          | ⚙️ Automatically creates & renews TLS certificates                     |
 | 🔌 Webhook TLS                | Control-plane communication     | 🔒 Ensures secure internal API extensions                              |
 
