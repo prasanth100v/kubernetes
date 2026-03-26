@@ -83,24 +83,19 @@ A Man-in-the-Middle attack happens when an attacker secretly sits between you an
 | 🔐 Certificate Type | 📜 X.509 Certificates     | Standard format used to verify identity in Kubernetes                 |
 | 📂 `.crt` File      | 📄 Certificate            | 🪪 Public identity of server (shared with others)                     |
 | 🔑 `.key` File      | 🔒 Private Key            | 🚫 Secret key used for encryption (must be protected)                 |
-|                                                                                                                          |
-| 🛠️ Managed by :  🛠️ kubeadm         | ⚙️ Cluster setup tool     | 🤖 Automatically generates certificates during cluster initialization |
-|                  🤖 cert-manager     | 🔄 Certificate controller | 🔁 Auto-creates & renews TLS certificates inside cluster              |
-|                  🧰 OpenSSL          | 🛠️ CLI tool              | ✍️ Used to manually generate certificates and keys                    |
-
-
-
 
 Kubernetes uses **X.509 certificates**
-
 ### 📂 Files:
-- `.crt` → Certificate  
-- `.key` → Private key  
+- `.crt` → Certificate   `.key` → Private key  
 
-### 
-- kubeadm = 🤖 Automatically generates certificates during cluster initialization
-- cert-manager  = 🔁 Auto-creates & renews TLS certificates inside cluster
-- OpenSSL  
+### 🛠️ Managed by:
+- kubeadm  
+- cert-manager  
+- OpenSSLL  
+
+| 🛠️ kubeadm         | ⚙️ Cluster setup tool     | 🤖 Automatically generates certificates during cluster initialization |
+| 🤖 cert-manager     | 🔄 Certificate controller | 🔁 Auto-creates & renews TLS certificates inside cluster              |
+| 🧰 OpenSSL          | 🛠️ CLI tool              | ✍️ Used to manually generate certificates and keys                    |
 
 ---
 
@@ -117,69 +112,66 @@ Kubernetes uses **X.509 certificates**
 | 🤖 cert-manager               | Certificate automation          | ⚙️ Automatically creates & renews TLS certificates                     |
 | 🔌 Webhook TLS                | Control-plane communication     | 🔒 Ensures secure internal API extensions                              |
 
-
-
----
-
 ## 🔄 TLS vs mTLS
-| Feature        | TLS         | mTLS                 |
-| -------------- | ----------- | -------------------- |
-| Authentication | Server only | Client + Server      |
-| Security Level | High        | 🔥 Very High         |
-| Usage          | HTTPS       | Service Mesh (Istio) |
+| 🧩 Feature         | 🔐 TLS                         | 🔐🔐 mTLS (Mutual TLS)                    |
+| ------------------ | ------------------------------ | ----------------------------------------- |
+| 🪪 Authentication  | 👤 Server only verifies itself | 🤝 Both Client + Server verify each other |
+| 🛡️ Security Level | ✅ High                         | 🔥 Very High (double verification)        |
+| 🌐 Usage           | 🌍 HTTPS (browser → server)    | 🕸️ Service Mesh (e.g., Istio)            |
+
+---
+## 🔐 Kubernetes TLS Certificate Files
+| 📂 File     | 🧩 Type                   | 💡 Purpose                                         |
+| ----------- | ------------------------- | -------------------------------------------------- |
+| 📄 `.crt`   | 📜 Certificate            | 🪪 Public identity of server (shared with clients) |
+| 🔑 `.key`   | 🔒 Private Key            | 🚫 Secret key used to encrypt/decrypt data         |
+| 🏢 `ca.crt` | 🏛️ Certificate Authority | ✅ Used to verify if certificate is trusted         |
+
+
+## 📂 Certificate Files Paths (kubeadm) :
+| 📍 Path                             | 🧩 Component       | 💡 Explanation                               |
+| ----------------------------------- | ------------------ | -------------------------------------------- |
+| `/etc/kubernetes/pki/apiserver.crt` | 🌐 API Server Cert | 🪪 Identity of Kubernetes API Server         |
+| `/etc/kubernetes/pki/apiserver.key` | 🔑 API Server Key  | 🔒 Private key for API Server                |
+| `/etc/kubernetes/pki/ca.crt`        | 🏛️ CA Certificate | ✅ Used by all components to trust each other |
+
+### ⚡ Real Flow
+- 👉 .crt = Who you are (ID)  
+- 👉 .key = Secret password 🔒
+- 👉 ca.crt = Trusted authority (verifies ID)
+
+- 👉 API Server shows apiserver.crt
+- 👉 Client verifies using ca.crt
+- 👉 Secure connection established using apiserver.key 🔐
 
 ---
 
-## 📂 Certificate Files (kubeadm)
-
-- /etc/kubernetes/pki/apiserver.crt  
-- /etc/kubernetes/pki/apiserver.key  
-- /etc/kubernetes/pki/ca.crt  
-
----
-
-## 🤖 What is cert-manager?
+# 🤖 What is cert-manager?
 
 cert-manager is a **Kubernetes controller** that:
-
 - Issues TLS certificates 🔐  
-- Auto-renews certificates 🔄  
-- Stores them as Kubernetes Secrets 📦  
-
----
+- Auto-renews certificates before expiry 🔄  
+- Stores in as Kubernetes Secrets 📦  
 
 ## 🛠️ Manual TLS Certificate Creation
+### 🔐 1. Generate Certificate (OpenSSL)
 
-### 1️⃣ Generate Private Key
 ```bash
-openssl genrsa -out myapp.key 2048
-```
+openssl genrsa -out myapp.key 2048                                                # 1️⃣ Generate Private Key
 
-### 2️⃣ Generate CSR
-```bash
-openssl req -new -key myapp.key -out myapp.csr -subj "/CN=myapp.example.com"
-```
+openssl req -new -key myapp.key -out myapp.csr -subj "/CN=myapp.example.com"      # 2️⃣ Generate CSR
 
-### 3️⃣ Generate Certificate
-```bash
-openssl x509 -req -in myapp.csr -signkey myapp.key -out myapp.crt -days 365
+openssl x509 -req -in myapp.csr -signkey myapp.key -out myapp.crt -days 365       # 3️⃣ Generate Certificate
 ```
-
----
 
 ## 🔐 Create Kubernetes TLS Secret
-
 ```bash
 kubectl create secret tls myapp-tls-secret \
 --cert=myapp.crt \
 --key=myapp.key \
 --namespace=default
 ```
-
----
-
 ## 🌐 Use TLS in Ingress
-
 ```yaml
 apiVersion: networking.k8s.io/v1
 kind: Ingress
@@ -191,38 +183,73 @@ spec:
     - myapp.example.com
     secretName: myapp-tls-secret
 ```
+## 🌐🔐 TLS in Kubernetes Gateway API (Terminate vs Passthrough)
+### 👉 "In Gateway API, TLS is configured at the Gateway listener level, not in the route. Routes only handle traffic routing."
+| 🧩 Feature                | 🔓 Terminate (Gateway API)     | 🔐 Passthrough (Gateway API)         |
+| ------------------------- | ------------------------------ | ------------------------------------ |
+| 📍 TLS handled at         | 🌐 **Gateway (Listener)**      | 🖥️ **Backend (Service/Pod)**        |
+| 🔄 Traffic inside cluster | 📡 HTTP (via `HTTPRoute`)      | 🔒 HTTPS (via `TLSRoute`)            |
+| 🛡️ Security              | ✅ High                         | 🔥 Very High (end-to-end encryption) |
+| ⚙️ Complexity             | 👍 Easy                        | ⚠️ Advanced                          |
+| 📜 Certificate location   | 📂 Gateway (`certificateRefs`) | 📦 Backend application               |
+| 🧭 Route Type             | 🌍 `HTTPRoute`                 | 🔐 `TLSRoute`                        |
+| 🔧 TLS Mode               | `Terminate`                    | `Passthrough`                        |
 
----
+### ⚡ When to use
+🔓 Termination → ✅ (Most Common) TLS ends at Gateway, Traffic becomes HTTP internally (decrypt early)
+   - 🎯 Use Case : Standard web apps (React, APIs, microservices)
+    
+🔐 Passthrough → ✅ (Advanced) TLS is NOT terminated at Gateway, Encrypted traffic is passed directly to backend Backend service handles TLS decryption  
+   - 🎯 Use Case   :  Banking / highly secure apps (mTLS setups, zero-trust, strict security) (stay encrypted end-to-end 🔒)
+   - 📌 Key Points :  End-to-end encryption 🔥 --- Gateway cannot inspect traffic ---  Requires backend to manage certificates
 
-## 🧪 Testing
-
-```bash
-kubectl get ingress
-curl https://myapp.example.com --insecure
+ ```
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: myapp-gateway
+spec:
+  gatewayClassName: nginx
+  listeners:
+  - name: https
+    protocol: HTTPS
+    port: 443
+    hostname: myapp.example.com
+    tls:
+      mode: Terminate    ## 🔓 TLS termination here
+      certificateRefs:
+      - kind: Secret
+        name: myapp-tls-secret
+```
+🔄 Flow
+```
+User 🔒 → Gateway (decrypt) → HTTP → Service
 ```
 
+## 🧪 Testing
+```bash
+curl https://myapp.example.com --insecure
+```
 ---
 
 ## 📊 TLS Certificate Management Comparison
-
-| Method | Production | Auto Renew | Scalable | Public Trusted |
-|--------|-----------|-----------|----------|---------------|
-| cert-manager | ✅ Yes | ✅ Yes | ✅ Yes | ✅ Yes |
-| CA Providers | ✅ Yes | ❌ Manual | ✅ Yes | ✅ Yes |
-| Manual OpenSSL | ❌ Limited | ❌ No | ❌ No | ❌ No |
-
----
+| Method         | Production | Auto Renew | Scalable | Trusted |
+| -------------- | ---------- | ---------- | -------- | ------- |
+| cert-manager   | ✅ Yes      | ✅ Yes      | ✅ Yes    | ✅ Yes   |
+| DigiCert / CA  | ✅ Yes      | ❌ Manual   | ✅        | ✅       |
+| OpenSSL Manual | ❌ Limited  | ❌ No       | ❌        | ❌       |
 
 ## 📂 Certificate Types
+| 🧩 Type               | 📌 Description   | 🌐 Example               |
+| --------------------- | ---------------- | ------------------------ |
+| ✅ Single Domain       | One domain only  | `example.com`            |
+| 🌟 Wildcard           | All subdomains   | `*.example.com`          |
+| 🌍 Multi-domain (SAN) | Multiple domains | `example.com`, `app.org` |
 
-### ✅ Single Domain
-- example.com
-
-### ✅ Wildcard
-- *.example.com
-
-### ✅ Multi-Domain (SAN)
-- example.com, app.org
+### 🧠 Simple Understanding
+- 👉 Single Domain       =  Works for only one site, ❌ Not for subdomains
+- 👉 Wildcard            =  Covers all subdomains, Example: api.example.com, blog.example.com
+- 👉 Multi-domain (SAN)  =  One certificate for multiple different domains
 
 ---
 
