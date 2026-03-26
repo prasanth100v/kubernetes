@@ -92,7 +92,7 @@ Kubernetes uses **X.509 certificates**
 - kubeadm  
 - cert-manager  
 - OpenSSLL  
-
+| ------------------- | ------------------------- | --------------------------------------------------------------------- |
 | 🛠️ kubeadm         | ⚙️ Cluster setup tool     | 🤖 Automatically generates certificates during cluster initialization |
 | 🤖 cert-manager     | 🔄 Certificate controller | 🔁 Auto-creates & renews TLS certificates inside cluster              |
 | 🧰 OpenSSL          | 🛠️ CLI tool              | ✍️ Used to manually generate certificates and keys                    |
