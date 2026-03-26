@@ -99,26 +99,34 @@ https://127.0.0.1:2379 is healthy
 ```bash
 etcdctl --write-out=table member list
 ```
-## 📦 Check Snapshot Status
-```bash
-etcdctl --write-out=table snapshot status backup.db
+### Output:
+```
++------------------+------------+----------+---------------------------+-----------------------------+
+| ID               | STATUS     | NAME     | PEER ADDRS                | CLIENT ADDRS                |
++------------------+------------+----------+---------------------------+-----------------------------+
+| 1234abcd...      | started    | node1    | https://10.0.0.1:2380     | https://10.0.0.1:2379       |
++------------------+------------+----------+---------------------------+-----------------------------+
 ```
 
+## 📦 Check Snapshot Status
+```bash
+etcdctl --write-out=table snapshot status /tmp/etcd-snapshot.db
+```
+### Output:
+```
++----------+-------------+------------------+-----------------+
+| HASH     | REVISION    | TOTAL KEYS       | TOTAL SIZE      |
++----------+-------------+------------------+-----------------+
+| fe4cf... | 12345       | 1428             | 25 MB           |
++----------+-------------+------------------+-----------------+
+```
 ---
 
 ## 💾 Backup & Restore (Step-by-Step)
-### 📦 Take Backup
 ```bash
-etcdctl snapshot save backup.db
-```
-### 🔄 Restore Backup
-
-```bash
-etcdctl snapshot restore backup.db --data-dir=/var/lib/etcd-restored
-```
-### 🔍 Verify Snapshot
-```
-etcdctl snapshot status backup.db
+etcdctl snapshot save backup.db                                            # 📦 Take Backup
+etcdctl snapshot restore backup.db --data-dir=/var/lib/etcd-restored         # 🔄 Restore Backup
+etcdctl snapshot status backup.db                                        # 🔍 Verify Snapshot
 ```
 ---
 
