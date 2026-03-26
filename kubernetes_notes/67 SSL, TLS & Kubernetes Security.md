@@ -201,9 +201,9 @@ spec:
 🔓 Termination → ✅ (Most Common) TLS ends at Gateway, Traffic becomes HTTP internally (decrypt early)
    - 🎯 Use Case : Standard web apps (React, APIs, microservices)
     
-🔐 Passthrough → ✅ (Advanced) TLS is NOT terminated at Gateway, Encrypted traffic is passed directly to backend Backend service handles TLS decryption  
+🔐 Passthrough → ✅ (Advanced) TLS is NOT terminated at Gateway, Encrypted traffic is passed directly to backend 
    - 🎯 Use Case   :  Banking / highly secure apps (mTLS setups, zero-trust, strict security) (stay encrypted end-to-end 🔒)
-   - 📌 Key Points :  End-to-end encryption 🔥 --- Gateway cannot inspect traffic ---  Requires backend to manage certificates
+   - 📌 Key Points :  End-to-end encryption🔥 --Gateway cannot inspect traffic -- Requires backend to manage certificates (Backend service handles TLS decryption)
 
  ```
 apiVersion: gateway.networking.k8s.io/v1
