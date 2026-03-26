@@ -78,15 +78,15 @@ A Man-in-the-Middle attack happens when an attacker secretly sits between you an
   - 🎭 Createfake login websites pages
 
 ## 🔑 TLS Certificates in Kubernetes
-| 🧩 Category         | 📌 Details                | 💡 Explanation                                               |
-| ------------------- | ------------------------- | -------------------------------------------------------------- |
-| 🔐 Certificate Type | 📜 X.509 Certificates     | Standard format used to verify identity in Kuberne            |
-| 📂 `.crt` File      | 📄 Certificate            | 🪪 Public identity of server (shared with others)            |
-| 🔑 `.key` File      | 🔒 Private Key            | 🚫 Secret key used for encryption (must be protected         |
-| ### 🛠️ Managed by:                                                                                              |
-|     🛠️ kubeadm - 🤖 Automatically generates certificates during cluster initialization                          |
-|     🤖 cert-manager = 🔁 Auto-creates & renews TLS certificates inside cluster                                 |            
-|     🧰 OpenSSL  =  🛠️ CLI tool -✍️ Used to manually generate certificates and keys                             |
+| 🧩 Category         | 📌 Details                | 💡 Explanation                                                        |
+| ------------------- | ------------------------- | --------------------------------------------------------------------- |
+| 🔐 Certificate Type | 📜 X.509 Certificates     | Standard format used to verify identity in Kubernetes                 |
+| 📂 `.crt` File      | 📄 Certificate            | 🪪 Public identity of server (shared with others)                     |
+| 🔑 `.key` File      | 🔒 Private Key            | 🚫 Secret key used for encryption (must be protected)                 |
+|                                                                                                                          |
+| 🛠️ Managed by :  🛠️ kubeadm         | ⚙️ Cluster setup tool     | 🤖 Automatically generates certificates during cluster initialization |
+|                  🤖 cert-manager     | 🔄 Certificate controller | 🔁 Auto-creates & renews TLS certificates inside cluster              |
+|                  🧰 OpenSSL          | 🛠️ CLI tool              | ✍️ Used to manually generate certificates and keys                    |
 
 
 
@@ -97,7 +97,7 @@ Kubernetes uses **X.509 certificates**
 - `.crt` → Certificate  
 - `.key` → Private key  
 
-### 🛠️ Managed by:
+### 
 - kubeadm = 🤖 Automatically generates certificates during cluster initialization
 - cert-manager  = 🔁 Auto-creates & renews TLS certificates inside cluster
 - OpenSSL  
