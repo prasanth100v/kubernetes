@@ -54,13 +54,10 @@ A CA is a trusted entity that signs certificates.
 - DigiCert
 - HashiCorp Vault
 
-## 🤝 TLS Handshake
-Process:
+## 🤝 TLS Handshake Process:
 1️⃣ Exchange keys  
 2️⃣ Verify certificates  
 3️⃣ Establish secure connection  
-
----
 
 ## 🔄 Certificate Renewal / Rotation
 🛠️ kubeadm:
