@@ -11,18 +11,19 @@
 
 ### 🔐 TLS (Transport Layer Security)
  - ✅ Modern & secure version of SSL, Fixes SSL vulnerabilities
- - Used in HTTPS, APIs, emails, Kubernetes (mTLS, Ingress, etc.)
+ - Used in HTTPS, APIs, emails, Kubernetes (🔁 Istio mTLS Encrypts service-to-service traffic, Ingress, etc.)
  - Current versions: TLS 1.3 (latest & fastest)
 
 ## 🌐 Real Example: 
 #### Real TLS Handshake Flow (Step-by-Step)
+   TLS Handshake is the process of establishing a secure connection between a client and a server
 
 👉 When you open a website:
-     1. Browser: “Who are you?”
-     2. Server: “Here’s my certificate”
-     3. Browser: “Looks legit (valid) 👍”
-     4. Both: “Let’s use this secret key”
-     5. Start secure communication
+   1. Browser: “Who are you?”
+   2. Server: “Here’s my certificate”
+   3. Browser: “Looks legit (browser has successfully verified the server’s certificate) 👍” (“I trust this server’s identity.”)
+   4. Both: “Let’s use this secret key”
+   5. Start secure communication
 
 ```
 Opening https://google.com     # (Using Google as example)
