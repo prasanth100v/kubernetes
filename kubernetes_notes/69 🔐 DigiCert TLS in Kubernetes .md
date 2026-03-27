@@ -42,7 +42,7 @@ DigiCert is a **globally trusted Certificate Authority (CA)** that provides SSL/
 
 ## 🔧 How to Use DigiCert TLS in Kubernetes
 👉 Instead of self-signed or Let’s Encrypt, you use DigiCert certs
- - ✔️ Best for:Enterprise apps, Public production systems
+ - ✔️ Best for :  Enterprise apps, Public production systems
 
 ### 1️⃣🔐 Generate CSR (Certificate Signing Request)
 
