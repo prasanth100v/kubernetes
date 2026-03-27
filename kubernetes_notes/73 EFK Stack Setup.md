@@ -53,3 +53,9 @@ This setup provides:
 * 🛠️ Faster debugging of microservices
 
 Overall, the EFK stack makes monitoring and troubleshooting applications in Kubernetes much easier and more efficient.
+
+
+## 📝 Final Tip:
+* Be confident and keep your answers simple but accurate. If you don’t know something,
+* say: “I haven’t worked on that yet, but I’m eager to learn it quickly.”
+
