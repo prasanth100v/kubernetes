@@ -34,11 +34,11 @@ DigiCert is a **globally trusted Certificate Authority (CA)** that provides SSL/
 ### 🔐 How DigiCert Works (Trust Chain)
 🔗 Trust Chain:
 
-1️⃣ Root CA (trusted globally)
-2️⃣ Intermediate CA
-3️⃣ Your certificate
-  - ✔️ Browser verifies full chain → shows 🔒 padlock
+- 1️⃣ Root CA (trusted globally)
+- 2️⃣ Intermediate CA
+- 3️⃣ Your certificate
 
+   ✔️ Browser verifies full chain → shows 🔒 padlock
 
 ## 🔧 How to Use DigiCert TLS in Kubernetes
 👉 Instead of self-signed or Let’s Encrypt, you use DigiCert certs
