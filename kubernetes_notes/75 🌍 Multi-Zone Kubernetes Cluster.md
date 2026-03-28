@@ -86,13 +86,13 @@ A **PodDisruptionBudget (PDB)** ensures that a minimum number of pods are always
 
 ## ✨ Summary
 
-Multi-Zone Kubernetes:
- * 🌍 Improves availability
- * 🛡️ Prevents outages
- * 🔄 Enables zero downtime
- * 🚀 Essential for production clusters
+ Multi-Zone Kubernetes:
+  * 🌍 Improves availability
+  * 🛡️ Prevents outages
+  * 🔄 Enables zero downtime
+  * 🚀 Essential for production clusters
 
-  ## 🎯 Best Practices
+ ## 🎯 Best Practices
   * ✅ Use **multiple AZs** for production clusters
   * ✅ Configure **PodDisruptionBudgets** to maintain availability
   * ✅ Apply **pod anti-affinity** for proper distribution
