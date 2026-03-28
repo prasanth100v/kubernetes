@@ -15,11 +15,15 @@ I first check the current version in the EKS dashboard. Since EKS supports only 
 ### 2️⃣ Node Group Upgrade
 Once the control plane is upgraded, I move to the **Compute section** and update each managed node group.
 
-👉 AWS performs a **rolling update**:
+👉 AWS performs a **rolling update** Maintains availability
 
-* Launches new nodes
-* Drains old nodes safely
-* Maintains availability
+### 🔁 What happens internally:
+
+1️⃣ New EC2 nodes launched
+2️⃣ Old node cordoned (no new pods)
+3️⃣ Pods drained (evicted)
+4️⃣ Pods rescheduled on new nodes
+5️⃣ Old node terminated
 
 ### 3️⃣ Add-on Upgrade
 Next, I update essential EKS add-ons:
@@ -46,7 +50,7 @@ After completing upgrades, I verify:
 ---
 
 ## 🧠 CLI Automation (Bonus Point)
-In some environments, I use **eksctl** for scripting upgrades, especially in staging or automated pipelines.
+In some environments, I use **eksctl** for scripting upgrades, especially in staging or automated CI/CD pipelines.
 
 ## 🎯 Final Summary
 ### 👉 Upgrades are done in sequence:
@@ -68,7 +72,9 @@ During upgrade:
 ---
 
 ## 🔵🟢 Blue-Green Strategy (Advanced)
-Blue-Green deployment is a manual strategy used for high-risk environments.
+ * Blue-Green deployment is a manual strategy used for high-risk environments.
+ * For critical workloads, I’ve also used a Blue-Green strategy by creating a new node group, validating workloads, and then switching traffic before removing the old nodes.
+ * When to Use: High-risk upgrades & Production-critical apps
 
 ### 🔧 Steps:
 1. Create a new node group (Green)
@@ -81,10 +87,13 @@ Blue-Green deployment is a manual strategy used for high-risk environments.
 5. Validate workloads on new nodes
 6. Delete old node group
 
-👉 Not default, but useful for:
-
-* Critical workloads
-* Regulated environments
+### ⚖️ Rolling vs Blue-Green
+| 🧩 Feature  | 🔄 Rolling Update          | 🔵🟢 Blue-Green Deployment   |
+| ----------- | -------------------------- | ---------------------------- |
+| ⚙️ Default  | ✅ Yes (Kubernetes default) | ❌ Manual setup required      |
+| ⚠️ Risk     | 👍 Low                     | 🔥 Very Low                  |
+| 💰 Cost     | 💸 Low                     | 💵 Higher (two environments) |
+| 🎯 Use Case | 🔁 Normal upgrades         | 🚀 Critical workloads        |
 
 ---
 
