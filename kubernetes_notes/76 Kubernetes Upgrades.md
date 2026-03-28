@@ -69,9 +69,9 @@ Example:
 ## 🔐 Overview
 Upgrading an EKS cluster via the AWS Management Console (UI) involves 3 main parts:
 
-1️⃣ Control Plane
-2️⃣ Worker Nodes (Node Groups)
-3️⃣ Add-ons (CoreDNS, kube-proxy, VPC CNI)
+* 1️⃣ Control Plane
+* 2️⃣ Worker Nodes (Node Groups)
+* 3️⃣ Add-ons (CoreDNS, kube-proxy, VPC CNI)
 
 👉 Goal: ✅ Upgrade safely with zero downtime
 
