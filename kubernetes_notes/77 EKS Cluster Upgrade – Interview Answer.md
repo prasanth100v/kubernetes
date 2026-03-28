@@ -19,11 +19,11 @@ Once the control plane is upgraded, I move to the **Compute section** and update
 
 ### 🔁 What happens internally:
 
-1️⃣ New EC2 nodes launched
-2️⃣ Old node cordoned (no new pods)
-3️⃣ Pods drained (evicted)
-4️⃣ Pods rescheduled on new nodes
-5️⃣ Old node terminated
+ * 1️⃣ New EC2 nodes launched
+ * 2️⃣ Old node cordoned (no new pods)
+ * 3️⃣ Pods drained (evicted)
+ * 4️⃣ Pods rescheduled on new nodes
+ * 5️⃣ Old node terminated
 
 ### 3️⃣ Add-on Upgrade
 Next, I update essential EKS add-ons:
