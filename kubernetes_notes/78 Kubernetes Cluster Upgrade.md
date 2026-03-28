@@ -89,5 +89,15 @@ upgrade_flow Interview shortcut:
   - Uncordon                           # ✅ Resume scheduling
 ```
 
+### 🔄 Kubernetes Upgrade Steps (Master vs Worker)
+| 🧩 Step                      | 🎯 Master Node | ⚙️ Worker Node | 💡 Explanation                       |
+| ---------------------------- | -------------- | -------------- | ------------------------------------ |
+| 🚧 Cordon & Drain            | ✅              | ✅              | 🛑 Safely evict pods before upgrade  |
+| 🔧 Upgrade kubeadm           | ✅              | ✅              | ⚙️ Update kubeadm binary             |
+| 🚀 `kubeadm upgrade apply`   | ✅              | ❌              | 🧠 Upgrades control plane components |
+| 🔄 `kubeadm upgrade node`    | ❌              | ✅              | 🖥️ Updates node configuration       |
+| 📦 Upgrade kubelet & kubectl | ✅              | ✅              | 🔄 Update node agents & CLI          |
+| 🔁 Restart services          | ✅              | ✅              | 🔃 Restart kubelet to apply changes  |
+| 🟢 Uncordon                  | ✅              | ✅              | 🚀 Allow scheduling again            |
 
 
