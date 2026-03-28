@@ -93,7 +93,6 @@ Multi-Zone Kubernetes:
  * 🚀 Essential for production clusters
 
   ## 🎯 Best Practices
-
   * ✅ Use **multiple AZs** for production clusters
   * ✅ Configure **PodDisruptionBudgets** to maintain availability
   * ✅ Apply **pod anti-affinity** for proper distribution
