@@ -98,6 +98,8 @@ A **PodDisruptionBudget (PDB)** ensures that a minimum number of pods are always
   * ✅ Apply **pod anti-affinity** for proper distribution
   * ✅ Monitor zone health and node status
 
+---
+
 * A multi-zone Kubernetes cluster enhances reliability by distributing workloads across multiple availability zones. 
 * Kubernetes ensures high availability and fault tolerance for modern applications.
 
