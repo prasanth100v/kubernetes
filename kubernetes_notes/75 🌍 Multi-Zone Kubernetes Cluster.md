@@ -1,13 +1,12 @@
 # 🌍 Multi-Zone Kubernetes Cluster 
 ## 📌 What is a Multi-Zone Kubernetes Cluster?
 A **Multi-Zone Kubernetes Cluster** runs worker nodes across multiple **Availability Zones (AZs)** within the same region.
-
 👉 Example:
 - us-east-1a  
 - us-east-1b  
 - us-east-1c     
 
-##### 👉 Each zone = separate data center 🏢
+ * 👉 Each zone = separate data center 🏢
 
 ## 🚀 Why Use Multi-Zone Clusters?
 ### ✅ Benefits
