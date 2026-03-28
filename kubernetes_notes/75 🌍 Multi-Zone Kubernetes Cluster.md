@@ -75,22 +75,22 @@ A **PodDisruptionBudget (PDB)** ensures that a minimum number of pods are always
 ### With Multi-Zone ✅:
  * Pods spread across zones, Zone failure → app still running
  * 👉 Kubernetes spreads:
-   - 1 pod per zone
-   - If one zone fails : Remaining 2 pods keep app running ✅
+    * 1 pod per zone
+    * If one zone fails : Remaining 2 pods keep app running ✅
 
 ### ⚠️ Without Multi-Zone Setup
-- All pods in one zone ❌  
-- Zone failure = complete downtime ⚠️  
+  * All pods in one zone ❌
+  * Zone failure = complete downtime ⚠️  
 
 ---
 
 ## ✨ Summary
 
 Multi-Zone Kubernetes:
-- 🌍 Improves availability  
-- 🛡️ Prevents outages  
-- 🔄 Enables zero downtime  
-- 🚀 Essential for production clusters
+ * 🌍 Improves availability
+ * 🛡️ Prevents outages
+ * 🔄 Enables zero downtime
+ * 🚀 Essential for production clusters
 
   ## 🎯 Best Practices
 
