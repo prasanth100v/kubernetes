@@ -101,3 +101,100 @@ upgrade_flow Interview shortcut:
 | 🟢 Uncordon                  | ✅              | ✅              | 🚀 Allow scheduling again            |
 
 
+## 🔍 How to Verify Cluster Health After Upgrade?
+### 🖥️ Basic Checks
+👉 After any upgrade (EKS or kubeadm), verification is CRITICAL
+
+🧪 Basic Health Checks (CLI)
+```bash
+kubectl get nodes          #  Check Nodes      ## Ensure: All nodes are Ready & Correct Kubernetes version
+kubectl get pods -A        # ✔️ Ensure: All pods are Running / Completed & No CrashLoopBackOff ❌
+kubectl describe nodes     # ✔️ Look for: Resource pressure (CPU, Memory) & Network issues and Scheduling problems
+```
+
+### 📊 Monitoring Checks
+- CloudWatch Logs ☁️  
+- Prometheus Metrics 📈 
+- Grafana Dashboards & Alerts 🚨  
+
+---
+
+## ⚠️ Version Compatibility Rule
+👉 Kubernetes supports:
+- Control Plane ↔ Kubelet = **±1 minor version**
+
+⚠️ If kubelet is older:
+- Node may become **unschedulable**
+
+## 🔄 Upgrade Worker Nodes (Zero Downtime)
+### 🚀 Blue-Green Style Approach
+
+1️⃣ Create new node group (updated version)  
+2️⃣ Cordon old nodes:
+```bash
+kubectl cordon <node>
+```
+3️⃣ Drain pods safely:
+```bash
+kubectl drain <node> --ignore-daemonsets --delete-emptydir-data
+```
+4️⃣ Move workloads to new nodes  
+5️⃣ Delete old node group  (Zero downtime achieved)
+
+## 🛡️ How to Ensure Zero Downtime?
+### ✅ Best Practices
+
+- Use **Rolling Updates** 🔄  
+- Configure **PodDisruptionBudgets (PDB)** 🛑  
+- Use **Readiness & Liveness Probes** ❤️   (Only healthy pods receive traffic)
+- Maintain **multiple replicas** 📦  
+- Monitor application health 📊      (Detect issues early)
+
+---
+
+## ⚙️ Upgrade Methods
+### ☁️ Managed Kubernetes (EKS, GKE, AKS)
+
+- Control plane managed by cloud provider  
+- Node groups upgraded manually or via automation  
+- Tools:
+  - UI (Console)  
+  - CLI (eksctl, gcloud, az)  
+  - Terraform  
+
+### 🧱 Self-Managed Kubernetes
+Manual upgrade required:
+
+- kubeadm  
+- kubelet  
+- kubectl  
+- Add-ons  
+- Config files  
+
+### 🔄 Upgrade Responsibility: EKS vs kubeadm
+| 🧩 Component     | ☁️ EKS (Managed)               | 🛠️ kubeadm (Self-Managed) |
+| ---------------- | ------------------------------ | -------------------------- |
+| 🧠 Control Plane | ✅ AWS handles                  | ❌ You handle               |
+| 🖥️ Nodes        | ⚠️ Partial (you upgrade nodes) | ❌ You handle fully         |
+| 🔌 Add-ons       | ⚠️ Manual                      | ❌ Manual                   |
+
+
+## 🔥 Smoke Testing
+👉 Quickly verify:
+
+- App endpoints working 🌐  
+- APIs responding ⚡  
+- No errors in logs ❌  
+
+---
+
+## ✨ Summary
+
+Post-upgrade checklist:
+- ✅ Nodes healthy  
+- ✅ Pods running  
+- 📊 Monitoring stable  
+- 🔄 Zero downtime achieved  
+
+👉 Smooth upgrade = Reliable production 🚀
+
