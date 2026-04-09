@@ -1,20 +1,15 @@
 # 🚀 What is Kubernetes?
-
 ## ✅ Introduction
-
-**Kubernetes (K8s)** is an **open-source container orchestration platform** used to **automate deployment, scaling, and management of containerized applications**.
-
-Kubernetes is the **2nd largest open-source project in GitHub history**, after Linux.
-
----
+ * **Kubernetes (K8s)** is an **open-source container orchestration platform** used to **automate deployment, scaling, and management of containerized applications**.
+ * Kubernetes is the **2nd largest open-source project in GitHub history**, after Linux.
 
 ## 📜 History of Kubernetes
 
 - In **2014**, **Google** open-sourced Kubernetes, making this powerful technology available to everyone.
 - Kubernetes is now maintained by the **Cloud Native Computing Foundation (CNCF)**.
 - Before Kubernetes, Google used an internal system called **Borg** to manage applications.
-- Borg is considered the **parent or inspiration** for Kubernetes.
-- Google successfully ran **billions of containers** using Borg, and later built Kubernetes using the same core concepts.
+- Borg is considered the `**parent or inspiration**` for Kubernetes.
+- Google successfully ran `billions of containers` using Borg, and later built Kubernetes using the same core concepts.
 
 ---
 
