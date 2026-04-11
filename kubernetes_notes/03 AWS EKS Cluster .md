@@ -99,7 +99,7 @@ Install the following tools on your local machine:
 - eksctl (EKS setup tool)
   
 ### eks_tools_setup.sh  
-```
+```yaml
 #!/bin/bash
 
 echo "==== Installing unzip package ===="
@@ -128,14 +128,14 @@ eksctl version
 echo "==== Installation Completed Successfully! ===="
 ```
 ##✅ scripts-for-eks (🚀 How to Use)
-```
+```yaml
 vi eks tools setup.sh
 chmod +x eks tools setup.sh
 ./eks tools setup.sh
 ```
 
 ## Configure AWS CLI
-```
+```yaml
 aws configure
 ```
 Provide:
@@ -146,7 +146,7 @@ Provide:
 
 ## Create EKS Cluster yaml
 #### ekscluster.yml
-```
+```yaml
 apiVersion: eksctl.io/v1alpha5
 kind: ClusterConfig
 metadata:
@@ -161,11 +161,11 @@ managedNodeGroups:
     maxSize: 3
 ```
 ### ✅ Create EKS Cluster using eksctl command
-```
+```yaml
 eksctl create cluster -f ekscluster.yml
 ```
 ### Verify EKS Cluster
-```
+```yaml
 kubectl get nodes
 ```
 If nodes show Ready, your AWS EKS cluster is successfully created.
