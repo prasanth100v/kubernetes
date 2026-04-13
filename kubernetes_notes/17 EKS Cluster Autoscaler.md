@@ -131,19 +131,15 @@ annotations:
 
 ## 🔹 Step 6: Verify Setup
 
-Check autoscaler pod:
 ``` bash
-kubectl get pods -n kube-system | grep cluster-autoscaler
-```
+kubectl get pods -n kube-system | grep cluster-autoscaler          # Check autoscaler pod
 
-View logs:
-``` bash
-kubectl logs -f deployment/cluster-autoscaler -n kube-system
+kubectl logs -f deployment/cluster-autoscaler -n kube-system            # View logs
 ```
 
 ---
 
-# 📊 Summary Table
+## 📊 Summary Table
 
 1️⃣ Enable OIDC  
 2️⃣ Create IAM Policy  
