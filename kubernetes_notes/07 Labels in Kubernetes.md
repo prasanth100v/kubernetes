@@ -1,7 +1,7 @@
 # 🏷️ Labels in Kubernetes
 ## 🔍 What are Labels?
  * Labels are **key-value pairs** attached to Kubernetes objects (like `Pods`, `Services`, `Namespaces`, etc.) used to identify, group, and select resources.
- * 🔑 Key-Value Format:** `key=value`
+ * **🔑 Key-Value Format:** `key=value`
      * Example: `app=frontend`
 
 ## 🌍 Real-Life Analogy
