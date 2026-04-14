@@ -159,25 +159,20 @@ External traffic:
 ---
 
 # 🧠 📌 Key Takeaway
+| 🧩 **Component**    | 🌐 **Layer**         | 🎯 **Purpose**                 | 📖 **Detailed Explanation**                                              | 💡 **Real-World Role**                                               |
+| ------------------- | -------------------- | ------------------------------ | ------------------------------------------------------------------------ | -------------------------------------------------------------------- |
+| ⚖️ **LoadBalancer** | 🔌 L4 (Transport)    | Expose cluster to the internet | Creates an external IP and routes traffic to cluster nodes using TCP/UDP | 🌍 Entry point for external users (via cloud providers like AWS/GCP) |
+| 🌐 **Ingress**      | 🧠 L7 (Application)  | Smart routing                  | Routes HTTP/HTTPS traffic based on hostnames, paths, headers             | 🎛 Controls traffic for multiple services using a single endpoint    |
+| 🔗 **Service**      | 🔌 L4 (Transport)    | Internal load balancing        | Provides stable IP/DNS and distributes traffic across Pods               | 🔄 Connects Ingress/LoadBalancer to Pods reliably                    |
+| 📦 **Pods**         | 🧩 Application Layer | Run applications               | Smallest deployable unit containing containers                           | 🚀 Actual app logic runs here (API, frontend, etc.)                  |
 
-| 🧩 Component | 🌐 Layer | 🎯 Purpose |
-|-------------|--------|----------------------------|
-| LoadBalancer | L4 | Expose cluster to internet |
-| Ingress | L7 | Smart routing |
-| Service | L4 | Internal load balancing |
-| Pods | App | Run applications |
 
 ---
 
 # 🚀 🎉 Summary
 
-✔ **LoadBalancer connects internet to cluster**  
-✔ **Ingress provides intelligent routing**  
-✔ **Services expose pods internally**  
-✔ **Istio enables advanced traffic control**  
-
----
-
-💡 **Modern Kubernetes production architectures often use:**
-
-    AWS LoadBalancer → Ingress / Istio Gateway → Services → Pods
+  * LoadBalancer connects internet to cluster
+  * Ingress provides intelligent routing
+  * Services expose pods internally
+  * Istio enables advanced traffic control
+  * 💡 Modern Kubernetes production architectures often use: `AWS LoadBalancer → Ingress / Istio Gateway → Services → Pods`
