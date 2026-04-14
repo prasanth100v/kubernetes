@@ -42,27 +42,8 @@ kubectl get pods -l name=fluentd-logging -o wide              # View pod placeme
 | 🔐 **ServiceAccount**            | Allows Fluentd pods to authenticate with the Kubernetes API                          | 👉 Needed to securely access cluster information like pod metadata without using admin credentials                    |
 | 🛡 **RBAC (Role & RoleBinding)** | Grants permissions (read access) to resources like pods, namespaces, metadata        | 👉 Follows **least privilege principle** → only required permissions are given for security                           |
 | 📦 **ConfigMap**                 | Stores `fluent.conf` (Fluentd configuration file)                                    | 👉 Enables dynamic updates without rebuilding images<br>👉 Easy to manage configs across environments (dev/test/prod) |
-| 💾 **Volumes**                   | Mounts host paths like `/var/log` and `/var/lib/docker/containers` into Fluentd pods | 👉 Required to collect container logs from nodes<br>👉 Without this, Fluentd cannot access logs                       |
+| 💾 **Volumes**                   | Mounts host paths like 📂`/var/log` and 📂`/var/lib/docker/containers` into Fluentd pods | 👉 Required to collect container logs from nodes<br>👉 Without this, Fluentd cannot access logs                       |
 
-
-### 1️⃣ 🔐 ServiceAccount
-Allows Fluentd to communicate with the Kubernetes API.
-
-### 2️⃣ 🛡 RBAC (Role & RoleBinding)
-
-Grants permissions to read pods, namespaces, and metadata.
-
-### 3️⃣ 📦 ConfigMap
-
-Stores `fluent.conf` configuration file.  
-- ⚙️ Allows dynamic configuration  
-- 🌍 Supports different environments (dev/test/prod)
-
-### 4️⃣ 💾 Volumes
-
-Required to access host log files:  
-- 📂 `/var/log`  
-- 📂 `/var/lib/docker/containers`
 
 ---
 
@@ -70,28 +51,27 @@ Required to access host log files:
 
 ```yaml
 apiVersion: apps/v1
-kind: DaemonSet  # Ensures one pod runs on every node
+kind: DaemonSet                       # Ensures one pod runs on every node
 
 metadata:
   name: fluentd
-  namespace: kube-system  # Common namespace for system services
+  namespace: kube-system               # Common namespace for system services
   labels:
-    app: fluentd  # Label to identify the DaemonSet
+    app: fluentd                       # Label to identify the DaemonSet
 
 spec:
   selector:
     matchLabels:
-      app: fluentd  # DaemonSet manages pods with this label
+      app: fluentd                     # DaemonSet manages pods with this label
 
   template:
     metadata:
       labels:
-        app: fluentd  # Pod label (must match selector)
+        app: fluentd                    # Pod label (must match selector)
 
     spec:
       tolerations:
-        # Allow scheduling on master/control-plane nodes
-        - key: "node-role.kubernetes.io/master"
+        - key: "node-role.kubernetes.io/master"                    # Allow scheduling on master/control-plane nodes
           operator: "Exists"
           effect: "NoSchedule"
 
@@ -107,104 +87,74 @@ spec:
               memory: 200Mi
 
           volumeMounts:
-            # Mount host /var/log inside container
-            - name: varlog
+            - name: varlog                                                # Mount host /var/log inside container
               mountPath: /var/log
-
-            # Mount Docker container logs (read-only)
-            - name: dockercontainers
+            - name: dockercontainers                                       # Mount Docker container logs (read-only)
               mountPath: /var/lib/docker/containers
               readOnly: true
-
-            # Mount ConfigMap for Fluentd configuration
-            - name: fluentd-config
+            - name: fluentd-config                                          # Mount ConfigMap for Fluentd configuration
               mountPath: /fluentd/etc
 
-      terminationGracePeriodSeconds: 30  # Allow graceful shutdown
+      terminationGracePeriodSeconds: 30                        # Allow graceful shutdown
 
       volumes:
-        # Host system log directory
-        - name: varlog
+        - name: varlog                                         # Host system log directory
           hostPath:
             path: /var/log
-
-        # Docker container logs directory
-        - name: dockercontainers
+        - name: dockercontainers                                 # Docker container logs directory
           hostPath:
             path: /var/lib/docker/containers
-
-        # ConfigMap containing fluent.conf
-        - name: fluentd-config
+        - name: fluentd-config                                   # ConfigMap containing fluent.conf
           configMap:
             name: fluentd-config
 ```
 
----
-
 ## 🚀 📊 What Happens After Deployment?
 
-- 📦 One Fluentd pod runs on every node  
-- 📥 Collects logs from:
-  - 📂 `/var/log` (system logs)
-  - 📂 `/var/lib/docker/containers` (container logs)
-- 📤 Forwards logs to Elasticsearch  
-
----
+ - 📦 One Fluentd pod runs on every node  
+ - 📥 Collects logs from:
+    - 📂 `/var/log` (system logs)
+    - 📂 `/var/lib/docker/containers` (container logs)
+ - 📤 Forwards logs to Elasticsearch  
 
 ## 🔄 ⏱ terminationGracePeriodSeconds: 30
-
-Gives Fluentd 30 seconds to shut down gracefully and flush logs before being forcefully terminated.
-
----
+   Gives Fluentd 30 seconds to shut down gracefully and flush logs before being forcefully terminated.
 
 ## 📦 🧠 Understanding Volumes vs VolumeMounts
 
-- 📦 **volumes** → Define host paths (outside container)  
-- 🔗 **volumeMounts** → Define where those paths appear inside the container  
+ - 📦 **volumes** → Define host paths (outside container)  
+ - 🔗 **volumeMounts** → Define where those paths appear inside the container  
 
 ### 🏠 Analogy
-
-- 🏠 Node = Your house  
-- 👤 Fluentd container = Guest in a room  
-- 🔑 volumeMount = Key that allows access to the house  
-
----
+  - 🏠 Node = Your house  
+  - 👤 Fluentd container = Guest in a room  
+  - 🔑 volumeMount = Key that allows access to the house  
 
 ## 🧪 🔍 Example Log Flow
-
-Node logs:  
-- 📂 `/var/log/syslog`  
-- 📂 `/var/lib/docker/containers/container-id/container.log`
-
-Fluentd reads these logs and forwards them to Elasticsearch.
+ Node logs:  
+  - 📂 `/var/log/syslog`  
+  - 📂 `/var/lib/docker/containers/container-id/container.log`
+  - Fluentd reads these logs and forwards them to Elasticsearch.
 
 ---
 
 ## ❗ ⚠️ Important Notes
 
-- ➕ You can run multiple DaemonSets (e.g., one for logging, one for monitoring)  
-- 🔄 If a DaemonSet pod fails, Kubernetes automatically restarts it  
-- 🚫 Cordoned node → Existing pod stays, no new scheduling  
-- 🔁 Drained node → Pod is terminated and rescheduled when node returns  
-
----
+ - ➕ You can run multiple DaemonSets (e.g., one for `logging`, one for `monitoring`)  
+ - 🔄 If a DaemonSet pod fails, Kubernetes automatically restarts it  
+ - 🚫 Cordoned node → Existing pod stays, no new scheduling  
+ - 🔁 Drained node → Pod is terminated and rescheduled when node returns  
 
 ## 🛠 🔧 Troubleshooting DaemonSet Issues
 
 ```bash
-# Check node taints
-kubectl describe node <nodename>
-
-# Check DaemonSet events
-kubectl describe daemonset <name>
-
-# View scheduling details
-kubectl get pods -o wide
+kubectl describe node <nodename>                      # Check node taints
+kubectl describe daemonset <name>                     # Check DaemonSet events
+kubectl get pods -o wide                              # View scheduling details
 ```
 
 ---
 
 ## 📌 🎯 Summary
-
-DaemonSets are essential for running cluster-wide node-level services.  
-They ensure every node runs exactly one copy of a required system pod such as Fluentd for log collection.
+ * DaemonSets are essential for running cluster-wide node-level services.
+ * They ensure every node runs exactly one copy of a required system pod such as `Fluentd` for `log collection`.
