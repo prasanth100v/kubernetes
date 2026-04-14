@@ -1,5 +1,5 @@
 # ✅ 🚀 gRPC Overview
-## ❓ 📘 What is gRPC?
+## 📘 What is gRPC❓
 
  * **gRPC** is a high-performance, open-source **RPC (Remote Procedure Call)** framework developed by **Google**.
  * It is widely used for fast and `efficient communication` between microservices, especially in `modern cloud-native architectures` where low latency and scalability are critical.
