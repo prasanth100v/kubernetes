@@ -14,42 +14,38 @@
  - 🧹 **System-level tasks** -- Used for monitoring, logging, networking agents  
  - 🎯 **Node selector support** -- Can target specific nodes using labels, taints, and tolerations  
 
----
-
 ## 📘 🚀 Common Use Cases
 
-- 🪵 Log collection agents (Fluentd, Logstash)  
-- 📈 Monitoring tools (Prometheus Node Exporter)  
-- 🔌 Network plugins (Calico, CNI plugins)  
-- 🔐 Security agents (Falco)  
+ - 🪵 Log collection agents (Fluentd, Logstash)  
+ - 📈 Monitoring tools (Prometheus Node Exporter)  
+ - 🔌 Network plugins (Calico, CNI plugins)  
+ - 🔐 Security agents (Falco)  
 
 ---
 
 ## 🔧 🛠 Useful Commands
 
 ```bash
-# Apply
-kubectl apply -f fluentd-daemonset.yaml
-
-# List DaemonSets
-kubectl get daemonsets
-
-# List Pods with node details
-kubectl get pods -o wide
-
-# Delete DaemonSet
-kubectl delete daemonset <daemonset-name> -n <namespace>
-
-# View pod placement
-kubectl get pods -l name=fluentd-logging -o wide
+kubectl apply -f fluentd-daemonset.yaml                      # Apply
+kubectl get daemonsets                                       # List DaemonSets
+kubectl get pods -o wide                                     # List Pods with node details
+kubectl delete daemonset <daemonset-name> -n <namespace>     # Delete DaemonSet
+kubectl get pods -l name=fluentd-logging -o wide              # View pod placement
 ```
 
 ---
 
 ## 🏗 🧠 Real-World Production Setup (Fluentd DaemonSet)
 
-### 1️⃣ 🔐 ServiceAccount
+| 🧩 **Component**                 | 📖 **What It Does**                                                                  | 💡 **Why It’s Important (Real World)**                                                                                |
+| -------------------------------- | ------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------- |
+| 🔐 **ServiceAccount**            | Allows Fluentd pods to authenticate with the Kubernetes API                          | 👉 Needed to securely access cluster information like pod metadata without using admin credentials                    |
+| 🛡 **RBAC (Role & RoleBinding)** | Grants permissions (read access) to resources like pods, namespaces, metadata        | 👉 Follows **least privilege principle** → only required permissions are given for security                           |
+| 📦 **ConfigMap**                 | Stores `fluent.conf` (Fluentd configuration file)                                    | 👉 Enables dynamic updates without rebuilding images<br>👉 Easy to manage configs across environments (dev/test/prod) |
+| 💾 **Volumes**                   | Mounts host paths like `/var/log` and `/var/lib/docker/containers` into Fluentd pods | 👉 Required to collect container logs from nodes<br>👉 Without this, Fluentd cannot access logs                       |
 
+
+### 1️⃣ 🔐 ServiceAccount
 Allows Fluentd to communicate with the Kubernetes API.
 
 ### 2️⃣ 🛡 RBAC (Role & RoleBinding)
