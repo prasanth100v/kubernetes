@@ -1,36 +1,28 @@
 # 🔐✨ Kubernetes Secrets -- Quick Guide ✨🔐
-
 ## 📌🌟 What are Kubernetes Secrets?
 
-Kubernetes **Secrets** are used to store **sensitive data** such as:
-
--   🔑 Passwords
--   🔐 Tokens
--   🔑 SSH Keys
--   🌐 API Keys
--   📜 TLS Certificates
-
-Secrets are similar to **ConfigMaps**, but designed for **sensitive
-information**.
+ * Kubernetes **Secrets** are used to store **sensitive data** such as:
+     * 🔑 Passwords
+     * 🔐 Tokens
+     * 🔑 SSH Keys
+     * 🌐 API Keys
+     * 📜 TLS Certificates
 
 ⚠️ 🚨 **Important Notes**
-- Secrets are **base64 encoded**, not encrypted by default
-- Individual Secret size limit: **1 MB**
-- Use **RBAC** to restrict access
-- Avoid exposing secrets in Git manifests
+   - Secrets are **base64 encoded**, not encrypted by default
+   - Individual Secret size limit: **1 MB**
+   - Use **RBAC** to restrict access
+   - Avoid exposing secrets in Git manifests
+   - Secrets are similar to **ConfigMaps**, but designed for **sensitive information**.
 
-------------------------------------------------------------------------
 
 # 🚀✨ Creating Secrets (Imperative CLI)
-
 ## 1️⃣📦 Create Secret from literal values
-
 ``` bash
 kubectl create secret generic my-secret   --from-literal=username=admin   --from-literal=password=secret123
 ```
 
 ## 2️⃣📁 Create Secret from a file
-
 ``` bash
 kubectl create secret generic tls-cert   --from-file=cert.crt   --from-file=cert.key
 ```
@@ -38,7 +30,6 @@ kubectl create secret generic tls-cert   --from-file=cert.crt   --from-file=cert
 ## 3️⃣📂 Create Secret from a directory
 
 (All files inside directory become keys)
-
 ``` bash
 kubectl create secret generic config-secret   --from-file=/path/to/dir/
 ```
@@ -46,7 +37,6 @@ kubectl create secret generic config-secret   --from-file=/path/to/dir/
 ## 4️⃣🔐 Create TLS Secret
 
 Used for **Ingress / HTTPS communication**
-
 ``` bash
 kubectl create secret tls my-tls-secret   --cert=cert.pem   --key=key.pem
 ```
@@ -54,7 +44,6 @@ kubectl create secret tls my-tls-secret   --cert=cert.pem   --key=key.pem
 ## 5️⃣🐳 Docker Registry Secret
 
 Used to pull **private container images**
-
 ``` bash
 kubectl create secret docker-registry regcred --docker-username=your-user --docker-password=your-pass --docker-email=you@example.com
 ```
@@ -64,8 +53,6 @@ kubectl create secret docker-registry regcred --docker-username=your-user --dock
 ``` bash
 kubectl create secret generic ssh-key-secret --type=kubernetes.io/ssh-auth --from-file=ssh-privatekey=id_rsa
 ```
-
-------------------------------------------------------------------------
 
 # 🔍👀 Viewing Secrets
 
@@ -78,25 +65,19 @@ kubectl get secret my-secret -o yaml
 ### 🔐 Encode / Decode Base64
 
 Encode
-
 ``` bash
 echo -n 'admin' | base64
 ```
 
 Decode
-
 ``` bash
 echo 'YWRtaW4=' | base64 -d
 ```
 
-------------------------------------------------------------------------
-
 # 📦📚 Types of Kubernetes Secrets
-
 ## 1️⃣ Opaque Secret (Default)
 
 Used for generic key-value data.
-
 ``` yaml
 apiVersion: v1
 kind: Secret
@@ -109,8 +90,6 @@ data:
   password: cGFzczEyMw==
 ```
 
-------------------------------------------------------------------------
-
 ## 2️⃣🐳 Docker Registry Secret
 
 ``` yaml
@@ -122,8 +101,6 @@ type: kubernetes.io/dockerconfigjson
 data:
   .dockerconfigjson: <base64-encoded-json>
 ```
-
-------------------------------------------------------------------------
 
 ## 3️⃣🔐 Basic Auth Secret
 
@@ -138,8 +115,6 @@ stringData:
   password: mypassword
 ```
 
-------------------------------------------------------------------------
-
 ## 4️⃣🔑 SSH Secret
 
 ``` yaml
@@ -151,8 +126,6 @@ type: kubernetes.io/ssh-auth
 data:
   ssh-privatekey: <base64-encoded-private-key>
 ```
-
-------------------------------------------------------------------------
 
 ## 5️⃣📜 TLS Secret
 
@@ -167,10 +140,7 @@ data:
   tls.key: <base64-key>
 ```
 
-------------------------------------------------------------------------
-
 # 📦⚙️ Using Secrets in Pods
-
 ## 🌿 Environment Variables
 
 ``` yaml
@@ -181,8 +151,6 @@ env:
       name: db-secret
       key: username
 ```
-
-------------------------------------------------------------------------
 
 ## 📁 Mount Secrets as Files
 
@@ -198,8 +166,6 @@ volumes:
     secretName: db-secret
 ```
 
-------------------------------------------------------------------------
-
 ## 🐳 Image Pull Secret
 
 ``` yaml
@@ -210,8 +176,6 @@ spec:
   imagePullSecrets:
   - name: regcred
 ```
-
-------------------------------------------------------------------------
 
 ## 🌐 TLS Secret with Ingress
 
@@ -229,36 +193,25 @@ spec:
   - host: myapp.example.com
 ```
 
-------------------------------------------------------------------------
-
-# 🛠️🧰 Useful Secret Commands
+## 🛠️🧰 Useful Secret Commands
 
 ``` bash
-# List secrets
-kubectl get secrets
+kubectl get secrets                         # List secrets
 
-# Describe secret
-kubectl describe secret my-secret
+kubectl describe secret my-secret            # Describe secret
 
-# View secret YAML
-kubectl get secret my-secret -o yaml
+kubectl get secret my-secret -o yaml         # View secret YAML
 
-# Edit secret
-kubectl edit secret my-secret
+kubectl edit secret my-secret                # Edit secret
 
-# Delete secret
-kubectl delete secret my-secret
+kubectl delete secret my-secret               # Delete secret
 
-# Apply secret from YAML
-kubectl apply -f my-secret.yaml
+kubectl apply -f my-secret.yaml              # Apply secret from YAML
 
-# List secrets in namespace
-kubectl get secrets -n <namespace>
+kubectl get secrets -n <namespace>             # List secrets in namespace
 ```
 
-------------------------------------------------------------------------
-
-# 📚📌 ConfigMap Commands (Reference)
+## 📚📌 ConfigMap Commands (Reference)
 
 ``` bash
 kubectl get configmaps
@@ -266,7 +219,4 @@ kubectl describe configmap my-config
 kubectl get configmap my-config -o yaml
 ```
 
-------------------------------------------------------------------------
-
-✅ 💡✨ **Tip:** Use **Secrets + RBAC + Encryption at Rest** for better
-security in production clusters.
+✅ 💡✨ **Tip:** Use **Secrets + RBAC + Encryption at Rest** for better security in production clusters.
