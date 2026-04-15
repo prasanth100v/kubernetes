@@ -59,32 +59,29 @@ spec:
 ---
 
 ## 📊 Breakdown
-
- * 🔁 **replicas** – Number of Pods to run (3 Pods).
- * 🎯 **selector.matchLabels** – Deployment manages Pods having label `app: nginx`.
- * 📦 **template** – Defines Pod specification (image, ports, probes, resources).
+  * 🔁 **replicas** – Number of Pods to run (3 Pods).
+  * 🎯 **selector.matchLabels** – Deployment manages Pods having label `app: nginx`.
+  * 📦 **template** – Defines Pod specification (image, ports, probes, resources).
 
 ### ⚙️ Resource Requests & Limits
-The CPU and memory used by the Pod are allocated from the **Node’s available resources**.
+   * The CPU and memory used by the Pod are allocated from the **Node’s available resources**.
 
 ---
 
 ## 🔍 Probes
 
 ### ✅ Readiness Probe
- * 📡 Checks whether the container is ready to receive traffic.
- * 🚫 If it fails, Kubernetes removes the Pod from Service endpoints (no traffic sent).
- * 🔄 Kubernetes **does not restart** the container.
-
-**Behavior:**
- After **5 seconds**, Kubernetes checks every **10 seconds** if the app is ready.
+  * 📡 Checks whether the container is ready to `receive traffic`.
+  * 🚫 If it fails, Kubernetes removes the Pod from `Service endpoints` (no traffic sent).
+  * 🔄 Kubernetes **does not restart** the container.
+  * **Behavior:**
+     * After **5 seconds**, Kubernetes checks every **10 seconds** if the app is ready.
 
 ### ❤️ Liveness Probe
- * 💓 Checks whether the application is alive.
- * 🔁 If it fails, Kubernetes **restarts the container**.
-
-**Behavior:**
- After **10 seconds**, Kubernetes checks every **15 seconds**.
+  * 💓 Checks whether the application is alive.
+  * 🔁 If it fails, Kubernetes **restarts the container**.
+  * **Behavior:**
+    * After **10 seconds**, Kubernetes checks every **15 seconds**.
 
 ---
 
@@ -109,8 +106,14 @@ spec:
 
 ## 🔄 **Traffic Flow:**
 
- - 🌍 **port**: 80 → Clients connect to the Service
- - 🎯 **targetPort**: 8080 → Service forwards traffic to this Pod port
- - 📦 **containerPort**: 8080 → App inside container listens here
+  - 🌍 **port**: 80 → Clients connect to the Service
+  - 🎯 **targetPort**: 8080 → Service forwards traffic to this Pod port
+  - 📦 **containerPort**: 8080 → App inside container listens here
+
+| 🔢 **Step** | 🚀 **Flow**                     | 📖 **Explanation**                                                                     |
+| ----------- | ------------------------------- | ---------------------------------------------------------------------------------------- |
+| 1️⃣         | 🌍 Client → Service `port: 80`  | 👉 Entry point for users (e.g., browser connects here), User sends request to Service   |
+| 2️⃣         | 🔗 Service → `targetPort: 8080` | 👉 Connects Service → Pod, Service forwards traffic to Pod                              |
+| 3️⃣         | 📦 Pod → `containerPort: 8080`  | 👉 Application inside container handles request                                         |
 
 👉 Client → Service **port 80** → Pod **targetPort 8080** → Container **containerPort 8080**
