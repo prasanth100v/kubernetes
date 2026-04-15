@@ -148,7 +148,7 @@ spec:
 ### 1️⃣🌿 All Keys as Environment Variables (`envFrom`)
  Inject all keys from a ConfigMap as environment variables.
 
-```
+```yaml
 envFrom:
 - configMapRef:
     name: my-configmap
@@ -156,7 +156,7 @@ envFrom:
 
 Example inside container:
 
-```
+```yaml
 $USER=admin
 $PORT=8080
 ```
@@ -164,7 +164,7 @@ $PORT=8080
 ### 2️⃣🎯 Single Key as Environment Variable (`env + configMapKeyRef`)
  Use a specific key from a ConfigMap as an environment variable.
 
-```
+```yaml
 env:
 - name: MY_LOG_LEVEL
   valueFrom:
@@ -174,13 +174,13 @@ env:
 ```
 
 Example:
-```
+```yaml
 $MY_LOG_LEVEL=info
 ```
 
 ### 3️⃣📁 Mount ConfigMap as Files (Volumes)
 
-```
+```yaml
 volumeMounts:
 - name: config-volume
   mountPath: /etc/config
@@ -194,7 +194,7 @@ volumes:
 ### 📂✨ Inside the Container
 
 When the container starts:
-```
+```yaml
 /etc/config/USER      → admin
 /etc/config/PORT      → 8080
 /etc/config/db.conf   →
@@ -268,7 +268,7 @@ echo 'YWRtaW4=' | base64 -d
     * 🧠 Understand what is happening inside containers
 
 Use:
-```
+```bash
 kubectl logs <pod-name>
 ```
 
