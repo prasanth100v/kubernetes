@@ -18,7 +18,7 @@
 ---
 
 ## 🎯🚀 Goal (End-to-End Flow)
-```
+```bash
 Secret → Encrypt (kubeseal) → Store in Git → Deploy → Auto Decrypt in Cluster
 ```
 
