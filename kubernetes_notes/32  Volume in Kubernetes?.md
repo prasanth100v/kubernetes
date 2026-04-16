@@ -11,7 +11,7 @@
      * Attach external storage (`EBS`, `NFS`, etc.)
 
 # 🏗✨ Volume Architecture
-```
+```yaml
 External Storage / Config
            ↓
         Volume (Pod)
