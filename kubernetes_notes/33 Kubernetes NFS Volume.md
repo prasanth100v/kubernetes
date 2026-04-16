@@ -65,9 +65,7 @@ spec:
 | ♻️ `reclaimPolicy` | 🛡️ `Retain` → data after PVC deletion       |
 
 
----
-
-# 🧾 2️⃣ PersistentVolumeClaim (PVC)
+## 🧾 2️⃣ PersistentVolumeClaim (PVC)
 
 ```yaml
 apiVersion: v1
@@ -82,16 +80,12 @@ spec:
       storage: 5Gi
 ```
 
----
-
 ## 📌 Explanation
 
-✔ Requests storage from PV  
-✔ Must match **access mode + size**
+* Requests storage from PV  
+* Must match **access mode + size**
 
----
-
-# 🧾 3️⃣ Pod / Deployment using NFS
+## 🧾 3️⃣ Pod / Deployment using NFS
 
 ```yaml
 volumeMounts:
@@ -104,88 +98,58 @@ volumes:
     claimName: nfs-pvc
 ```
 
----
-
 ## 📂 Inside the Container
-
 ```
 /usr/share/nginx/html  → NFS shared directory
 ```
+* All pods using this PVC will see the **same data**
 
-✔ All pods using this PVC will see the **same data**
-
----
-
-# 🔁 Data Sharing Example
-
+## 🔁 Data Sharing Example
 ```
 Pod A (Node 1) ─┐
                 ├── Shared NFS Storage
 Pod B (Node 2) ─┘
 ```
-
-✔ Both pods can **read/write simultaneously**
+* Both pods can **read/write simultaneously**
 
 ---
 
 # ⚡ Access Modes Explained
 
-| Mode | Description |
-|------|------|
-| ReadWriteOnce (RWO) | Single node access |
-| ReadOnlyMany (ROX) | Multiple read-only |
-| ReadWriteMany (RWX) | Multiple read/write |
+| 🔐 Mode                    | 📖 Description               | 🧠 How It Works                                         | 💡 Real-World Use Case                   |
+| -------------------------- | ---------------------------- | ------------------------------------------------------- | ---------------------------------------- |
+| 🟢 **ReadWriteOnce (RWO)** | 📦 Single node read/write    | 👉 Mounted as read-write by **only one node at a time** | 🗄 Databases (MySQL, PostgreSQL)         |
+| 🔵 **ReadOnlyMany (ROX)**  | 📚 Multiple nodes read-only  | 👉 Many nodes can read, but **no writes allowed**       | 📄 Shared static content (docs, configs) |
+| 🟣 **ReadWriteMany (RWX)** | 🌐 Multiple nodes read/write | 👉 Multiple nodes can read & write simultaneously       | 📂 Shared storage (NFS, EFS)             |
 
 👉 NFS supports **RWX (multi-node access)**
 
----
+## ⚠️ Important Considerations
 
-# ⚠️ Important Considerations
+ * ❗ Network latency can affect performance  
+ * ❗ Not ideal for high IOPS workloads (like databases)
+ * ❗ Requires proper NFS server security  
 
-❗ Network latency can affect performance  
-❗ Not ideal for high IOPS workloads (like databases)  
-❗ Requires proper NFS server security  
+## 🚀 Best Practices
 
----
-
-# 🚀 Best Practices
-
-✔ Use **NFSv4**  
-✔ Restrict access using firewall rules  
-✔ Use **dedicated NFS server**  
-✔ Monitor performance and latency  
-✔ Avoid for **high-performance databases**
-
----
-
-# 🎯 Quick Summary
-
-| Feature | Description |
-|------|------|
-| Type | Network-based storage |
-| Access | ReadWriteMany |
-| Use Case | Shared storage |
-| Scope | Multi-node |
-| Backend | External NFS server |
-
----
+  * Use **NFSv4**
+  * Restrict access using firewall rules
+  * Use **dedicated NFS server**
+  * Monitor performance and latency
+  * Avoid for **high-performance databases**
 
 # 💡 Pro Tip
 
-👉 Use NFS when you need:
-
-✔ Shared storage across multiple pods  
-✔ Simple and cost-effective solution  
-✔ Easy setup for development & medium workloads  
-
----
-
-# ⭐ Final Thought
-
-NFS is one of the **simplest ways to implement shared storage** in Kubernetes.
-
-✔ Great for **RWX workloads**  
-✔ Easy to configure  
-✔ Widely supported  
+ * 👉 Use NFS when you need:
+     * Shared storage across multiple pods
+     * Simple and cost-effective solution
+     * Easy setup for development & medium workloads  
 
 ---
+
+## ⭐ Final Thought
+
+ * NFS is one of the **simplest ways to implement shared storage** in Kubernetes.
+    * Great for **RWX workloads**
+    * Easy to configure
+    * Widely supported  
