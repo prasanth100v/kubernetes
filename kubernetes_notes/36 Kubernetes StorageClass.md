@@ -134,18 +134,15 @@ allowVolumeExpansion: true
 | 🛠 **Static Provisioning**  | Admin manually creates a **PersistentVolume (PV)**                | 👉 Storage is created first by admin<br>👉 Pod/PVC later binds that existing volume                     | Good when storage must be pre-created and tightly controlled |
 | 🤖 **Dynamic Provisioning** | Kubernetes automatically creates a **PV** when a PVC is requested | 👉 PVC uses a **StorageClass**<br>👉 Kubernetes talks to CSI driver and provisions storage automatically | Best for most modern cloud (AWS, GCP, Azure)<br>production environments       |
 
-
 ✔ StorageClass enables **dynamic provisioning**
 
----
 
-# ⚠️ Important Notes
+## ⚠️ Important Notes
 
-✔ Only **PersistentVolumes (PV)** preserve data  
-❌ emptyDir, hostPath → Not persistent  
+ * ✔ Only **PersistentVolumes (PV)** preserve data
+ * ❌ emptyDir, hostPath → Not persistent  
 
-✔ You can mount multiple volumes:
-
+ ✔ You can mount multiple volumes:
 ```yaml
 volumeMounts:
 - name: config
@@ -155,32 +152,21 @@ volumeMounts:
   mountPath: /logs
 ```
 
----
-
 # ☁️ AWS EBS: Old vs New
 
----
-
-## ❌ kubernetes.io/aws-ebs (In-tree)
-
-- Built into Kubernetes  
-- Deprecated  
-- Limited features  
-
----
-
-## ✅ ebs.csi.aws.com (CSI Driver)
-
-✔ Modern & recommended  
-✔ Supports resizing, snapshots  
-✔ Uses IAM Roles (IRSA)  
-
----
+| 🧩 **Feature**           | ❌ **kubernetes.io/aws-ebs (In-tree)** | ✅ **ebs.csi.aws.com (CSI Driver)**                |
+| ------------------------ | ------------------------------------- | ------------------------------------------------- |
+| 📖 **Type**              | Built into Kubernetes core            | External CSI (Container Storage Interface) driver |
+| ⚙️ **Status**            | 🚫 Deprecated                         | ✅ Actively maintained & recommended               |
+| 🚀 **Features**          | ❌ Limited capabilities                | ✔ Supports resizing, snapshots, volume expansion  |
+| 🔐 **Security**          | ⚠️ Basic IAM usage                    | ✔ Uses IAM Roles for Service Accounts (IRSA)      |
+| 🔄 **Flexibility**       | ❌ Less flexible                       | ✔ Highly flexible & extensible                    |
+| ☁️ **Cloud Integration** | ⚠️ Tight coupling with Kubernetes     | ✔ Better integration with AWS services            |
+| 🔧 **Future Support**    | ❌ Being removed                       | ✅ Future-proof                                    |
 
 ## ⚠️ Important in EKS
-
-👉 CSI driver is **NOT installed by default**  
-👉 You must install it manually  
+ * 👉 CSI driver is **NOT installed by default**  
+ * 👉 You must install it manually  
 
 ---
 
@@ -188,41 +174,26 @@ volumeMounts:
 ## 📦 Kubernetes Storage Commands Cheat Sheet
 
 ```
-# ================================
-# 📦 PERSISTENT VOLUMES (PV)
-# ================================
-kubectl get pv                         # 📋 List all PersistentVolumes
-kubectl describe pv <pv-name>         # 🔍 Show detailed PV info
-kubectl delete pv <pv-name>           # ❌ Delete a PersistentVolume
+kubectl get pv                             # 📋 List all PersistentVolumes
+kubectl describe pv <pv-name>              # 🔍 Show detailed PV info
+kubectl delete pv <pv-name>                # ❌ Delete a PersistentVolume
 
+kubectl get pvc                                # 📋 List all PVCs
+kubectl get pvc -n <namespace>                 # 📂 PVCs in specific namespace
+kubectl describe pvc <pvc-name>                # 🔍 Show PVC details
+kubectl apply -f pvc.yaml                      # ⚙️ Create PVC using YAML
+kubectl delete pvc <pvc-name>                  # ❌ Delete PVC
+kubectl delete pvc <pvc-name> -n <namespace>   # ❌ Delete PVC in namespace
+=
+kubectl get sc                                          # 📋 List all StorageClasses
+kubectl describe sc <sc-name>                           # 🔍 Show StorageClass details
+kubectl describe storageclass <storage-class-name>      # 🔍 Alternative command
 
-# ================================
-# 📁 PERSISTENT VOLUME CLAIMS (PVC)
-# ================================
-kubectl get pvc                        # 📋 List all PVCs
-kubectl get pvc -n <namespace>         # 📂 PVCs in specific namespace
-kubectl describe pvc <pvc-name>        # 🔍 Show PVC details
-kubectl apply -f pvc.yaml              # ⚙️ Create PVC using YAML
-kubectl delete pvc <pvc-name>          # ❌ Delete PVC
-kubectl delete pvc <pvc-name> -n <namespace>  # ❌ Delete PVC in namespace
+kubectl exec -it <pod-name> -- df -h          # 💾 Check mounted volumes usage
+kubectl exec -it <pod-name> -- ls /mnt       # 📂 List files in mounted volume path
 
-
-# ================================
-# 🗂️ STORAGE CLASSES (SC)
-# ================================
-kubectl get sc                                  # 📋 List all StorageClasses
-kubectl describe sc <sc-name>                   # 🔍 Show StorageClass details
-kubectl describe storageclass <storage-class-name>  # 🔍 Alternative command
-
-
-# ================================
-# 🧪 DEBUGGING & VALIDATION
-# ================================
-kubectl exec -it <pod-name> -- df -h   # 💾 Check mounted volumes usage
-kubectl exec -it <pod-name> -- ls /mnt # 📂 List files in mounted volume path
 
 # 💡 PRO TIPS
-# ============================================
 tips:
   - "✅ Always check PVC status (Bound/Pending)"
   - "⚠️ Pending PVC → Check StorageClass & provisioner"
@@ -230,56 +201,39 @@ tips:
   - "📍 Use namespace flag (-n) for multi-tenant clusters"
 ```
 
-# 🎯 Real-World Use Cases
-
-| Scenario | Storage |
-|------|------|
-| Databases | EBS |
-| Shared storage | EFS / NFS |
-| Logs | Persistent volumes |
-| Config files | ConfigMap |
-
----
-
 # 🚀 Best Practices
 
-✔ Use **CSI drivers only**  
-✔ Prefer **dynamic provisioning**  
-✔ Enable **volume expansion**  
-✔ Use **WaitForFirstConsumer**  
-✔ Choose correct access mode  
+ * Use **CSI drivers only**
+ * Prefer **dynamic provisioning**
+ * Enable **volume expansion**
+ * Use **WaitForFirstConsumer**
+ * Choose correct access mode  
 
 ---
 
-# 🎯 Quick Summary
+## 🎯 Quick Summary
 
-| Concept | Meaning |
-|------|------|
-| StorageClass | Storage template |
-| PVC | Storage request |
-| PV | Actual storage |
-| Provisioner | Backend driver |
-| CSI | Modern storage interface |
+| 🧩 Concept      | 💡 Meaning                                           |
+| --------------- | ---------------------------------------------------- |
+| 📦 StorageClass | 🧾 Storage template (defines how storage is created) |
+| 📥 PVC          | 🙋 Storage request from user/app                     |
+| 💾 PV           | 📂 Actual provisioned storage                        |
+| ⚙️ Provisioner  | 🔧 Backend driver that creates storage               |
+| 🔌 CSI          | 🚀 Modern storage interface (standard for drivers)   |
 
----
 
-# 💡 Pro Tip
-
+## 💡 Pro Tip
 👉 Always design storage based on:
-
-- Performance  
-- Scalability  
-- Data persistence  
-- Cost  
+   - Performance  
+   - Scalability  
+   - Data persistence  
+   - Cost  
 
 ---
 
-# ⭐ Final Thought
+## ⭐ Final Thought
 
 StorageClass is a **core concept in Kubernetes storage**.
-
-✔ Enables automation  
-✔ Simplifies infrastructure  
-✔ Essential for DevOps interviews  
-
----
+  ✔ Enables automation  
+  ✔ Simplifies infrastructure  
+  ✔ Essential for DevOps interviews  
