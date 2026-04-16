@@ -26,7 +26,7 @@
 
 ## 🧠 How It Works
 
-```
+```yaml
 PVC Created
      ↓
 StorageClass Referenced
