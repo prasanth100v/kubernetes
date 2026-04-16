@@ -109,7 +109,7 @@ volumes:
 ```
 
 ## 📂 Inside Container
-```
+```bash
 /usr/share/nginx/html → EBS Volume
 ```
 
@@ -136,76 +136,35 @@ volumes:
      * Uses **IAM Roles for Service Accounts (IRSA)**
      * More secure than `in-tree` plugin  
 
----
+## ⚠️ Common Mistakes
 
-# 🧠 Key Concepts Summary
-
-| Component | Role |
-|------|------|
-| StorageClass | Defines storage behavior |
-| PVC | Requests storage |
-| PV | Created automatically |
-| CSI Driver | Provisions storage |
+ * ❌ Forgetting `storageClassName`
+ * ❌ Using deprecated in-tree plugin
+ * ❌ Not enabling volume expansion
+ * ❌ Wrong access mode  
 
 ---
 
-# ⚡ Real-World Use Cases
+## 🚀 Best Practices
 
-| Scenario | Example |
-|------|------|
-| Databases | MySQL, PostgreSQL |
-| Web apps | Nginx storage |
-| Logs | Persistent logs |
-| Stateful apps | Kubernetes StatefulSets |
+ * Always use **CSI drivers (ebs.csi.aws.com)**
+ * Use **gp3 for better performance**
+ * Enable **encryption**
+ * Use **WaitForFirstConsumer**
+ * Enable **volume expansion**
 
----
+## 💡 Pro Tip
 
-# ⚠️ Common Mistakes
-
-❌ Forgetting `storageClassName`  
-❌ Using deprecated in-tree plugin  
-❌ Not enabling volume expansion  
-❌ Wrong access mode  
+ * 👉 In AWS EKS:
+    * Use **EBS CSI Driver** for block storage
+    * Use **EFS CSI Driver** for shared storage  
 
 ---
 
-# 🚀 Best Practices
+## ⭐ Final Thought
 
-✔ Always use **CSI drivers (ebs.csi.aws.com)**  
-✔ Use **gp3 for better performance**  
-✔ Enable **encryption**  
-✔ Use **WaitForFirstConsumer**  
-✔ Enable **volume expansion**
+ * Dynamic provisioning is a **must-know concept** for:
+     * Kubernetes admins
+     * DevOps engineers
+     * CKA / CKAD exams  
 
----
-
-# 🎯 Quick Summary
-
-| Feature | Description |
-|------|------|
-| Dynamic Provisioning | Auto-create PV |
-| StorageClass | Defines storage type |
-| PVC | Requests storage |
-| EBS CSI | Recommended driver |
-| ReclaimPolicy | Controls cleanup |
-
----
-
-# 💡 Pro Tip
-
-👉 In AWS EKS:
-
-- Use **EBS CSI Driver** for block storage  
-- Use **EFS CSI Driver** for shared storage  
-
----
-
-# ⭐ Final Thought
-
-Dynamic provisioning is a **must-know concept** for:
-
-✔ Kubernetes admins  
-✔ DevOps engineers  
-✔ CKA / CKAD exams  
-
----
