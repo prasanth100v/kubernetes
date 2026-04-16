@@ -1,45 +1,19 @@
-# 🌐 Kubernetes NFS Volume – Complete Guide
+# 🌐 Kubernetes NFS Volume 
+## 📦 What is NFS?
 
-> Learn how to use **NFS (Network File System)** in Kubernetes for  
-> **shared storage (ReadWriteMany)** across multiple pods.
-
----
-
-# 📦 What is NFS?
-
-**NFS (Network File System)** allows:
-
-👉 Multiple Pods to **share the same storage over a network**
-
-✔ Works across different nodes  
-✔ Supports **ReadWriteMany (RWX)** access  
-✔ Ideal for **shared file systems**
-
----
-
-# 🎯 Why Use NFS?
+ * **NFS (Network File System)** allows Multiple Pods to **share the same storage over a network**
+    * Works across different nodes
+    * Supports **ReadWriteMany (RWX)** access
+    * Ideal for **shared file systems**
 
 ## 🚀 Key Benefits
 
-✔ Share data between Pods on different nodes  
-✔ Enable **simultaneous read/write access**  
-✔ Centralized storage management  
-✔ Works outside Kubernetes cluster  
+  * Share data between Pods on different nodes
+  * Enable **simultaneous read/write access**
+  * Centralized storage management
+  * Works outside Kubernetes cluster  
 
----
-
-# 🧠 When to Use NFS?
-
-| Use Case | Example |
-|------|------|
-| Shared content | Web servers serving same files |
-| Logs aggregation | Multiple pods writing logs |
-| CI/CD pipelines | Shared workspace |
-| Media storage | Images, videos |
-
----
-
-# 🏗 NFS Architecture
+## 🏗 NFS Architecture
 
 ```
         NFS Server
@@ -54,17 +28,13 @@
       Mounted Directory
 ```
 
----
+## 🔸 Prerequisites
 
-# 🔸 Prerequisites
+  * Running **NFS server** with exported directory
+  * Kubernetes nodes can access NFS (`IP/DNS`)
+  * Use **NFSv4** for better performance  
 
-✔ Running **NFS server** with exported directory  
-✔ Kubernetes nodes can access NFS (IP/DNS)  
-✔ Use **NFSv4** for better performance  
-
----
-
-# 🧾 1️⃣ PersistentVolume (PV) using NFS
+## 🧾 1️⃣ PersistentVolume (PV) using NFS
 
 ```yaml
 apiVersion: v1
@@ -86,13 +56,14 @@ spec:
 
 ## 📌 Explanation
 
-| Field | Description |
-|------|------|
-| storage | Size of volume |
-| accessModes | RWX for multi-pod access |
-| path | Exported directory on NFS server |
-| server | NFS server IP |
-| reclaimPolicy | Retain data after PVC deletion |
+| 🧩 Field           | 💡 Description                              |
+| ------------------ | -------------------------------------------- |
+| 💾 `storage`       | 📏 Defines size of the volume               |
+| 🔄 `accessModes`   | 📂 `RWX` → Multiple Pods can read/write     |
+| 📁 `path`          | 🗂️ Directory exported from NFS server       |
+| 🌐 `server`        | 📡 NFS server IP address                    |
+| ♻️ `reclaimPolicy` | 🛡️ `Retain` → data after PVC deletion       |
+
 
 ---
 
