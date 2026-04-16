@@ -18,7 +18,7 @@
 
 # 🧠 How It Works
 
-```bash
+```yaml
 Step 1: Create PVC
         ↓
 Step 2: PVC refers StorageClass
