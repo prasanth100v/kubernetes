@@ -164,8 +164,6 @@ Backend → Service → StatefulSet → PVC → DB
  * Always use **Secrets for credentials**
  * Prefer **managed services for reliability**
 
----
-
 ## 💡 Pro Tip
 👉 In real DevOps interviews:
 
