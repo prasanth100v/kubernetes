@@ -3,12 +3,12 @@
  * In Kubernetes, **`volumeMounts`** is defined inside a **container** and is used to:
   * 👉 Attach a **volume** to a specific path inside the container's filesystem.
 
-# 🏗 Basic Concept
+## 🏗 Basic Concept
   * Volumes are defined at the **Pod level**
   * volumeMounts are defined at the **Container level**
 
 ### 🔗 Connection Flow
-```
+```yaml
 Volume (Pod Level)
         ↓
 volumeMounts (Container Level)
@@ -54,7 +54,7 @@ spec:
 
 ---
 
-# 🧠 Common Use Cases
+## 🧠 Common Use Cases
 ## ⚙️ 1️⃣ ConfigMaps
 
  * 👉 Store configuration files
@@ -94,7 +94,7 @@ volumeMounts:
   mountPath: /app/secret
 ```
 
-# ⚡ Important Notes
+## ⚡ Important Notes
   * volumeMounts works **only inside containers**  
   * Each container can have **multiple volumeMounts**  
   * A single volume can be mounted into **multiple containers**  
@@ -106,7 +106,7 @@ volumeMounts:
 
 ---
 
-# 🎯 Quick Summary
+## 🎯 Quick Summary
 
 | 🧩 **Component**    | 📖 **Description**             | 🧠 **How It Works**                                                      | 💡 **Real-World Insight**                                                      |
 | ------------------- | ------------------------------ | ------------------------------------------------------------------------ | ------------------------------------------------------------------------------ |
@@ -117,9 +117,9 @@ volumeMounts:
 
 ---
 
-# 🚀 Real-World Flow
+## 🚀 Real-World Flow
 
-```
+```yaml
 ConfigMap / Secret / PVC
             ↓
         Volume
@@ -129,7 +129,7 @@ ConfigMap / Secret / PVC
    Container File System
 ```
 
-# 💡 Pro Tip
+## 💡 Pro Tip
 
   * Use **readOnly: true** for sensitive data
   * Improves **security and safety**
@@ -140,7 +140,7 @@ volumeMounts:
   readOnly: true
 ```
 
-# ⭐ Final Thought
+## ⭐ Final Thought
 
  * `volumeMounts` is essential for:
      * Configuration management
