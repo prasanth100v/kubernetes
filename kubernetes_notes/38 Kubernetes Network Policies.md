@@ -1,8 +1,5 @@
 # 🌐 Kubernetes Networking Guide 
-## 📌 Overview
-Kubernetes Networking manages how **Pods, Services, and external clients communicate**.
-
-# ✨ What is Kubernetes Networking?
+## ✨ What is Kubernetes Networking?
  * Kubernetes networking defines how:
      * 👉 Pods communicate with each other
      * 👉 Services expose applications
