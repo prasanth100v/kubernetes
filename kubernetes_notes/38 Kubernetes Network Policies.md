@@ -109,7 +109,7 @@ spec:
   * 📌 Example: `http://backend-service`
 
 ## 📌✨ Example DNS format:
-```
+```yaml
 backend-service.default.svc.cluster.local
 ```
   ✔ Pods use DNS instead of IP  
