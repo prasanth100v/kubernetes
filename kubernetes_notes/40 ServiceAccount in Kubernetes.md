@@ -187,7 +187,7 @@ roleRef:
 
 
 ## BASIC COMMANDS
-```yaml
+```hcl
  kubectl get serviceaccounts                     # 📋 List ServiceAccounts
  kubectl create serviceaccount my-sa             # ➕ Create ServiceAccount
  kubectl describe serviceaccount my-sa           # 🔍 Describe ServiceAccount
