@@ -135,11 +135,11 @@ roleRef:
 ## ❓ Interview Questions
 | ❓ **Question**                                      | ✅ **Answer**                              | 🧠 **Explanation**                                                          | 💡 **Interview Tip**                             |
 | --------------------------------------------------- | ----------------------------------------- | --------------------------------------------------------------------------- | ------------------------------------------------ |
-| What happens if you don’t specify a ServiceAccount? | 👉 Default ServiceAccount is used         | Every namespace has a default ServiceAccount automatically attached to Pods | Mention namespace-level default behavior         |
-| How do you assign a ServiceAccount?                 | 👉 Use `serviceAccountName` in Pod spec   | Example: `serviceAccountName: my-service-account`                           | Highlight this is defined in Pod/Deployment YAML |
-| Can ServiceAccount access Kubernetes API?           | 👉 Yes, using a token                     | Kubernetes injects a token inside the Pod for authentication                | Mention token-based authentication               |
-| What happens internally?                            | 👉 Token is injected into Pod             | Token is mounted at `/var/run/secrets/...` and used for API calls           | Shows understanding of internal mechanism        |
-| What is the purpose of RoleBinding?                 | 👉 Defines permissions for ServiceAccount | Links ServiceAccount to Role/ClusterRole                                    | Key for RBAC (authorization)                     |
+| What happens if you don’t specify a ServiceAccount❓ | 👉 Default ServiceAccount is used         | Every namespace has a default ServiceAccount automatically attached to Pods | Mention namespace-level default behavior         |
+| How do you assign a ServiceAccount❓                 | 👉 Use `serviceAccountName` in Pod spec   | Example: `serviceAccountName: my-service-account`                           | Highlight this is defined in Pod/Deployment YAML |
+| Can ServiceAccount access Kubernetes API❓           | 👉 Yes, using a token                     | Kubernetes injects a token inside the Pod for authentication                | Mention token-based authentication               |
+| What happens internally❓                            | 👉 Token is injected into Pod             | Token is mounted at `/var/run/secrets/...` and used for API calls           | Shows understanding of internal mechanism        |
+| What is the purpose of RoleBinding❓                 | 👉 Defines permissions for ServiceAccount | Links ServiceAccount to Role/ClusterRole                                    | Key for RBAC (authorization)                     |
 
 ---
 
@@ -187,7 +187,7 @@ roleRef:
 
 
 ## BASIC COMMANDS
-```
+```yaml
  kubectl get serviceaccounts                     # 📋 List ServiceAccounts
  kubectl create serviceaccount my-sa             # ➕ Create ServiceAccount
  kubectl describe serviceaccount my-sa           # 🔍 Describe ServiceAccount
