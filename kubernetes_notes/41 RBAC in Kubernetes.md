@@ -95,6 +95,7 @@ roleRef:
      - 👉 Used when access should be limited to a specific namespace
      - Developer team can manage pods only in development namespace
 
+---
 
 ## 🌍 2. Cluster-Scoped RBAC (ClusterRole + ClusterRoleBinding)
 ### 🧾 ClusterRole (Cluster-wide permissions)
