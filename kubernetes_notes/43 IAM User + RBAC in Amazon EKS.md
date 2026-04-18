@@ -36,7 +36,6 @@
 
 🔐 These are used for `AWS CLI authentication` .
 
----
 
 ## 🟢 Step 2: Configure AWS CLI
 
@@ -76,18 +75,18 @@ mapUsers: |
    - dev-team = custom `RBAC group`  
 
 ### 💾 Apply changes
-```
+```bash
 kubectl apply -f aws-auth.yaml -n kube-system
 ```
 
 ## 🟢 Step 4: Update kubeconfig
 Run:
-```
+```bash
 aws eks --region <region> update-kubeconfig --name <cluster-name>
 ```
 
 ## 🟢 Step 5: Test Access
-```
+```bash
 kubectl get nodes
 ```
    ✅ If successful → IAM user can access cluster
