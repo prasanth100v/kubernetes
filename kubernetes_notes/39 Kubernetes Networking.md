@@ -161,62 +161,62 @@
 | 🧠 DNS           | 🔍 Enables service discovery (name → IP) |
 | 🔐 NetworkPolicy | 🛡️ Controls traffic & security rules    |
 
-# 🌐✨ Kubernetes Networking Debug Cheat Sheet ✨🌐
-
-commands:
+## 🌐 Kubernetes Networking Debug Cheat Sheet 
 ```yaml
-  # 🔍 Pod Checks
-  - kubectl get pods -o wide        # 📌 Check Pod IPs and nodes
-  - kubectl get pods -A             # 📌 Check all Pods status (all namespaces)
-  - kubectl get pods --show-labels  # 📌 Verify Pod labels
+                                               # 🔍 Pod Checks
+  kubectl get pods -o wide                        # 📌 Check Pod IPs and nodes
+  kubectl get pods -A                             # 📌 Check all Pods status (all namespaces)
+  kubectl get pods --show-labels                  # 📌 Verify Pod labels
 
-  # 🔗 Service Checks
-  - kubectl get svc                 # 📌 List all Services
+                                                    # 🔗 Service Checks
+  kubectl get svc                                     # 📌 List all Services
 
-  # 🔐 Network Policies
-  - kubectl get networkpolicy       # 📌 List NetworkPolicies (current namespace)
-  - kubectl get networkpolicy -A    # 📌 List all NetworkPolicies
-  - kubectl describe networkpolicy <np-name>  # 📌 Inspect policy rules
+                                                 # 🔐 Network Policies
+  kubectl get networkpolicy                         # 📌 List NetworkPolicies (current namespace)
+  kubectl get networkpolicy -A                      # 📌 List all NetworkPolicies
+  kubectl describe networkpolicy <np-name>          # 📌 Inspect policy rules
 
-  # ⚙️ CNI Plugin Checks
-  - kubectl get pods -n kube-system # 📌 Check CNI (calico/flannel/aws-node)
-  - kubectl logs -n kube-system <cni-pod>  # 📌 View CNI logs
+                                                   # ⚙️ CNI Plugin Checks
+  kubectl get pods -n kube-system                    # 📌 Check CNI (calico/flannel/aws-node)
+  kubectl logs -n kube-system <cni-pod>              # 📌 View CNI logs
 
-  # 🌍 DNS / CoreDNS
-  - kubectl get pods -n kube-system -l k8s-app=kube-dns  # 📌 Check CoreDNS Pods
-  - kubectl exec -it <pod-name> -- nslookup <service-name>  # 📌 Test DNS resolution
+                                                                  # 🌍 DNS / CoreDNS
+  kubectl get pods -n kube-system -l k8s-app=kube-dns               # 📌 Check CoreDNS Pods
+  kubectl exec -it <pod-name> -- nslookup <service-name>            # 📌 Test DNS resolution
 
-  # 🔎 Pod Details
-  - kubectl describe pod <pod-name>  # 📌 Check Pod network settings
+                                                         # 🔎 Pod Details
+  kubectl describe pod <pod-name>                           # 📌 Check Pod network settings
 
-  # 🔗 Connectivity Testing
-  - kubectl exec -it <pod-name> -- /bin/sh  # 📌 Enter Pod shell
-  - ping <target-pod-ip>                   # 📌 Test Pod-to-Pod connectivity
-  - curl <service-name>:<port>             # 📌 Test Service access
-  - wget <service-name>:<port>             # 📌 Alternative to curl
+                                                       # 🔗 Connectivity Testing
+  kubectl exec -it <pod-name> -- /bin/sh                  # 📌 Enter Pod shell
+  ping <target-pod-ip>                                    # 📌 Test Pod-to-Pod connectivity
+  curl <service-name>:<port>                              # 📌 Test Service access
+  wget <service-name>:<port>                              # 📌 Alternative to curl
 
-  # 🖥️ Node Networking
-  - kubectl get nodes -o wide  # 📌 Check node internal IPs
+                                                  # 🖥️ Node Networking
+  kubectl get nodes -o wide                         # 📌 Check node internal IPs
+                                                       
+  kubectl exec -it <pod-name> -- curl <service-name>:<port>                 # 🧪 Service Testing from Pod
+  kubectl exec -it <pod-name> -- wget <service-name>:<port>
 
-  # 🧪 Service Testing from Pod
-  - kubectl exec -it <pod-name> -- curl <service-name>:<port>
-  - kubectl exec -it <pod-name> -- wget <service-name>:<port>
-
-  # 🔄 Port Forwarding (Local Test)
-  - kubectl port-forward svc/<service-name> 8080:<port>  # 📌 Access service locally
+                                                                     # 🔄 Port Forwarding (Local Test)
+  kubectl port-forward svc/<service-name> 8080:<port>                    # 📌 Access service locally
 ```
-  # 🛠️ Tools inside Pod
-  - curl        # 📌 HTTP testing
-  - ping        # 📌 Connectivity check
-  - traceroute  # 📌 Network path
-  - dig         # 📌 DNS query
-  - nslookup    # 📌 DNS lookup
-  - tcpdump     # 📌 Packet capture
+  ## 🛠️ Tools inside Pod
+| 🧰 **Tool**       | 📌 **Purpose**       | 🧠 **What It Checks**                           | 💡 **Example Use Case**                                        |
+| ----------------- | -------------------- | ----------------------------------------------- | -------------------------------------------------------------- |
+| 🌐 **curl**       | HTTP testing         | 👉 Tests API endpoints, HTTP response, headers  | Check if service/Ingress is responding (`curl http://service`) |
+| 📡 **ping**       | Connectivity check   | 👉 Verifies if a host is reachable (ICMP)       | Check Pod-to-Pod or Pod-to-node connectivity                   |
+| 🛣 **traceroute** | Network path tracing | 👉 Shows path packets take to reach destination | Identify network delays or routing issues                      |
+| 🔍 **dig**        | DNS query            | 👉 Detailed DNS resolution info                 | Debug service DNS (`dig my-service.default.svc.cluster.local`) |
+| 🔎 **nslookup**   | DNS lookup           | 👉 Simple DNS resolution check                  | Verify service name resolves to IP                             |
+| 📊 **tcpdump**    | Packet capture       | 👉 Captures and analyzes network traffic        | Deep debugging of network issues                               |
 
-# ✅✨ Tips:
--  ✔ Check labels match between Pods & Services
--  ✔ Verify NetworkPolicies are not blocking traffic
--  ✔ Always test DNS before debugging connectivity
--  ✔ Check CNI health if networking fails
+
+## ✨ Tips:
+   * Check labels match between Pods & Services
+   * Verify NetworkPolicies are not blocking traffic
+   * Always test DNS before debugging connectivity
+   * Check CNI health if networking fails
 
   
