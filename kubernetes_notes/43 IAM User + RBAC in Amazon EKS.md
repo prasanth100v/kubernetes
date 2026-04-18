@@ -40,14 +40,14 @@
 ## 🟢 Step 2: Configure AWS CLI
 
 Run:
-```
+```yaml
 aws configure
 ```
 Enter:
-- AWS Access Key ID  
-- AWS Secret Access Key  
-- Region (e.g., us-east-1)  
-- Output format (json)  
+ - AWS Access Key ID  
+ - AWS Secret Access Key  
+ - Region (e.g., `us-east-1`)  
+ - Output format (`json`)  
 
 
 ## 🟢 Step 3: Map IAM User in aws-auth ConfigMap (Bridge Between AWS & Kubernetes)
@@ -56,12 +56,12 @@ Enter:
   * 👉 So You must map IAM → Kubernetes identity using `aws-auth`
 
 ### ✏️ Edit ConfigMap (Map IAM User)
-```
+```yaml
 kubectl edit configmap aws-auth -n kube-system
 ```
 
 ### 🧾 ✍️ Add IAM User Mapping
-```
+```yaml
 mapUsers: |
 - userarn: arn:aws:iam::123456789012:user/eks-admin  
   username: dev-user  
@@ -75,18 +75,18 @@ mapUsers: |
    - dev-team = custom `RBAC group`  
 
 ### 💾 Apply changes
-```bash
+```yaml
 kubectl apply -f aws-auth.yaml -n kube-system
 ```
 
 ## 🟢 Step 4: Update kubeconfig
 Run:
-```bash
+```yaml
 aws eks --region <region> update-kubeconfig --name <cluster-name>
 ```
 
 ## 🟢 Step 5: Test Access
-```bash
+```yaml
 kubectl get nodes
 ```
    ✅ If successful → IAM user can access cluster
