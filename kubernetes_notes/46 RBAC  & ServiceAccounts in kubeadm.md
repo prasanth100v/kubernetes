@@ -185,7 +185,7 @@ metadata:
  kubectl apply -f rolebinding.yaml                # 🔗 Bind Role to user/service account
  kubectl apply -f clusterrolebinding.yaml         # 🌍 Bind ClusterRole globally
 ```
----
+
 ### 🛠️ 3. CREATE ROLE USING COMMAND
 
  ➕ Create Role (read pods in default namespace
