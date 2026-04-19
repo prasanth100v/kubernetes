@@ -1,13 +1,11 @@
 # 🔐 RBAC Users & ServiceAccounts in kubeadm Cluster (Easy + Complete Guide)
-
 ## 👤 Creating Users for RBAC in kubeadm Cluster
 
-In a kubeadm cluster, Kubernetes does NOT create users directly.
-
-👉 You manually create:
-- Private key  
-- Certificate  
-- kubeconfig context  
+* In a kubeadm cluster, Kubernetes does NOT create users directly.
+* 👉 You manually create:
+    - Private key  
+    - Certificate  
+    - kubeconfig context  
 
 In a kubeadm-based cluster (unlike EKS):
 - 👉 There is NO IAM / aws-auth
