@@ -86,9 +86,10 @@ kubectl config use-context johndoe-context
 kubectl get pods -n development  
 kubectl get nodes
 ```
-👉 Expected:
-    - pods → ✅ allowed  
-    - nodes → ❌ denied (if not permitted)  
+ * 👉 Expected:
+    * pods → ✅ allowed
+    * nodes → ❌ denied (if not permitted)  
+    
 
 ---
 
@@ -112,9 +113,10 @@ metadata:
 
 ## 🟢 Step 3: Attach Permissions
 
-* 👉 Create:
-      - Role  
-      - RoleBinding  (define rules as per requirement)
+  * 👉 Create:
+      * Role
+      * RoleBinding  (define rules as per requirement)
+  
 
 ## 🔐 How ServiceAccount Works
 
@@ -232,7 +234,7 @@ kubectl get rolebindings -n <namespace>
 ```hcl
  kubectl edit configmap aws-auth -n kube-system     # ✏️ Edit aws-auth ConfigMap (map IAM users/roles)
 ```
-   ⚠️ Important:
-      - This controls IAM → Kubernetes RBAC mapping
-      - Used in AWS EKS clusters only
+   * ⚠️ Important:
+      * This controls IAM → Kubernetes RBAC mapping
+      * Used in AWS EKS clusters only
 
