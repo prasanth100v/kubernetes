@@ -95,7 +95,7 @@ kubectl get nodes
 
 # 🤖 Creating ServiceAccount for RBAC
 
- ServiceAccounts are used by **Pods inside cluster** to talk to Kubernetes API.
+ * ServiceAccounts are used by **Pods inside cluster** to talk to Kubernetes API.
 
 ## 🟢 Step 1: Create Namespace
 ```yaml
@@ -150,7 +150,7 @@ metadata:
      * RBAC → Authorization  
 
 ## ⚖️ Key Differences
-v| 🧩 **Feature**     | 👤 **User (kubeadm)**                    | 📦 **ServiceAccount**       | 🧠 **Explanation**                                                      |
+| 🧩 **Feature**     | 👤 **User (kubeadm)**                    | 📦 **ServiceAccount**       | 🧠 **Explanation**                                                      |
 | ------------------ | ---------------------------------------- | --------------------------- | ----------------------------------------------------------------------- |
 | 👥 **Used by**     | 👨‍💻 Humans (admins, devs)                    | 🤖 Pods / applications         | Users are external identities; ServiceAccounts are for workloads        |
 | 🔑 **Auth method** | 🪪 Certificate (client cert via kubeconfig) | 🔑 Token (auto-mounted in Pod) | Different authentication mechanisms                                     |
