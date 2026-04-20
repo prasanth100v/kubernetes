@@ -1,94 +1,82 @@
 # 🚀 Advanced Scheduling in Kubernetes 
 ## 🌟 What is Scheduling in Kubernetes?
-The **Kubernetes Scheduler** decides **Which node will run your Pod** using labels, rules, and constraints.
 
-👉 Main concepts:
-- NodeSelector  
-- Node Affinity  
-- Pod Affinity / Anti-Affinity  
-- Taints & Tolerations 
+ * The **Kubernetes Scheduler** decides **Which node will run your Pod** using labels, rules, and constraints.
+ * 👉 Main concepts:
+    - NodeSelector  
+    - Node Affinity  
+    - Pod Affinity / Anti-Affinity  
+    - Taints & Tolerations 
 
 #### ⚙️ Default Scheduling Behavior
-By default, Kubernetes scheduler selects nodes based on:
-
-- 🧮 CPU availability
-- 💾 Memory availability
-- 📦 Resource requests
-
-➡️ This is basic scheduling
----
+ * By default, Kubernetes scheduler selects nodes based on:
+   - 🧮 CPU availability
+   - 💾 Memory availability
+   - 📦 Resource requests
+   - ➡️ This is basic scheduling
 
 ## 🎯 What is Advanced Scheduling?
 
-👉 Advanced scheduling = **Control how Pods are placed on nodes**
-
-#### Instead of letting Kubernetes decide randomly, you can:
-
-- 🎯 Force Pods to specific nodes
-- ⚖️ Spread Pods evenly
-- 🚫 Avoid certain nodes
-- 🧩 Place Pods close or far from each other
+ * 👉 Advanced scheduling = **Control how Pods are placed on nodes**
+ * Instead of letting Kubernetes decide randomly, you can:
+    * 🎯 Force Pods to specific nodes
+    * ⚖️ Spread Pods evenly
+    * 🚫 Avoid certain nodes
+    * 🧩 Place Pods close or far from each other
 
 ## 🎯 Why Do We Need Advanced Scheduling?
-By default, Kubernetes schedules Pods based on: 🧮 CPU & Memory, 📦 Resource availability
+  * By default, Kubernetes schedules Pods based on:
+      * 🧮 CPU & Memory,
+      * 📦 Resource availability
+  * 👉 But real-world applications need:
+       - 🎯 Specific node placement
+       - ⚖️ High availability
+       - 🚫 Isolation of workloads
+       - ⚡ Performance optimization
+    * ➡️ That’s where Advanced Scheduling comes in!
 
-👉 But real-world applications need:
-- 🎯 Specific node placement
-- ⚖️ High availability
-- 🚫 Isolation of workloads
-- ⚡ Performance optimization
 
-➡️ That’s where Advanced Scheduling comes in!
----
-
-# 🌟 Scheduling Concepts & Features
-
+## 🌟 Scheduling Concepts & Features
 ## 1. nodeSelector (🟢 Simple Scheduling)
-- 👉 Simplest way to assign Pods to nodes Using key-value labels
-- ✔ Pod runs ONLY on nodes matching label  
+   - 👉 Simplest way to assign Pods to nodes Using `key-value labels`
+   - ✔ Pod runs ONLY on nodes matching label  
 
 ### 📌 Example Use:
-```
+```yaml
 nodeSelector:
   disktype: ssd
 ```
-### 🧠 Explanation
-- Pod will ONLY run on nodes with:
-  disktype=ssd  
-
-❌ If no matching node → Pod stays Pending  
+### 🧠 Explanation :
+   - Pod will ONLY run on nodes with: disktype=ssd
+   - ❌ If no matching node → Pod stays Pending  
 
 ## 🎯 Use Case
-Run only on 🎮 GPU nodes and 💽 SSD storage nodes
+  * Run only on 🎮 `GPU nodes` and 💽 `SSD storage nodes`
+  * ⚠️ Important Notes :
+     * ❌ No flexibility (only supports `exact match`)
+     * ❌ No conditions (`AND/OR not supported`)
+     * ❌ If no matching node → `Pod stays Pending`
 
-#### ⚠️ Important Notes
-- ❌ No flexibility (only supports exact match)
-- ❌ No conditions (AND/OR not supported)
-- ❌ If no matching node → Pod stays Pending
----
 
 ## 2. nodeAffinity (🎯 Advanced Node Selection)
 
-👉 More powerful and flexible than nodeSelector  
-
-#### 🧩 Supports:
-- ✅ In
-- ❌ NotIn
-- 🔍 Exists
-
-✔ Supports:
-- 🎯 Hard rules (required)  
-- ⚖️ Soft rules (preferred)  
+ * 👉 More powerful and flexible than nodeSelector
+ * 🧩 Supports:
+     - ✅ In
+     - ❌ NotIn
+     - 🔍 Exists
+  * ✔ Supports:
+       - 🎯 Hard rules (required)  
+       - ⚖️ Soft rules (preferred) 
 
 ###🔥 Types:
-| Type                                            | Behavior     |
-| ----------------------------------------------- | ------------ |
-| requiredDuringSchedulingIgnoredDuringExecution  |👉 MUST match,  ❌ If no match → Pod Pending  |
-| preferredDuringSchedulingIgnoredDuringExecution |👉 Soft rule,   👉 Scheduler tries to match  👉 But can run elsewhere if needed |
-
+| 🔢 **Type**                                       | ⚙️ **Behavior**                 | 📖 **Explanation**                                                                             |
+| ------------------------------------------------- | ------------------------------- | ---------------------------------------------------------------------------------------------- |
+| `requiredDuringSchedulingIgnoredDuringExecution`  | 👉 **Strict Rule (MUST match)** | ❌ If no matching node is found → Pod stays in **Pending** state                                |
+| `preferredDuringSchedulingIgnoredDuringExecution` | 👉 **Soft Rule (Try to match)** | 👉 Scheduler **prefers** matching nodes <br> 👉 But Pod can still run on other nodes if needed |
 
 ## 📌 Example
-```
+```yaml
 spec:
   containers:
   - name: nginx
@@ -114,32 +102,31 @@ spec:
 ```
 
 ## 🧠 Explanation
-- MUST run on SSD or NVMe nodes  
-- Prefers zone us-west-1a  
-- weight (1–100) → importance Higher (more preference)
+   - MUST run on `SSD` or `NVMe nodes ` 
+   - Prefers zone `us-west-1a ` 
+   - weight (`1–100`) → importance Higher (`more preference`)
+
 
 ## ❌ Anti-Affinity (Node Level)
-👉 Prevent scheduling on certain nodes:
-```
+  * 👉 Prevent scheduling on certain nodes:
+```yaml
 Use:
 operator: NotIn  
 ```
 #### 🎯 Use Case
-- Prefer specific zones 🌍
-- Avoid expensive nodes 💰
-
----
+   - Prefer specific zones 🌍
+   - Avoid expensive nodes 💰
 
 ## 🎮 GPU Scheduling in Kubernetes
-### 🔹 Using nodeSelector
-```
+ ### 🔹 Using nodeSelector
+```yaml
 spec:
   nodeSelector:
     gpu: "true"
 ```
 
 ### 🔹 Using nodeAffinity
-```
+```yaml
 spec:
   affinity:
     nodeAffinity:
@@ -152,10 +139,11 @@ spec:
             - "true"
 ```
 #### 🚀 When to Use What?
-| Method       | Use Case             |
-| ------------ | -------------------- |
-| nodeSelector | Simple GPU selection |
-| nodeAffinity | Flexible rules       |
+
+| 🔢 **Method**  | 🎯 **Use Case**      | 📖 **Explanation**                                                                                                          |
+| -------------- | -------------------- | --------------------------------------------------------------------------------------------------------------------------- |
+| `nodeSelector` | Simple GPU selection | 👉 Best for **basic matching** using key-value labels <br> 👉 Works well for straightforward cases like selecting GPU nodes |
+| `nodeAffinity` | Flexible rules       | 👉 Supports **advanced scheduling rules** (soft & hard constraints) <br> 👉 Useful for complex placement strategies         |
 
 ---
 
