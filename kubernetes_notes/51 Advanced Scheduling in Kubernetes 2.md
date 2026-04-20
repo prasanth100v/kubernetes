@@ -135,7 +135,7 @@ spec:
        * Critical system Pods usually have `highest priority`
 
 ### ⚡ Preemption Flow (Step-by-Step)
-```hcl
+```yaml
 Cluster Full 🚫
       ↓
 High Priority Pod Arrives 🏆
