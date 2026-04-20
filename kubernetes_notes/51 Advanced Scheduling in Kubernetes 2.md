@@ -173,6 +173,8 @@ Schedule High Priority Pod ✅
  4. Lower-priority Pods are evicted ❌  
  5. High-priority Pod gets scheduled ✅ 
 
+---
+
 ## 8. Resource Requests & Limits (🧮 Smart Placement)
   * Scheduler uses resource requests to decide : 👉 `“Can this Pod fit on this node?”`
 
