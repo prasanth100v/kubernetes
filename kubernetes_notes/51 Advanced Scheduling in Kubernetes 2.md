@@ -221,7 +221,7 @@ resources:
 | 📦 **Requests** | 🗓️ Used for **scheduling** (minimum guaranteed resources) |
 | 🚫 **Limits**   | ⚙️ Used for **runtime control** (maximum allowed usage)    |
 
-###⚠️ Best Practices
+### ⚠️ Best Practices
   - ✅ Use PriorityClasses for critical apps  
   - ✅ Avoid unnecessary high priorities  
   - ✅ Define proper resource requests  
