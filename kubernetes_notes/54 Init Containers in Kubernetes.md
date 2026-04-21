@@ -7,11 +7,11 @@
    - 🛠️ Performing setup tasks (like DB initialization)
 
 * 🔄 How Init Containers Work
-  1. Kubernetes starts the **first init container**
-  2. It completes successfully ✅
-  3. Next init container starts (if any multiple init containers exist)
-  4. After all init containers finish → `main containers start` 🚀
-  5. If any init container fails ❌ →` it restarts until success`
+1. Kubernetes starts the **first init container**
+2. It completes successfully ✅
+3. Next init container starts (if any multiple init containers exist)
+4. After all init containers finish → `main containers start` 🚀
+5. If any init container fails ❌ →` it restarts until success`
 
 ---
 
