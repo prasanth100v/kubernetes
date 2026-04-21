@@ -8,57 +8,13 @@
  * 🎯 Helm = Package manager that simplifies Kubernetes deployments
 
 ## 🚀 Why Use Helm?
-| 🎯 **Feature**                | 📖 **What It Means**                 | 🧠 **How It Helps**                           | 💡 **Real-World Example**                   |
-| ----------------------------- | ------------------------------------ | --------------------------------------------- | ------------------------------------------- |
-| 🚀 **Simplifies Deployments** | 📦 Deploy complex apps with one command<br>`helm install my-app bitnami/nginx` | 👉 Packages all Kubernetes YAMLs into a chart | Install apps like Prometheus, NGINX Ingress, Grafana 📈|
-| 📦 **Version Control**        | 🔁 Manage app lifecycle                 | 👉 Upgrade, rollback, uninstall easily        | Safe deployments with quick rollback        |
-| 🔁 **Reusable & Shareable**   | ♻️ Write once, reuse everywhere         | 👉 Same chart works across environments       | Dev → Staging → Production                  |
-| ⚙️ **Customizable Config**    | 🎛  Override values dynamically          | 👉 Use `values.yaml` or custom files          | Environment-specific configs                |
-| 🌀 **GitOps Friendly**        | 🔄 Works with CI/CD tools               | 👉 Integrates with Argo CD, Flux              | Automated deployments                       |
-
-
-### 1️⃣ Simplifies Deployments
-⏱️ Deploy complex apps with a single command  
-Example:
-```bash
-helm install my-app bitnami/nginx
-```
-#### Example apps:
-- Prometheus 📊
-- NGINX Ingress 🌐
-- Grafana 📈
-
-### 2️⃣ Version Control
-📦 Manage application lifecycle Easily:
-```
-helm upgrade myapp chart-name
-helm rollback myapp 1
-helm uninstall myapp
-```
-- Upgrade
-- Rollback
-- Uninstall applications
-
----
-
-### 3️⃣ Reusable & Shareable
-📁 Write templates once → reuse everywhere in:
-- Dev 🧪
-- Staging 🚧
-- Production 🚀
-
-### 4️⃣ Customizable Config
- Override values at runtime:
-```bash
-helm install myapp ./chart -f custom-values.yaml
-```
-✔ Environment-specific configs
-
-### 5️⃣ GitOps Friendly
-🌀 Works with:
-- ArgoCD
-- Flux
-- Enables automated CI/CD pipelines
+| 🎯 **Feature**                | 📖 **What It Means**                                                                       | 🧠 **How It Helps**                           | 💡 **Real-World Example**                                    |
+| ----------------------------- | ------------------------------------------------------------------------------------------- | --------------------------------------------- | ------------------------------------------------------------- |
+| 🚀 **Simplifies Deployments** | 📦 Deploy complex apps with one command<br>`helm install my-app bitnami/nginx`                | 👉 Packages all Kubernetes YAMLs into a chart | Install apps like Prometheus, NGINX Ingress, Grafana 📈   |
+| 📦 **Version Control**        | 🔁 Manage app lifecycle<br>`helm upgrade myapp chart-name`<br>`helm rollback myapp 1`<br>`helm uninstall myapp`  | 👉 Upgrade, rollback, uninstall easily        | Safe deployments with quick rollback    |
+| 🔁 **Reusable & Shareable**   | ♻️ Write once, reuse everywhere                                                                         | 👉 Same chart works across environments       | Dev → Staging → Production 🚀                   |
+| ⚙️ **Customizable Config**    | 🎛  Override values dynamically<br>`helm install myapp ./chart -f custom-values.yaml`                   | 👉 Use `values.yaml` or custom files          | Environment-specific configs                       |
+| 🌀 **GitOps Friendly**        | 🔄 Works with CI/CD tools                                                                             | 👉 Integrates with Argo CD, Flux                  | Enables automated deployment                    |
 
 ---
 
