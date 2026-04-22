@@ -85,27 +85,27 @@ Desired State (Git) 📘 vs Live State (Cluster) 🚀
 
 ## 🛠️ Installation Steps
 #### 1️⃣ Create Namespace
-```bash
+```yaml
 kubectl create namespace argocd
 ```
 #### 2️⃣ Install Argo CD
-```bash
+```yaml
 kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
 ```
 #### 3️⃣ Verify Pods
-```bash
+```yaml
 kubectl get pods -n argocd
 ```
  * ✔ Ensure all pods are running
 
 #### 4️⃣ Access UI
-```bash
+```yaml
 kubectl port-forward svc/argocd-server -n argocd 8080:443
 ```
  * 👉 Open: https://localhost:8080
 
 #### 5️⃣ Get Admin Password
-```bash
+```yaml
 kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d
 ```
 
