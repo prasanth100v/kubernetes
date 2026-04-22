@@ -59,8 +59,8 @@ Desired State (Git) 📘 vs Live State (Cluster) 🚀
 
 #### 6️⃣ Notifications
   * Alerts users about:
-    - Sync status
-    - Health status
+     - Sync status
+     - Health status
 
 ---
 
@@ -115,10 +115,10 @@ kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.pas
  1. Open Argo CD UI  
  2. Click **New Application**  
  3. 📋 Required Fields
-  - 📘 Git Repo URL
-  - 📂 Path (where YAML exists)
-  - 🎯 Cluster & Namespace
-  - 🔄 Sync Policy
+     - 📘 Git Repo URL
+     - 📂 Path (where YAML exists)
+     - 🎯 Cluster & Namespace
+     - 🔄 Sync Policy
 
 
 ### 🎯 Final Visualization
@@ -186,10 +186,10 @@ kubectl apply -f myapp-argo-application.yaml
       - External Secrets  
 
 ## 📊 Observability Integration
-  - 📈 Prometheus metrics support `Monitor: Sync status`, `Errors and Health`
-  - 📊 Grafana dashboards ( Visualize: `App health`, `Deployment trends` )
-  - 📜 Audit logs (`UI + CLI`)
-  - 👉 Fully traceable deployments (Audit-friendly)
+   - 📈 Prometheus metrics support `Monitor: Sync status`, `Errors and Health`
+   - 📊 Grafana dashboards ( Visualize: `App health`, `Deployment trends` )
+   - 📜 Audit logs (`UI + CLI`)
+   - 👉 Fully traceable deployments (Audit-friendly)
 
 
 ## 📁 GitHub Repo Structure
