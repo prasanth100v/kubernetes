@@ -151,90 +151,88 @@ helm install myapp-prod ./mychart -f values-prod.yaml
 
 ## 🔒 Security Best Practices
 
-  - ❌ Don’t store secrets in Git
-  - ✅ Use SealedSecrets
-  - ✅ Use External Secrets
-  - ✅ Encrypt sensitive data
+   - ❌ Don’t store secrets in Git
+   - ✅ Use SealedSecrets
+   - ✅ Use External Secrets
+   - ✅ Encrypt sensitive data
 
 ## 💼 Real-Time Use Case (GitOps)
- * 👉 In production:
-   - Stored secrets using **SealedSecrets**
-   - Managed via GitHub
-   - Decrypted only inside cluster 🔐
+  * 👉 In production:
+    - Stored secrets using **SealedSecrets**
+    - Managed via GitHub
+    - Decrypted only inside cluster 🔐
 
-# 🌐 Helm Repositories
-  - Artifact Hub
-  - Bitnami Charts
-  - Custom Private Repos
+## 🌐 Helm Repositories
+   - Artifact Hub
+   - Bitnami Charts
+   - Custom Private Repos
 
 ---
 
 # 🎯 Interview Questions & Answers
 
-## ❓ What is Helm?
-👉 Helm is a Kubernetes package manager used to deploy and manage applications using charts.
-## ❓ What is a Helm Chart?
-👉 A collection of Kubernetes YAML templates packaged together.
-## ❓ What is a Release?
-👉 A deployed instance of a Helm chart.
-## ❓ What is values.yaml?
-👉 Default configuration file used to pass values into templates.
-## ❓ How do you override values?
-👉 Using:
-- --set
-- -f custom-values.yaml
-## ❓ How to rollback a release?
+##  What is Helm❓
+  * 👉 Helm is a Kubernetes package manager used to deploy and manage applications using charts.
+##  What is a Helm Chart❓
+  * 👉 A collection of Kubernetes YAML templates packaged together.
+##  What is a Release❓
+  * 👉 A deployed instance of a Helm chart.
+##  What is values.yaml❓
+  * 👉 Default configuration file used to pass values into templates.
+##  How do you override values❓
+   * 👉 Using:
+      - --set
+      - -f custom-values.yaml
+##  How to rollback a release❓
 ```bash
 helm rollback <release-name> <revision>
 ```
-## ❓ What is helm template?
-👉 Renders YAML without deploying (used for debugging).
-## ❓ How does Helm help in microservices?
-👉 Using umbrella charts to deploy multiple services together.
-## ❓ How do you manage environments?
-👉 Using separate values files for dev/staging/prod.
-## ❓ How to manage secrets in Helm?
-👉 Use Kubernetes Secrets / SealedSecrets / External Secrets.
-
+##  What is helm template❓
+  * 👉 Renders YAML without deploying (used for debugging).
+##  How does Helm help in microservices❓
+  * 👉 Using umbrella charts to deploy multiple services together.
+##  How do you manage environments❓
+  * 👉 Using separate values files for `dev/staging/prod`.
+##  How to manage secrets in Helm❓
+  * 👉 Use Kubernetes Secrets / SealedSecrets / External Secrets.
 
 ---
 
 # 🎯 Helm Commands
-```
-  helm create <chart-name>                                      #📦 new Helm chart # 🏗 Generates a standard Helm chart structure
+```hcl
+  helm create <chart-name>                                                    #📦 new Helm chart # 🏗 Generates a standard Helm chart structure
 
-  helm repo add <name> <url>                                               #➕ Add a Repository
+  helm repo add <name> <url>                                                   #➕ Add a Repository
    # 📌 Example: helm repo add bitnami https://charts.bitnami.com/bitnami
 
-  helm repo update                                                   #  🔄 Update Repositories
+  helm repo update                                                             #  🔄 Update Repositories
+  helm search repo nginx                                                        # ✔ Lists all charts matching "nginx"
 
-  helm search repo nginx                                         # ✔ Lists all charts matching "nginx"
-
-  helm install <release-name> <chart-path> [flags]              # 🚀 2. Install a chart (Deploy application)
+  helm install <release-name> <chart-path> [flags]                           # 🚀 2. Install a chart (Deploy application)
   # 📌 Example:  helm install my-nginx ./nginx-chart
 
-  helm upgrade <release-name> <chart-path> --set key=value       # 🔄 3. Upgrade an existing release
+  helm upgrade <release-name> <chart-path> --set key=value                    # 🔄 3. Upgrade an existing release
   # 📌 Example:
   helm upgrade my-nginx ./nginx-chart --set image.tag=1.25
 
-  helm uninstall <release-name>                                  # ❌ 4. Uninstall a release (Delete everything)
+  helm uninstall <release-name>                                               # ❌ 4. Uninstall a release (Delete everything)
   # 📌 Deletes release + all Kubernetes resources
 
-  helm list                                                      # 📌 List all releases in current namespace
+  helm list                                                                   # 📌 List all releases in current namespace
 
   helm status <release-name>                                      # 🔍 6. Show release status/details
   # 📌 Example: helm status myapp
 
-  helm rollback <release-name> <revision>                       # ⏪ 7. Rollback to previous version
+  helm rollback <release-name> <revision>                             # ⏪ 7. Rollback to previous version
   # 📌 Example: helm rollback my-nginx 1
 
-  helm template <chart-path>                                     # 🧪 8. Render templates (no install)
+  helm template <chart-path>                                          # 🧪 8. Render templates (no install)
   # 📌 Shows raw Kubernetes YAML output
 
-  helm install --dry-run --debug <release-name> <chart-path>       # 🧪 9. Dry-run (test install/upgrade)
+  helm install --dry-run --debug <release-name> <chart-path>          # 🧪 9. Dry-run (test install/upgrade)
   # 📌 Preview without deploying
 
-  helm lint <chart-path>                                               # 🧹 10. Lint chart (validate syntax)
+  helm lint <chart-path>                                                      # 🧹 10. Lint chart (validate syntax)
   # 📌 Detects errors & bad practices
 
   helm repo add <name> <url>                                                  # 📦 11. Add Helm repository
@@ -246,16 +244,16 @@ helm rollback <release-name> <revision>
   helm search repo <keyword>                                                  # 🔎 13. Search charts in repo
   # 📌 Example: helm search repo nginx
 
-  helm pull <repo>/<chart>                                             # ⬇ 14. Download chart (no install)
+  helm pull <repo>/<chart>                                              #  Download chart (no install)
   # 📌 Example: helm pull bitnami/nginx
 
-  helm help                                      # 🆘 15. Help command  # 📌 Shows all Helm commands
+  helm help                                                           # 🆘 15. Help command  # 📌 Shows all Helm commands
 
   ```
 
 ## 🚀 Final Summary
 
-✔ Helm simplifies Kubernetes deployments  
-✔ Supports versioning & rollback  
-✔ Enables GitOps workflows  
-✔ Best for microservices & reusable configs  
+ * Helm simplifies Kubernetes deployments
+ * Supports versioning & rollback
+ * Enables GitOps workflows
+ * Best for microservices & reusable configs  
