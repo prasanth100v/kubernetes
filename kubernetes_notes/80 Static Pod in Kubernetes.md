@@ -76,4 +76,4 @@ spec:
 ---
 
  * ⚡ One-line (Interview 🔥)
-   * 👉 Static Pod = Kubelet-managed 📄 + No scheduler ❌ + Node-specific 📍
+   * 👉 Static Pod = Kubelet-managed 📄 + No scheduler ❌ + One Node-specific 📍
