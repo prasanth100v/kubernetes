@@ -28,6 +28,7 @@
 
 ## What are namespaced vs non-namespaced resources❓
  * 👉 Check:  `kubectl api-resources --namespaced=true`
+
 | 🧩 **Type**         | 📖 **Description**       | 🧠 **How It Works**                                                            | 💡 **Examples**                               |
 | ------------------- | ------------------------ | ------------------------------------------------------------------------------ | --------------------------------------------- |
 | 📦 **Namespaced**   | Exist within a namespace | 👉 Created and accessed inside a specific namespace (`default`, `dev`, `prod`) | Pods, Deployments, Services, ConfigMaps       |
