@@ -151,11 +151,10 @@ System managed automatically 🚀
 ---
 
 ## 🧠 Final Summary
-
- * CRD = Extend Kubernetes API
- * CR = Instance of CRD  ]
- * Operator = Automates `app lifecycle` using `CRDs` + `controllers`
- * Used in real-world tools like `Argo CD`, `Istio  `
+  * CRD = Extend Kubernetes API
+  * CR = Instance of CRD  ]
+  * Operator = Automates `app lifecycle` using `CRDs` + `controllers`
+  * Used in real-world tools like `Argo CD`, `Istio  `
 
  * 🧩 Ultimate One-Line
-   * CRDs extend Kubernetes, and Operators automate complex application management using those extensions.
+    * CRDs extend Kubernetes, and Operators automate complex application management using those extensions.
