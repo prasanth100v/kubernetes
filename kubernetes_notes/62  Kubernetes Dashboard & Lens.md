@@ -49,24 +49,24 @@ kubectl apply -f eks-admin-service-account.yaml
 ```
 
 ### 🔐 Step 3: Get Login Token
-```bash
+```hcl
 kubectl -n kube-system describe secret $(kubectl -n kube-system get secret | grep eks-admin | awk '{print $1}')
 ```
  * 👉 Copy token for login
 
 ### 🌐 Step 4: Access Dashboard
-```bash
+```yaml
 kubectl proxy
 ```
 👉 Open browser:
-```hcl
+```yaml
 http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/
 ```
 👉 Login using token
 
 ### 🔓 External Access (Optional)
 ### 🌐 Expose via LoadBalancer
-```bash
+```yaml
 kubectl edit svc kubernetes-dashboard -n kubernetes-dashboard
 ```
 Change:
