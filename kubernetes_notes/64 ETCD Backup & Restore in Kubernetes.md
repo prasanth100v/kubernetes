@@ -52,7 +52,7 @@ etcd Snapshot 📦 → Store Backup 💾 → Restore When Needed 🔄
 ---
 
 ## 🔥 Take etcd Backup (Snapshot)
-```bash
+```hcl
 ETCDCTL_API=3 etcdctl snapshot save /backup/etcd-snapshot.db \
   --endpoints=https://127.0.0.1:2379 \
   --cacert=/etc/kubernetes/pki/etcd/ca.crt \
