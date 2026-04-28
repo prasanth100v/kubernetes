@@ -1,22 +1,22 @@
 # 🔐 SSL, TLS & Kubernetes Security 
 ## 📌 What is SSL and TLS?
-- Both SSL and TLS are **encryption protocols** 
-- TLS (Transport Layer Security) is a **cryptographic protocol** used to secure communication over networks.
-- SSL (Secure Sockets Layer) Old protocol ❌, Used to secure communication in the past, Replaced by TLS
+ - Both SSL and TLS are **encryption protocols** 
+ - TLS (`Transport Layer Security`) is a **cryptographic protocol** used to secure communication over networks.
+ - SSL (`Secure Sockets Layer`) Old protocol ❌, Used to secure communication in the past, Replaced by `TLS`
 
 ### ✅ It ensures:
-- 🔒 Confidentiality (encryption)
-- 🧾 Integrity (no tampering)
-- ✅ Authentication (identity verification)
+ - 🔒 Confidentiality (`encryption`)
+ - 🧾 Integrity (`no tampering`)
+ - ✅ Authentication (`identity verification`)
 
 ### 🔐 TLS (Transport Layer Security)
- - ✅ Modern & secure version of SSL, Fixes SSL vulnerabilities
- - Used in HTTPS, APIs, emails, Kubernetes (🔁 Istio mTLS Encrypts service-to-service traffic, Ingress, etc.)
- - Current versions: TLS 1.3 (latest & fastest)
+  - ✅ Modern & secure version of SSL, Fixes SSL vulnerabilities
+  - Used in `HTTPS`, `APIs`, `emails`, `Kubernetes` (🔁 Istio mTLS Encrypts `service-to-service traffic`, Ingress, etc.)
+  - Current versions: `TLS 1.3` (latest & fastest)
 
 ## 🌐 Real Example: 
 #### Real TLS Handshake Flow (Step-by-Step)
-   TLS Handshake is the process of establishing a secure connection between a client and a server
+  * TLS Handshake is the process of establishing a secure connection between a `client` and a `server`
 
 👉 When you open a website:
    1. Browser: “Who are you?”
@@ -25,13 +25,13 @@
    4. Both: “Let’s use this secret key”
    5. Start secure communication
 
-```
-Opening https://google.com     # (Using Google as example)
+```yaml
+Opening https://google.com                    # (Using Google as example)
 
 🔐 What actually happens (real life)
 1️⃣ In Chrome browser You type URL : 
      https://google.com
-        - 👉 Your browser says: “Hey Google, I want to connect securely”
+              - 👉 Your browser says: “Hey Google, I want to connect securely”
 
 2️⃣ Google sends certificate 📜
     Google sends its TLS certificate It’s like: 
@@ -45,14 +45,14 @@ Opening https://google.com     # (Using Google as example)
 👉 If valid → continue, 👉 If not → ⚠️ “Not Secure”
 
 4️⃣ Secret key is created 🔑
-  - Your browser + Google create a secret password
-  - Example: Secret Key = 7X@kP9!     # 👉 No one else can see this
+   - Your browser + Google create a secret password
+   - Example: Secret Key = 7X@kP9!                         # 👉 No one else can see this
 
 5️⃣ Now data is encrypted 🔒
-  - When you search: "DevOps tutorial"
+   - When you search: "DevOps tutorial"
 
 👉 It becomes something like: A9#kLm!2xZ
-  - Sent over internet (safe) and Google decrypts it back
+   - Sent over internet (safe) and Google decrypts it back
 
 🚀 Start Secure Communication
 👉 (Encrypted Data Transfer)
@@ -62,10 +62,10 @@ Opening https://google.com     # (Using Google as example)
 
 ```
 TLS ensures:
-- 🔒 Encryption
-- 🛡️ Data protection
-- 🔐 Shows padlock in browser
-- 🔑 Secure passwords & payments
+ - 🔒 Encryption
+ - 🛡️ Data protection
+ - 🔐 Shows padlock in browser
+ - 🔑 Secure passwords & payments
 #### “TLS uses asymmetric encryption for the handshake and symmetric encryption for data transfer to balance security and performance.”
 
 ### 🔒 Where TLS is Used?
