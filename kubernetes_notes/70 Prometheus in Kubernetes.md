@@ -1,20 +1,18 @@
 # 📊 Prometheus in Kubernetes 
 ## 🔍 What is Prometheus?
-Prometheus is an **open-source monitoring & alerting tool** designed for Kubernetes widely used in Kubernetes.
-
-👉 It collects and stores metrics (time-series data) from systems and applications.
-
-💡 It helps monitor:
-- CPU usage 🖥️  
-- Memory usage 💾  
-- Request rate 📡
-- Disk & network 📈
-- Pod restarts 🔄  
-- Errors & latency ⚡  
+ * Prometheus is an **open-source monitoring & alerting tool** designed for Kubernetes widely used in Kubernetes.
+ * 👉 It collects and stores `metrics` (time-series data) from `systems` and `applications`.
+ * 💡 It helps monitor:
+    - CPU usage 🖥️  
+    - Memory usage 💾  
+    - Request rate 📡
+    - Disk & network 📈
+    - Pod restarts 🔄  
+    - Errors & latency ⚡
 
 ## 🚀 How Prometheus Works
 1️⃣ Applications expose metrics:
-```
+```yaml
 http://myapp:8080/metrics
 ```
 2️⃣ Prometheus **scrapes** metrics periodically  
@@ -24,16 +22,16 @@ http://myapp:8080/metrics
 6️⃣ Set alerts via Alertmanager 🚨  
 
 ## 📈 Prometheus in Kubernetes
-| 🧩 Feature            | 💡 Description                                          |
-| --------------------- | ------------------------------------------------------- |
-| 📈 Metrics Collection | 📊 Scrapes metrics from pods, nodes, and K8s components |
-| 🧠 Service Discovery  | 🔍 Automatically discovers services to monitor          |
-| 🔔 Alerting           | 🚨 Sends alerts using Alertmanager                      |
-| 🧪 Query              | 🔎 Uses PromQL to query data for dashboards             |
+| 🧩 Feature            | 💡 Description                                                |
+| ---------------------- | ------------------------------------------------------------- |
+| 📈 Metrics Collection | 📊 Scrapes metrics from `pods`, `nodes`, and `K8s components` |
+| 🧠 Service Discovery  | 🔍 Automatically discovers services to monitor                |
+| 🔔 Alerting           | 🚨 Sends alerts using Alertmanager                            |
+| 🧪 Query              | 🔎 Uses `PromQL` to query data for dashboards                   |
 
 
 ## 📦 Install Prometheus (Helm) Easiest way to install:
-```bash
+```hcl
 helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
 helm repo update
 helm install prometheus prometheus-community/kube-prometheus-stack
@@ -49,68 +47,64 @@ helm install prometheus prometheus-community/kube-prometheus-stack
 
 ## 🌐 Access Prometheus & Grafana
 ### 🔹 Prometheus UI
-```bash
+```hcl
 kubectl port-forward svc/prometheus-kube-prometheus-prometheus 9090
 ```
 👉 http://localhost:9090  
 
 ### 🔹 Grafana UI
-```bash
+```hcl
 kubectl port-forward svc/monitoring-grafana 3000:80 -n monitoring
 ```
 👉 http://localhost:3000  
 
 🔑 Default login:
-- Username: admin  
-- Password: admin / prom-operator  
+   - Username: `admin  `
+   - Password: `admin / prom-operator  `
 
 ## 🔐 Get Grafana Password
-```bash
+```hcl
 kubectl get secret -n monitoring prometheus-stack-grafana -o jsonpath="{.data.admin-password}" | base64 -d
 ```
 
-
 ## 🔔 Alerting Flow
-👉 Alerts defined using PrometheusRule (CRDs)
-
-🔄 Flow:
-- Prometheus evaluates rules
-- Condition met → Alert triggered 
-- Sent to **Alertmanager**  
-- Forwarded to Slack / Email 📩  
+ * 👉 Alerts defined using PrometheusRule (CRDs)
+ * 🔄 Flow:
+   - Prometheus evaluates rules
+   - Condition met → Alert triggered 
+   - Sent to **Alertmanager**  
+   - Forwarded to `Slack / Email` 📩
 
 ## 📊 Storage & Model
-- Pull-based model 🔄  
-- Data stored locally 💾  
-- Default retention: **15 days**  
+ - Pull-based model 🔄  
+ - Data stored locally 💾  
+ - Default retention: **15 days**  
 
 ## 📡 Pull Model (Important)
-👉 Prometheus uses pull-based monitoring
-
-- ✔️ It scrapes targets
-- ❌ Not push-based
+ * 👉 Prometheus uses pull-based monitoring
+   * ✔️ It scrapes targets
+   * ❌ Not push-based
 
 ## 🚀 Use Cases
 ### 1️⃣ Cluster & Node Monitoring
-- CPU, memory, disk usage  
-- Alert if CPU > 90% for 5 minutes
+  - CPU, memory, disk usage  
+  - Alert if CPU `> 90%` for 5 minutes
 
 ### 2️⃣ Pod & Container Monitoring
-- Track pod resource usage  
-- Alert on CrashLoopBackOff  
+  - Track pod resource usage  
+  - Alert on CrashLoopBackOff  
 
 ### 3️⃣ Real-Time Alerts
-- Detect failures early  
-- Notify via Slack/Email  
+  - Detect failures early  
+  - Notify via `Slack/Email  `
 
 ### 4️⃣ Service Mesh Monitoring
-- Monitor Istio traffic  
-- Track latency & errors
-- Observability for microservices
-
+  - Monitor Istio traffic  
+  - Track latency & errors
+  - Observability for microservices
 
 ## 🔌 Exporters in Prometheus
-👉 Exporters = Bridge tools that expose metrics for Prometheus.
+ * 👉 Exporters = Bridge tools that expose `metrics for Prometheus`.
 
 ### Common Exporters:
 | 🧩 Exporter           | 🎯 Purpose         | 💡 What it Monitors                          |
@@ -121,30 +115,28 @@ kubectl get secret -n monitoring prometheus-stack-grafana -o jsonpath="{.data.ad
 
 
 ## ☸️ Kubernetes Monitoring
-Prometheus scrapes metrics from:
-- kubelet  
-- API server  
-- etcd  
-- cAdvisor
-- Pods & services 
+ * Prometheus scrapes metrics from:
+  - kubelet  
+  - API server  
+  - etcd  
+  - cAdvisor
+  - Pods & services 
 
 ### 🧠 PromQL (Query Language)
-👉 Used to query metrics
-
-Example:
-```
+ * 👉 Used to query metrics
+ * Example:
+```yaml
 rate(http_requests_total[5m])    # Shows request rate
 ```
-
 
 ## 🧠 Summary
 
 Prometheus is:
-- 📊 Powerful monitoring tool  
-- 🔔 Real-time alerting system  
-- ☸️ Native Kubernetes support  
-- 📈 Works with Grafana dashboards
-- 🔥 Flexible queries (PromQL) & Strong alerting system & Stores time-series data
-- 💡 Uses pull model (/metrics endpoint)
+ - 📊 Powerful monitoring tool  
+ - 🔔 Real-time alerting system  
+ - ☸️ Native Kubernetes support  
+ - 📈 Works with Grafana dashboards
+ - 🔥 Flexible queries (`PromQL`) & Strong alerting system & `Stores time-series data`
+ - 💡 Uses pull model (/metrics endpoint)
 
-👉 Essential for DevOps & SRE 🚀
+ 👉 Essential for DevOps & SRE 🚀
