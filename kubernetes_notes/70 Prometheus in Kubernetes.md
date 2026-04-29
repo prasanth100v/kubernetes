@@ -140,3 +140,25 @@ Prometheus is:
  - 💡 Uses pull model (/metrics endpoint)
 
  👉 Essential for DevOps & SRE 🚀
+
+## ⚡ Prometheus in Kubernetes — Rapid Fire Q&A
+
+| 🔢 Q# | ❓ Question                                 | 💡 Answer                                                                                 |
+| ----- | ------------------------------------------ | ----------------------------------------------------------------------------------------- |
+| 🔹 Q1 | What is Prometheus?                        | 👉 An open-source monitoring & alerting toolkit designed for reliability and scalability. |
+| 🔹 Q2 | What type of database does Prometheus use? | 👉 Time-Series Database (TSDB).                                                           |
+| 🔹 Q3 | What is a metric in Prometheus?            | 👉 A numerical value with timestamp (e.g., CPU usage).                                    |
+| 🔹 Q4 | What are labels?                           | 👉 Key-value pairs used to identify metrics (e.g., pod="nginx").                          |
+| 🔹 Q5 | What is scraping?                          | 👉 Pulling metrics from targets at regular intervals.                                     |
+| 🔢 Q#  | ❓ Question                                       | 💡 Answer                                                                    |
+| ------ | ------------------------------------------------ | ---------------------------------------------------------------------------- |
+| 🔹 Q6  | How does Prometheus discover pods in Kubernetes? | 👉 Using Kubernetes service discovery (API server).                          |
+| 🔹 Q7  | What is a ServiceMonitor?                        | 👉 A custom resource used by Prometheus Operator to define scraping targets. |
+| 🔹 Q8  | What is PodMonitor?                              | 👉 Similar to ServiceMonitor but directly targets pods.                      |
+| 🔹 Q9  | What is kube-state-metrics?                      | 👉 Exposes Kubernetes object state metrics (deployments, pods, nodes).       |
+| 🔹 Q10 | What is node-exporter?                           | 👉 Exposes node-level metrics like CPU, memory, disk.                        |
+
+
+
+
+
