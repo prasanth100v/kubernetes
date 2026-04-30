@@ -1,10 +1,10 @@
-# 📘 Kubernetes Cluster Upgrade (kubeadm - On-Prem)
+# 📘 Kubernetes Cluster Upgrade (`kubeadm - On-Prem`)
 ## 🚀 What is kubeadm Upgrade?
+  * 👉 In self-managed (`on-prem)` Kubernetes, you upgrade clusters manually using kubeadm.
+  * 💡 Unlike managed services (`EKS`), you control everything : Control plane upgrade & Worker node upgrade
 
-* 👉 In self-managed (on-prem) Kubernetes, you upgrade clusters manually using kubeadm.
-* 💡 Unlike managed services (EKS), you control everything : Control plane upgrade & Worker node upgrade
+```hcl
 
-```
 --------------------------------------🚀🚀master node 🚀🚀-------------------------------------
 # 🚫 Step 1: Drain master node 
                      
@@ -57,7 +57,7 @@
 
 # 🔄 Step 3: Apply worker node upgrade  (Update kubelet config)           
 
-       kubeadm upgrade node               # This updates the local kubelet config and validates the version.
+       kubeadm upgrade node                # This updates the local kubelet config and validates the version.
 
 # ⚙ Step 4: Upgrade kubelet & kubectl
           
@@ -75,9 +75,8 @@
       kubectl uncordon worker-1                # pods to be scheduled
 ```
 
-
 ## 💡 Quick Flow (Easy to Remember)
-```
+```hcl
 upgrade_flow Interview shortcut:
                         
   - Cordon                             # 🚫 Stop scheduling
@@ -100,157 +99,147 @@ upgrade_flow Interview shortcut:
 | 🔁 Restart services          | ✅              | ✅              | 🔃 Restart kubelet to apply changes  |
 | 🟢 Uncordon                  | ✅              | ✅              | 🚀 Allow scheduling again            |
 
-
 ## 🔍 How to Verify Cluster Health After Upgrade?
 ### 🖥️ Basic Checks
-👉 After any upgrade (EKS or kubeadm), verification is CRITICAL
+ * 👉 After any upgrade (`EKS` or `kubeadm`), verification is `CRITICAL`
 
 🧪 Basic Health Checks (CLI)
-```bash
+```hcl
 kubectl get nodes          #  Check Nodes      ## Ensure: All nodes are Ready & Correct Kubernetes version
 kubectl get pods -A        # ✔️ Ensure: All pods are Running / Completed & No CrashLoopBackOff ❌
 kubectl describe nodes     # ✔️ Look for: Resource pressure (CPU, Memory) & Network issues and Scheduling problems
 ```
 
 ### 📊 Monitoring Checks
-- CloudWatch Logs ☁️  
-- Prometheus Metrics 📈 
-- Grafana Dashboards & Alerts 🚨  
+ - CloudWatch Logs ☁️  
+ - Prometheus Metrics 📈 
+ - Grafana Dashboards & Alerts 🚨  
 
 ---
 
 ## ⚠️ Version Compatibility Rule
-👉 Kubernetes supports:
-- Control Plane ↔ Kubelet = **±1 minor version**
+ * 👉 Kubernetes supports:
+     - Control Plane ↔ Kubelet = **±1 minor version**
 
-⚠️ If kubelet is older:
-- Node may become **unschedulable**
+ * ⚠️ If kubelet is older:
+     - Node may become **unschedulable**
 
 ## 🔄 Upgrade Worker Nodes (Zero Downtime)
 ### 🚀 Blue-Green Style Approach
 
 1️⃣ Create new node group (updated version)  
 2️⃣ Cordon old nodes:
-```bash
+```yaml
 kubectl cordon <node>
 ```
 3️⃣ Drain pods safely:
-```bash
+```hcl
 kubectl drain <node> --ignore-daemonsets --delete-emptydir-data
 ```
 4️⃣ Move workloads to new nodes  
-5️⃣ Delete old node group  (Zero downtime achieved)
+5️⃣ Delete old node group  (`Zero downtime achieved`)
 
 ## 🛡️ How to Ensure Zero Downtime?
-### ✅ Best Practices
-
-- Use **Rolling Updates** 🔄  
-- Configure **PodDisruptionBudgets (PDB)** 🛑  
-- Use **Readiness & Liveness Probes** ❤️   (Only healthy pods receive traffic)
-- Maintain **multiple replicas** 📦  
-- Monitor application health 📊      (Detect issues early)
+### ✅ Best Practices :
+  - Use **Rolling Updates** 🔄  
+  - Configure **PodDisruptionBudgets (PDB)** 🛑  
+  - Use **Readiness & Liveness Probes** ❤️   (Only healthy pods receive traffic)
+  - Maintain **multiple replicas** 📦  
+  - Monitor application health 📊      (Detect issues early)
 
 ---
 
 ## ⚙️ Upgrade Methods
 ### ☁️ Managed Kubernetes (EKS, GKE, AKS)
-
-- Control plane managed by cloud provider  
-- Node groups upgraded manually or via automation  
-- Tools:
-  - UI (Console)  
-  - CLI (eksctl, gcloud, az)  
-  - Terraform  
+ - Control plane managed by cloud provider  
+ - Node groups upgraded manually or via automation  
+ - Tools:
+   - UI (`AWS Console`)  
+   - CLI (`eksctl`, `gcloud`, `az`)  
+   - Terraform  
 
 ### 🧱 Self-Managed Kubernetes
-Manual upgrade required:
-
-- kubeadm  
-- kubelet  
-- kubectl  
-- Add-ons  
-- Config files  
+ * Manual upgrade required:
+   - kubeadm  
+   - kubelet  
+   - kubectl  
+   - Add-ons  
+   - Config files  
 
 ### 🔄 Upgrade Responsibility: EKS vs kubeadm
-| 🧩 Component     | ☁️ EKS (Managed)               | 🛠️ kubeadm (Self-Managed) |
-| ---------------- | ------------------------------ | -------------------------- |
-| 🧠 Control Plane | ✅ AWS handles                  | ❌ You handle               |
-| 🖥️ Nodes        | ⚠️ Partial (you upgrade nodes) | ❌ You handle fully         |
-| 🔌 Add-ons       | ⚠️ Manual                      | ❌ Manual                   |
 
+| 🧩 **Component**     | ☁️ Amazon Elastic Kubernetes Service                              | 🛠️ **kubeadm (Self-Managed)**                                      | 🧠 **Explanation**                                    | 
+| -------------------- | ------------------------------------------------------------------ | ------------------------------------------------------------------- | ----------------------------------------------------- | 
+| 🧠 **Control Plane** | ✅ AWS handles (`version upgrades`, `HA`, `patches`)              | ❌ You handle (`kube-apiserver`, `etcd`, `scheduler`, `controller`) | Fully managed vs full responsibility                  | 
+| 🖥️ **Worker Nodes**  | ⚠️ You manage (`node groups` / `AMI upgrades`)                    | ❌ You manage fully                                                 | In EKS, AWS provides tooling but you trigger upgrades | 
+| 🔌 **Add-ons**       | ⚠️ Manual / AWS-managed add-ons (`VPC CNI`, `CoreDNS`, `kube-proxy`) | ❌ Manual                                                        | EKS offers managed `add-ons` but still needs planning (Easier in EKS )  |
+| 💾 **etcd**          | ✅ AWS manages (No access)                                        | ❌ You manage                                                       | Hidden in EKS, visible in kubeadm (full control)       |
+| 🔐 **Certificates**  | ✅ AWS handles control plane certs                                | ❌ You rotate/manage (kubeadm requires cert renewal)                | Security responsibility                                |
 
 ## 🔥 Smoke Testing
-👉 Quickly verify:
-
-- App endpoints working 🌐  
-- APIs responding ⚡  
-- No errors in logs ❌  
+ * 👉 Quickly verify:
+    - App endpoints working 🌐  
+    - APIs responding ⚡  
+    - `No errors` in logs ❌  
 
 # 🚀 kubeadm Cluster Upgrade – Interview Answer
 ## 🔹 How to Explain in an Interview
-In our on-premises Kubernetes cluster managed using **kubeadm**, I upgrade master and worker nodes separately to ensure **high availability** and **minimal downtime**.
+  * In our on-premises Kubernetes cluster managed using **kubeadm**, I upgrade master and worker nodes separately to ensure **high availability** and **minimal downtime**.
 
 ## ✅ 🔹 Master Node Upgrade Explanation
-
-* “I start by **cordoning and draining** the master node using `kubectl` so that no new pods are scheduled and existing ones are safely evicted.
-* Then I upgrade the **kubeadm binary** to the target version using the package manager (like `apt`).
-* After that, I verify the upgrade plan using:
-```bash
+  * I start by **cordoning and draining** the master node using `kubectl` so that no new pods are scheduled and existing ones are `safely evicted`.
+  * Then I upgrade the **kubeadm binary** to the target version using the package manager (like `apt`).
+  * After that, I verify the upgrade plan using:
+```yaml
 kubeadm upgrade plan
 ```
-Then I apply the upgrade:
+* Then I apply the upgrade:
 ```bash
 kubeadm upgrade apply <version>
 ```
-👉 This upgrades control plane components like:
-
-* API Server
-* Controller Manager
-* Scheduler
-
-Next, I upgrade:
-  * kubelet
-  * kubectl
+* 👉 This upgrades control plane components like:
+   * `API Server`
+   * `Controller Manager`
+   * `Scheduler`
+* Next, I upgrade:
+   * `kubelet`
+   * `kubectl`
 
 * Then I restart the kubelet service to apply changes.
-* Finally, I **uncordon the node** so it can start scheduling pods again.
-* 👉 I repeat this process for all master nodes in a multi-master setup.”
+* Finally, I **uncordon the node** so it can start `scheduling pods` again.
+* 👉 I repeat this process for all master nodes in a `multi-master setup`.
 
 
 ## ✅ 🔹 Worker Node Upgrade Explanation
-
  * For worker nodes, the process is similar but simpler.
  * I start by **cordoning and draining** the node.
  * Then I upgrade the **kubeadm binary**.
- * Since worker nodes don’t run control plane components,I run:
-  ```bash
+ * Since worker nodes don’t run control plane components, I run:
+  ```yaml
     kubeadm upgrade node
   ```
-👉 This updates kubelet configuration.
+ * 👉 This updates kubelet configuration.
+ * Next, I upgrade:
+    * `kubelet`
+    * `kubectl`
 
-Next, I upgrade:
-
-* kubelet
-* kubectl
-
-  - Then restart kubelet and **uncordon the node**.
-  - 👉 I upgrade **one node at a time** to ensure workloads continue running smoothly.”
+   - Then restart `kubelet` and **uncordon the node**.
+   - 👉 I upgrade **one node at a time** to ensure workloads continue running smoothly.
 
 ### 🧠 Final Summary Line
-“By upgrading nodes one by one and continuously monitoring cluster health, I ensure a **stable, zero-downtime upgrade process** using kubeadm.”
+  * By upgrading nodes one by one and continuously monitoring cluster health, I ensure a **stable, zero-downtime upgrade process** using kubeadm.
 
 ## 🎯 Key Highlights
-
-* 🔄 Sequential upgrade (Master → Worker)
-* 🚫 Cordon & Drain before upgrade
-* 🔁 Rolling upgrade approach
-* 🔍 Continuous monitoring
-* ⚡ Zero downtime achieved with proper planning
+  * 🔄 Sequential upgrade (`Master → Worker`)
+  * 🚫 `Cordon & Drain` before upgrade
+  * 🔁 `Rolling upgrade` approach
+  * 🔍 Continuous monitoring
+  * ⚡ `Zero downtime` achieved with proper planning
 
 ---
 
 ## 🚀 Summary
 
-This approach ensures Kubernetes cluster upgrades are performed safely with minimal risk, maintaining application availability and cluster stability throughout the process. 
-#### 👉 Smooth upgrade = Reliable production 🚀
+ * This approach ensures Kubernetes cluster upgrades are performed safely with `minimal risk`, maintaining `application availability` and `cluster stability` throughout the process.
+ * 👉 `Smooth upgrade = Reliable production 🚀`
 
