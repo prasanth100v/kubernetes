@@ -88,6 +88,40 @@
 
 ---
 
+## ⚡ Kubernetes Cluster Upgrade — Rapid Fire Q&A
+| 🔢 Q#   | ❓ Question                             | 💡 Answer                                                                   |
+| ------- | -------------------------------------- | ------------------------------------------------------------------------------ |
+| 🔹 Q1   | What is a Kubernetes cluster upgrade?  | 👉 Updating `control plane + worker nodes` to a newer Kubernetes version.   |
+| 🔹 Q2   | Why upgrade Kubernetes?                | 👉 `Security patches`, `bug fixes`, `new features`, `deprecations`.         |
+| 🔹 Q3   | Is upgrade downtime-free?              | 👉 Can be `zero/minimal downtime` if done properly.                         |
+| ☁️ Q4   | Who manages control plane in EKS?      | 👉 Amazon Web Services                                                      |
+| ☁️ Q5   | How to upgrade EKS control plane?      | 👉 AWS Console / CLI / eksctl                                               |
+| ☁️ Q6   | Is control plane upgrade disruptive?   | 👉 ❌ No — AWS handles it with high availability.                          |
+| ☁️ Q7   | Can you skip versions in EKS?          | 👉 ❌ No — must `upgrade sequentially` (one version at a time).            |
+| 🖥️ Q8  | Who upgrades worker nodes?             | 👉 You (`manual` or` managed node groups`)                                  |
+| 🖥️ Q9  | How to upgrade nodes?                  | 👉 Rolling update / new node group / AMI update                             |
+| 🖥️ Q10 | What is recommended approach?          | 👉 Create new node group → migrate workloads → delete old                   |
+| 🔌 Q11  | What are EKS add-ons?                  | 👉 Core components like: `VPC CNI`, `CoreDNS`, `kube-proxy  `              |
+| 🔌 Q12  | Should add-ons be upgraded?            | 👉 ✅ Yes — must match cluster version.                                    |
+| ⚙️ Q13  | Pre-check before EKS upgrade?          | 👉 Check `deprecated APIs`, `app compatibility`.                           |
+| ⚙️ Q14  | Command to check version skew?         | 👉 Nodes should not lag more than 2 versions behind control plane.         |
+| 🛠️ Q15 | Who manages control plane in kubeadm?  | 👉 You                                                                      |
+| 🛠️ Q16 | First step in kubeadm upgrade?         | 👉 Upgrade kubeadm binary                                                   |
+| 🛠️ Q17 | Command to plan upgrade?               | 👉 kubeadm upgrade plan                                                     |
+| 🛠️ Q18 | Command to upgrade control plane?      | 👉 kubeadm upgrade apply <version>                                          |
+| 🔄 Q19  | Steps to upgrade worker nodes?         | 👉 Drain node → `Upgrade kubelet & kubectl` → `Restart kubelet → Uncordon node` |
+| 🔧 Q20  | What components are upgraded?          | 👉 `API server`, `scheduler`, `controller-manager`, `etcd`                   |
+| 💾 Q21  | Why is etcd critical?                  | 👉 Stores cluster state                                                     |
+| 💾 Q22  | Best practice before upgrade?          | 👉 Take etcd backup                                                         |
+| ⚖️ Q23  | What is version skew policy?           | 👉 Nodes can be up to `2 versions` behind control plane.                    |
+| ⚖️ Q24  | Can kubeadm skip versions?             | 👉 `❌ No` — sequential upgrade required.                                  |
+| 🛠️ Q25 | Pods not starting after upgrade?       | 👉 Check: `API compatibility`, `Deprecated resources`, `CNI plugin `         |
+| 🛠️ Q26 | Node NotReady after upgrade?           | 👉 Check `kubelet version`, `restart service`.                               |
+| 🎯 Q27  | How to upgrade with zero downtime?     | 👉 `Rolling upgrade` + `PDB` + `multiple replicas`.                         |
+| 🎯 Q28  | Why upgrade failed in kubeadm cluster? | 👉 Skipped steps, version mismatch, etcd issues.                            |
+| 🎯 Q29  | Best upgrade strategy for production?  | 👉 `Blue-green nodes` / `rolling upgrades`.                                 |
+| 🎯 Q30  | How to rollback upgrade?               | 👉 Restore etcd backup (`kubeadm`) / limited rollback in EKS.               |
+
 ## 🚀 Summary
 
  * This approach ensures `safe`, controlled upgrades with `minimal risk`, maintaining application availability throughout the process.
