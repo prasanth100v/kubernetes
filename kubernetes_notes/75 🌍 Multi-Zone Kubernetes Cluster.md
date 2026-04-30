@@ -70,27 +70,27 @@ affinity:
      * If one zone fails : Remaining 2 pods keep app running ✅
 
 ### ⚠️ Without Multi-Zone Setup
-  * All pods in one zone ❌
-  * Zone failure = complete downtime ⚠️  
+   * All pods in one zone ❌
+   * Zone failure = complete downtime ⚠️  
 
 ---
 
 ## ✨ Summary
 
- Multi-Zone Kubernetes:
-  * 🌍 Improves availability
-  * 🛡️ Prevents outages
-  * 🔄 Enables zero downtime
-  * 🚀 Essential for production clusters
+* Multi-Zone Kubernetes:
+   * 🌍 Improves availability
+   * 🛡️ Prevents outages
+   * 🔄 Enables zero downtime
+   * 🚀 Essential for production clusters
 
  ## 🎯 Best Practices
-  * ✅ Use **multiple AZs** for production clusters
-  * ✅ Configure **PodDisruptionBudgets** to maintain availability
-  * ✅ Apply **pod anti-affinity** for proper distribution
-  * ✅ Monitor zone health and node status
+   * ✅ Use **multiple AZs** for production clusters
+   * ✅ Configure **PodDisruptionBudgets** to maintain availability
+   * ✅ Apply **pod anti-affinity** for proper distribution
+   * ✅ Monitor zone health and node status
 
 ---
 
-* A multi-zone Kubernetes cluster enhances reliability by distributing workloads across multiple availability zones. 
-* Kubernetes ensures high availability and fault tolerance for modern applications.
+ * A multi-zone Kubernetes cluster enhances `reliability` by distributing workloads across multiple availability zones. 
+ * Kubernetes ensures `high availability` and `fault tolerance` for modern applications.
 
