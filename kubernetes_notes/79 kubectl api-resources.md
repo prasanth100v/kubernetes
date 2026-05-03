@@ -64,17 +64,17 @@
 
 ## ⚡ Kubernetes API Resources — Rapid Fire Q&A
 
-| 🔢 Q#  | ❓ Question                            | 💡 Answer                                                                                        |
-| ------ | --------------------------------------- | ------------------------------------------------------------------------------------------------- |
-| 🔹 Q1  | What is a Kubernetes API Resource?     | 👉 Any object you interact with via the Kubernetes API (`Pods`, `Deployments`, `Services`, etc.). |
-| 🔹 Q2  | Where are API resources defined?       | 👉 In the Kubernetes `API server`.                                                                |
-| 🔹 Q3  | Command to list all API resources?     | 👉 `kubectl api-resources`                                                                       |
-| 🔹 Q4  | Command to get API versions?           | 👉 `kubectl api-versions  `                                                                      |
-| 🧠 Q5  | What is an API Group?                  | 👉 Logical grouping of resources (e.g., `apps`, `batch`).                                       |
-| 🧠 Q6  | What is API Version?                   | 👉 Version of resource schema (e.g., `v1`, `apps/v1`).                                          |
-| 🧠 Q7  | What is Kind?                          | 👉 Type of resource (e.g., `Pod`, `Deployment`).                                                |
-| 🧠 Q8  | What is Resource vs Kind?              | 👉 Resource = `API endpoint` (pods), Kind = `object type` (Pod).                                |
-| 📦 Q9  | Core group examples?                   | 👉 `Pods`, `Services`, `ConfigMaps`, `Secrets (v1)`                                            |
+|  🔢   | ❓ Question                            | 💡 Answer                                                                                        |
+| ----- | -------------------------------------- | ------------------------------------------------------------------------------------------------- |
+| 🔹 1  | What is a Kubernetes API Resource?     | 👉 Any object you interact with via the Kubernetes API (`Pods`, `Deployments`, `Services`, etc.). |
+| 🔹 2  | Where are API resources defined?       | 👉 In the Kubernetes `API server`.                                                                |
+| 🔹 3  | Command to list all API resources?     | 👉 `kubectl api-resources`                                                                       |
+| 🔹 4  | Command to get API versions?           | 👉 `kubectl api-versions  `                                                                      |
+| 🧠 5  | What is an API Group?                  | 👉 Logical grouping of resources (e.g., `apps`, `batch`).                                       |
+| 🧠 6  | What is API Version?                   | 👉 Version of resource schema (e.g., `v1`, `apps/v1`).                                          |
+| 🧠 7  | What is Kind?                          | 👉 Type of resource (e.g., `Pod`, `Deployment`).                                                |
+| 🧠 8  | What is Resource vs Kind?              | 👉 Resource = `API endpoint` (pods), Kind = `object type` (Pod).                                |
+| 📦 9  | Core group examples?                   | 👉 `Pods`, `Services`, `ConfigMaps`, `Secrets (v1)`                                            |
 | 📦 10 | apps/v1 group?                         | 👉 `Deployments`, `StatefulSets`, `DaemonSets`                                                |
 | 📦 11 | batch/v1 group?                        | 👉 `Jobs`, `CronJobs `                                                                        |
 | 📦 12 | networking.k8s.io/v1?                  | 👉 `Ingress`, `NetworkPolicy `                                                                |
