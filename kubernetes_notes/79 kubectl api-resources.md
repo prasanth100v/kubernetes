@@ -64,8 +64,8 @@
 
 ## ⚡ Kubernetes API Resources — Rapid Fire Q&A
 
-|  🔢   | ❓ Question                            | 💡 Answer                                                                                        |
-| ----- | -------------------------------------- | ------------------------------------------------------------------------------------------------- |
+|  🔢#    | ❓ Question                            | 💡 Answer                                                                                        |
+| ------- | -------------------------------------- | ------------------------------------------------------------------------------------------------- |
 | 🔹 1  | What is a Kubernetes API Resource?     | 👉 Any object you interact with via the Kubernetes API (`Pods`, `Deployments`, `Services`, etc.). |
 | 🔹 2  | Where are API resources defined?       | 👉 In the Kubernetes `API server`.                                                                |
 | 🔹 3  | Command to list all API resources?     | 👉 `kubectl api-resources`                                                                       |
