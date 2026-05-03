@@ -75,33 +75,33 @@
 | 🧠 Q7  | What is Kind?                          | 👉 Type of resource (e.g., `Pod`, `Deployment`).                                                |
 | 🧠 Q8  | What is Resource vs Kind?              | 👉 Resource = `API endpoint` (pods), Kind = `object type` (Pod).                                |
 | 📦 Q9  | Core group examples?                   | 👉 `Pods`, `Services`, `ConfigMaps`, `Secrets (v1)`                                            |
-| 📦 Q10 | apps/v1 group?                         | 👉 `Deployments`, `StatefulSets`, `DaemonSets`                                                |
-| 📦 Q11 | batch/v1 group?                        | 👉 `Jobs`, `CronJobs `                                                                        |
-| 📦 Q12 | networking.k8s.io/v1?                  | 👉 `Ingress`, `NetworkPolicy `                                                                |
-| 📄 Q13 | Main sections of a resource YAML?      | 👉 `apiVersion, kind, metadata, spec, status `                                                |
-| 📄 Q14 | What is metadata?                      | 👉 Info like `name`, `labels`, `namespace`.                                                   |
-| 📄 Q15 | What is spec?                          | 👉 Desired state.                                                                             |
-| 📄 Q16 | What is status?                        | 👉 `Current state` (managed by Kubernetes).                                                   |
-| 🌐 Q17 | Are all resources namespaced?          | 👉 ❌ No                                                                                     |
-| 🌐 Q18 | Examples of cluster-wide resources?    | 👉 `Nodes`, `PersistentVolumes`, `Namespaces  `                                               |
-| ⚙️ Q19 | How to create a resource?              | 👉 `kubectl apply -f file.yaml `                                                              |
-| ⚙️ Q20 | How to delete a resource?              | 👉 `kubectl delete -f file.yaml  `                                                            |
-| ⚙️ Q21 | How to edit a resource?                | 👉 `kubectl edit `                                                                            |
-| 🔍 Q22 | How to inspect a resource definition?  | 👉 `kubectl explain <resource> `                                                              |
-| 🔍 Q23 | How to get detailed info?              | 👉 `kubectl get <resource> -o yaml `                                                          |
-| 🧩 Q24 | What is CRD?                           | 👉 Custom Resource Definition — `extends Kubernetes API`.                                     |
-| 🧩 Q25 | Why use CRDs?                          | 👉 To define custom objects (e.g., `monitoring`, `databases`).                                |
-| 🧩 Q26 | Example CRD usage?                     | 👉 Istio resources like `VirtualService `                                                     |
-| 🔄 Q27 | What is a controller?                  | 👉 Watches `resources` and ensures `desired state`.                                           |
-| 🔄 Q28 | Example?                               | 👉 Deployment controller ensures `pods match replica count`.                                  |
-| 🔐 Q29 | How does kubectl interact with API?    | 👉 Via `API server using REST`.                                                               |
-| 🔐 Q30 | What is `kubeconfig`?                  | 👉 `Config file for cluster access`.                                                          |
-| ⚖️ Q31 | What are API stability levels?         | 👉 `Alpha`, `Beta`, `Stable (GA)`                                                              |
-| ⚖️ Q32 | Can API versions be deprecated?        | 👉 `✅ Yes   `                                                                                 |
-| 🚀 Q33 | What is resource quota?                | 👉 Limits `resource usage in namespace`.                                                      |
-| 🚀 Q34 | What is limit range?                   | 👉 `Default/min/max` resource constraints.                                                    |
-| 🚀 Q35 | What is field selector?                | 👉 `Filter resources by fields`.                                                              |
-| 🎯 Q36 | Why is apiVersion important?           | 👉 Ensures `compatibility` with `cluster version`.                                            |
-| 🎯 Q37 | What happens if wrong apiVersion used? | 👉 `Resource creation fails`.                                                                 |
-| 🎯 Q38 | How to find correct API version?       | 👉 `kubectl api-resources`                                                                    |
-| 🎯 Q39 | Why CRDs are powerful?                 | 👉 `Extend Kubernetes into platform` (operators).                                             |
+| 📦 10 | apps/v1 group?                         | 👉 `Deployments`, `StatefulSets`, `DaemonSets`                                                |
+| 📦 11 | batch/v1 group?                        | 👉 `Jobs`, `CronJobs `                                                                        |
+| 📦 12 | networking.k8s.io/v1?                  | 👉 `Ingress`, `NetworkPolicy `                                                                |
+| 📄 13 | Main sections of a resource YAML?      | 👉 `apiVersion, kind, metadata, spec, status `                                                |
+| 📄 14 | What is metadata?                      | 👉 Info like `name`, `labels`, `namespace`.                                                   |
+| 📄 15 | What is spec?                          | 👉 Desired state.                                                                             |
+| 📄 16 | What is status?                        | 👉 `Current state` (managed by Kubernetes).                                                   |
+| 🌐 17 | Are all resources namespaced?          | 👉 ❌ No                                                                                     |
+| 🌐 18 | Examples of cluster-wide resources?    | 👉 `Nodes`, `PersistentVolumes`, `Namespaces  `                                               |
+| ⚙️ 19 | How to create a resource?              | 👉 `kubectl apply -f file.yaml `                                                              |
+| ⚙️ 20 | How to delete a resource?              | 👉 `kubectl delete -f file.yaml  `                                                            |
+| ⚙️ 21 | How to edit a resource?                | 👉 `kubectl edit `                                                                            |
+| 🔍 22 | How to inspect a resource definition?  | 👉 `kubectl explain <resource> `                                                              |
+| 🔍 23 | How to get detailed info?              | 👉 `kubectl get <resource> -o yaml `                                                          |
+| 🧩 24 | What is CRD?                           | 👉 Custom Resource Definition — `extends Kubernetes API`.                                     |
+| 🧩 25 | Why use CRDs?                          | 👉 To define custom objects (e.g., `monitoring`, `databases`).                                |
+| 🧩 26 | Example CRD usage?                     | 👉 Istio resources like `VirtualService `                                                     |
+| 🔄 27 | What is a controller?                  | 👉 Watches `resources` and ensures `desired state`.                                           |
+| 🔄 28 | Example?                               | 👉 Deployment controller ensures `pods match replica count`.                                  |
+| 🔐 29 | How does kubectl interact with API?    | 👉 Via `API server using REST`.                                                               |
+| 🔐 30 | What is `kubeconfig`?                  | 👉 `Config file for cluster access`.                                                          |
+| ⚖️ 31 | What are API stability levels?         | 👉 `Alpha`, `Beta`, `Stable (GA)`                                                              |
+| ⚖️ 32 | Can API versions be deprecated?        | 👉 `✅ Yes   `                                                                                 |
+| 🚀 33 | What is resource quota?                | 👉 Limits `resource usage in namespace`.                                                      |
+| 🚀 34 | What is limit range?                   | 👉 `Default/min/max` resource constraints.                                                    |
+| 🚀 35 | What is field selector?                | 👉 `Filter resources by fields`.                                                              |
+| 🎯 36 | Why is apiVersion important?           | 👉 Ensures `compatibility` with `cluster version`.                                            |
+| 🎯 37 | What happens if wrong apiVersion used? | 👉 `Resource creation fails`.                                                                 |
+| 🎯 38 | How to find correct API version?       | 👉 `kubectl api-resources`                                                                    |
+| 🎯 39 | Why CRDs are powerful?                 | 👉 `Extend Kubernetes into platform` (operators).                                             |
