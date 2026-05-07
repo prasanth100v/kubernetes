@@ -110,3 +110,5 @@ spec:
 | 🎯 Q24  | What if API server is down?               | 👉 Static Pods still run (managed by kubelet).                                                                                                                             |
 | 🎯 Q25  | How to update Static Pod?                 | 👉 Modify manifest file → kubelet reloads.                                                                                                                                 |
 | 🎯 Q26  | Can you scale Static Pods?                | 👉 ❌ No (manual per node only).                                                                                                                                            |
+
+...
