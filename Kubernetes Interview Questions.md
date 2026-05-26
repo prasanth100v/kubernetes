@@ -2,7 +2,7 @@
 
 ## ☸️ What is Kubernetes?
  * 🚀 Kubernetes (K8s) is an open-source container orchestration tool used to deploy, scale, and manage containerized applications automatically.
-> 🖥️ Kubernetes Cluster = 👉 Master (Control Plane) + Worker Nodes
+ * 🖥️ Kubernetes Cluster = 👉 Master (Control Plane) + Worker Nodes
 
 ## Why do we need Kubernetes❓
 ```hcl
