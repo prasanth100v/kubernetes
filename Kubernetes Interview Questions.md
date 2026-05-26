@@ -63,10 +63,88 @@ Taint → Applied on Node & Toleration → Applied on Pod 👉 Controls where Po
 ## What is Node Affinity?
 Rules to schedule Pods on specific nodes.
 
+---
 
+## ☸️ Kubernetes (K8s) — Rapid Fire Interview Q&A
 
+| #️⃣    | ❓ Question                                       | ✅ Answer                                                                                                        |
+| ------ | ------------------------------------------------ | --------------------------------------------------------------------------------------------------------------- |
+| 1️⃣    | ☸️ What is Kubernetes?                           | 👉 Open-source container orchestration platform for deploying, scaling, and managing containerized applications |
+| 2️⃣    | 🏗️ Kubernetes Cluster consists of?              | 👉 Control Plane + Worker Nodes                                                                                 |
+| 3️⃣    | 🚀 Why do we need Kubernetes?                    | 👉 Auto scaling, self-healing, load balancing, rolling updates, efficient resource usage                        |
+| 4️⃣    | 📦 What is a Pod?                                | 👉 Smallest deployable unit in Kubernetes containing one or more containers                                     |
+| 5️⃣    | 🖥️ What is a Node?                              | 👉 Worker machine where Pods run                                                                                |
+| 6️⃣    | ⚙️ Components present in a Node?                 | 👉 kubelet, container runtime, kube-proxy                                                                       |
+| 7️⃣    | 🎯 What is kubelet?                              | 👉 Agent running on each node managing Pods                                                                     |
+| 8️⃣    | 🔄 What is container runtime?                    | 👉 Software that runs containers like Docker/containerd                                                         |
+| 9️⃣    | 🌐 What is kube-proxy?                           | 👉 Handles networking and service traffic routing                                                               |
+| 🔟     | 🧠 What are Control Plane components?            | 👉 kube-apiserver, etcd, kube-scheduler, kube-controller-manager                                                |
+| 1️⃣1️⃣ | 🚪 What is kube-apiserver?                       | 👉 Entry point for Kubernetes cluster communication                                                             |
+| 1️⃣2️⃣ | 🗄️ What is etcd?                                | 👉 Distributed key-value database storing cluster state                                                         |
+| 1️⃣3️⃣ | ⚠️ What happens if etcd is lost?                 | 👉 Cluster state is lost                                                                                        |
+| 1️⃣4️⃣ | 📍 What is kube-scheduler?                       | 👉 Decides which node Pods should run on                                                                        |
+| 1️⃣5️⃣ | 🎛️ What is kube-controller-manager?             | 👉 Runs controllers managing cluster state                                                                      |
+| 1️⃣6️⃣ | 📦 What is Deployment?                           | 👉 Manages ReplicaSets, Pods, updates, and rollbacks                                                            |
+| 1️⃣7️⃣ | 🔁 What is ReplicaSet?                           | 👉 Ensures desired number of Pods are running                                                                   |
+| 1️⃣8️⃣ | 🌐 What is a Service?                            | 👉 Stable networking endpoint for accessing Pods                                                                |
+| 1️⃣9️⃣ | 🔌 Types of Kubernetes Services?                 | 👉 ClusterIP, NodePort, LoadBalancer, ExternalName                                                              |
+| 2️⃣0️⃣ | 🏠 What is ClusterIP?                            | 👉 Internal-only service access inside cluster                                                                  |
+| 2️⃣1️⃣ | 🌍 What is NodePort?                             | 👉 Exposes service on node port externally                                                                      |
+| 2️⃣2️⃣ | ☁️ What is LoadBalancer Service?                 | 👉 Exposes service using cloud provider load balancer                                                           |
+| 2️⃣3️⃣ | 🔗 What is ExternalName Service?                 | 👉 Maps service to external DNS name                                                                            |
+| 2️⃣4️⃣ | 🗂️ What is Namespace?                           | 👉 Logical isolation for Kubernetes resources                                                                   |
+| 2️⃣5️⃣ | 📂 Common namespaces?                            | 👉 default, kube-system, dev, prod                                                                              |
+| 2️⃣6️⃣ | ⚙️ What is ConfigMap?                            | 👉 Stores non-sensitive configuration data                                                                      |
+| 2️⃣7️⃣ | 🔐 What is Secret?                               | 👉 Stores sensitive information like passwords/tokens                                                           |
+| 2️⃣8️⃣ | 🔒 Are Kubernetes Secrets encrypted by default?  | 👉 Base64 encoded, not fully encrypted unless encryption enabled                                                |
+| 2️⃣9️⃣ | 💾 What is Volume?                               | 👉 Persistent/shared storage for Pods                                                                           |
+| 3️⃣0️⃣ | 🗄️ What is PersistentVolume (PV)?               | 👉 Cluster-level storage resource                                                                               |
+| 3️⃣1️⃣ | 📥 What is PersistentVolumeClaim (PVC)?          | 👉 Request for storage by Pod                                                                                   |
+| 3️⃣2️⃣ | 📈 What is HPA?                                  | 👉 Horizontal Pod Autoscaler for automatic scaling                                                              |
+| 3️⃣3️⃣ | ❤️ What is Self-Healing in Kubernetes?           | 👉 Automatically restarts/reschedules failed Pods                                                               |
+| 3️⃣4️⃣ | 🌍 What is Ingress?                              | 👉 Manages external HTTP/HTTPS traffic routing                                                                  |
+| 3️⃣5️⃣ | 👤 What is Service Account?                      | 👉 Identity used by Pods to access Kubernetes API                                                               |
+| 3️⃣6️⃣ | 🛡️ What is RBAC?                                | 👉 Role-Based Access Control for permissions                                                                    |
+| 3️⃣7️⃣ | 💥 What is CrashLoopBackOff?                     | 👉 Pod repeatedly crashing and restarting                                                                       |
+| 3️⃣8️⃣ | 🚫 Common reasons for CrashLoopBackOff?          | 👉 App error, wrong command, missing config                                                                     |
+| 3️⃣9️⃣ | ⚖️ What is Taint?                                | 👉 Restriction applied on nodes                                                                                 |
+| 4️⃣0️⃣ | ✅ What is Toleration?                            | 👉 Allows Pod to run on tainted node                                                                            |
+| 4️⃣1️⃣ | 📍 What is Node Affinity?                        | 👉 Scheduling rule for specific nodes                                                                           |
+| 4️⃣2️⃣ | 🔄 What is Rolling Update?                       | 👉 Gradual application update without downtime                                                                  |
+| 4️⃣3️⃣ | ↩️ What is Rollback?                             | 👉 Revert to previous stable deployment version                                                                 |
+| 4️⃣4️⃣ | 📊 What is kubectl?                              | 👉 CLI tool to manage Kubernetes clusters                                                                       |
+| 4️⃣5️⃣ | 📋 Command to view Pods?                         | 👉 `kubectl get pods`                                                                                           |
+| 4️⃣6️⃣ | 📋 Command to view nodes?                        | 👉 `kubectl get nodes`                                                                                          |
+| 4️⃣7️⃣ | 🔍 Command to describe Pod?                      | 👉 `kubectl describe pod <pod-name>`                                                                            |
+| 4️⃣8️⃣ | 📜 Command to check Pod logs?                    | 👉 `kubectl logs <pod-name>`                                                                                    |
+| 4️⃣9️⃣ | 🔄 Restart Deployment command?                   | 👉 `kubectl rollout restart deployment <name>`                                                                  |
+| 5️⃣0️⃣ | 📈 Scale Deployment command?                     | 👉 `kubectl scale deployment app --replicas=5`                                                                  |
+| 5️⃣1️⃣ | 🌐 Command to expose deployment?                 | 👉 `kubectl expose deployment app --port=80`                                                                    |
+| 5️⃣2️⃣ | 🧪 Command to test cluster info?                 | 👉 `kubectl cluster-info`                                                                                       |
+| 5️⃣3️⃣ | 📂 Command to switch namespace?                  | 👉 `kubectl config set-context --current --namespace=dev`                                                       |
+| 5️⃣4️⃣ | 🔍 How check events in cluster?                  | 👉 `kubectl get events`                                                                                         |
+| 5️⃣5️⃣ | 🚑 Pod stuck Pending — reasons?                  | 👉 Insufficient resources or scheduling issues                                                                  |
+| 5️⃣6️⃣ | ❌ ImagePullBackOff means?                        | 👉 Kubernetes unable to pull container image                                                                    |
+| 5️⃣7️⃣ | 🌐 Service not reachable — checks?               | 👉 Service type, endpoints, Pod status, network policies                                                        |
+| 5️⃣8️⃣ | 🔄 Why use Deployments instead of Pods directly? | 👉 Automatic scaling, updates, and recovery                                                                     |
+| 5️⃣9️⃣ | ☁️ Kubernetes commonly used with?                | 👉 Amazon Web Services EKS, GKE, AKS                                                                            |
+| 6️⃣0️⃣ | 🚀 Why Kubernetes popular in DevOps?             | 👉 Scalability, automation, self-healing, portability                                                           |
 
+---
 
+## 🔥 Kubernetes Interview Gold Tips
+| ⭐ Best Practice                  | 💡 Why Important               |
+| -------------------------------- | ------------------------------ |
+| 🔐 Use RBAC                      | Secure cluster access          |
+| 📂 Use Namespaces                | Environment isolation          |
+| ❤️ Enable probes                 | Health monitoring              |
+| 📈 Use HPA                       | Automatic scaling              |
+| 🔄 Use Deployments               | Safer updates & rollbacks      |
+| 🌐 Use Ingress                   | Centralized traffic management |
+| 💾 Use PVCs                      | Persistent application storage |
+| 🛡️ Store secrets securely       | Protect sensitive data         |
+| 📊 Monitor cluster               | Better observability           |
+| ☸️ Use GitOps tools like Argo CD | Automated deployments          |
 
 
 
