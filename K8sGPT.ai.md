@@ -1,16 +1,18 @@
 # 🚀 K8sGPT (Kubernetes GPT)
-| ❓ **Question**                                         | ✅ **Answer**                                                                                                                                                                                     |
+
+| ❓ **Question**                                         | ✅ **Answer**                                                                                                                                                                                  |
 | ------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| 🔹 **1. What is K8sGPT?**                              | 🤖 K8sGPT is an AI-powered Kubernetes diagnostic tool that scans Kubernetes clusters, identifies issues, analyzes errors, and provides human-readable explanations with remediation suggestions. |
+| 🔹 **1. What is K8sGPT?**                              | 🤖 K8sGPT is an AI-powered Kubernetes diagnostic tool that scans Kubernetes clusters, `identifies issues`, `analyzes errors`, and provides human-readable explanations with remediation suggestions. |
 | 🔹 **2. Why was K8sGPT created?**                      | 🛠️ Kubernetes troubleshooting can be complex. K8sGPT simplifies debugging by converting technical Kubernetes errors into understandable explanations and recommended fixes.                     |
-| 🔹 **3. Is K8sGPT an official Kubernetes project?**    | 🌐 No. K8sGPT is an open-source project developed by the Kubernetes community, not by Kubernetes maintainers directly.                                                                           |
+| 🔹 **3. Is K8sGPT an official Kubernetes project?**    | 🌐 No. K8sGPT is an open-source project developed by `the Kubernetes community`, not by Kubernetes maintainers directly.                                                                           |
 | 🔹 **4. What problems does K8sGPT solve?**             | 🚨 It helps identify misconfigurations, failed deployments, pod crashes, service issues, ingress errors, storage problems, and security-related findings.                                        |
-| 🔹 **5. How does K8sGPT work?**                        | ⚙️ It connects to a Kubernetes cluster, scans resources, collects events and errors, analyzes them, and optionally uses AI models to explain root causes and solutions.                          |
+| 🔹 **5. How does K8sGPT work?**                        | ⚙️ It connects to a Kubernetes cluster, scans resources, `collects events` and `errors`, analyzes them, and optionally uses AI models to explain root causes and solutions.                       |
 | 🔹 **6. Does K8sGPT replace kubectl?**                 | 🔧 No. K8sGPT complements kubectl by interpreting cluster issues rather than replacing cluster management commands.                                                                              |
 | 🔹 **7. What AI models can K8sGPT use?**               | 🧠 OpenAI, Azure OpenAI, Ollama, Amazon Bedrock, Google Gemini, and other supported AI providers.                                                                                                |
-| 🔹 **8. Is AI mandatory in K8sGPT?**                   | ❌ No. K8sGPT can detect issues without AI. AI is used only for generating explanations and recommendations.                                                                                      |
-| 🔹 **9. How does K8sGPT identify issues?**             | 🔍 It analyzes Kubernetes API resources, events, pod statuses, deployments, services, PVCs, ingress resources, and node conditions.                                                              |
+| 🔹 **8. Is AI mandatory in K8sGPT?**                   | ❌ No. K8sGPT can detect issues without AI. AI is used only for `generating explanations` and `recommendations`.                                                                               |
+| 🔹 **9. How does K8sGPT identify issues?**             | 🔍 It analyzes Kubernetes `API resources`, `events`, `pod statuses`, `deployments`, `services`, `PVCs`, `ingress resources`, and node conditions.                                               |
 | 🔹 **10. What is the main command used for analysis?** | 🚀 `k8sgpt analyze`                                                                                                                                                                              |
+
 ---
 
 ## 🔹 STEP 1: Install K8sGPT CLI
