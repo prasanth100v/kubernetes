@@ -1,30 +1,24 @@
-# Kubeadm Setup on On‑Premises (Bare‑Metal) Servers
-
-## Disable Swap
-
+# 🚀☸️ Kubeadm Setup on On‑Premises (Bare‑Metal) Servers 🖥️
+## 🚫💾 Disable Swap
 Kubernetes does not work with swap memory enabled. so we need to disable it.
 
-**Temporary:**
-
-``` bash
+### ⏳ Temporary:
+```hcl
 sudo swapoff -a
 ```
-
-**Permanent:**
-
-``` bash
+### 🔒 Permanent:
+```hcl
 sudo sed -i '/ swap / s/^\(.*\)$/#\1/g' /etc/fstab
 ```
 
-------------------------------------------------------------------------
+---
 
-## Load Required Kernel Modules and Set sysctl Parameters
-these commands are compulsory (required) for a successful kubeadm Kubernetes setup — especially on bare
-metal or on-premises servers.
-> These enable container networking support & help Kubernetes pods talk to each other.
-### Run on **both master and worker nodes**.
+## ⚙️🔧 Load Required Kernel Modules and Set sysctl Parameters
+ * these commands are compulsory (required) for a successful `kubeadm Kubernetes setup` — especially on bare metal or on-premises servers.
+ * 📌 These enable `container networking support` & help Kubernetes pods talk to each other.
 
-``` bash
+### 🖥️ Run on both master and worker nodes.
+```hcl
 cat <<EOF | sudo tee /etc/modules-load.d/k8s.conf
 overlay
 br_netfilter
@@ -42,26 +36,23 @@ EOF
 sudo sysctl --system
 ```
 
-------------------------------------------------------------------------
+---
 
-## Step 1: Install Docker on All Nodes (master and worker).
-Kubernetes requires Docker (or another container runtime) to run containers.
-
-``` bash
+## 1️⃣ 🐳 Install Docker on All Nodes (master and worker)
+ * Kubernetes requires Docker (or another container runtime) to run containers.
+```hcl
 sudo apt update
 sudo apt install -y docker.io
 sudo systemctl enable docker
 sudo systemctl start docker
 ```
 
-------------------------------------------------------------------------
+## 2️⃣ ☸️ Install kubeadm, kubelet, kubectl
+  - ⚙️ kubeadm: Used to set up the cluster.
+  - 🤖 kubelet: Runs on all nodes, ensuring containers are running.
+  - 💻 kubectl: Command-line tool to interact with the cluster.
 
-## Step 2: Install kubeadm, kubelet, kubectl
-- kubeadm: Used to set up the cluster.
-- kubelet: Runs on all nodes, ensuring containers are running.
-- kubectl: Command-line tool to interact with the cluster.
-
-``` bash
+```hcl
 sudo apt update && sudo apt install -y apt-transport-https curl
 curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
 
@@ -72,65 +63,57 @@ sudo apt install -y kubeadm kubelet kubectl
 sudo apt-mark hold kubeadm kubelet kubectl
 ```
 
-------------------------------------------------------------------------
+## 3️⃣ 🎯 Initialize the Master Node
+ * Once Docker and Kubernetes tools are installed, initialize the Kubernetes cluster on the master node using kubeadm init
 
-## Step 3: Initialize the Master Node
-Once Docker and Kubernetes tools are installed, initialize the Kubernetes cluster on the master node using kubeadm init
-``` bash
+```hcl
 sudo kubeadm init --pod-network-cidr=192.168.0.0/16
 ```
-- After the master node is initialized, you will see an output with a join command. This command allows worker nodes to join the cluster
-- Save the **join command** displayed in the output:
 
-``` bash
+  - 📌 After the master node is initialized, you will see an output with a join command.
+  - 🔗 This command allows worker nodes to join the cluster.
+  - 💾 Save the join command displayed in the output:
+
+```hcl
 kubeadm join <master-ip>:6443 --token <token> --discovery-token-ca-cert-hash sha256:<hash>
 ```
 
-------------------------------------------------------------------------
+## 4️⃣ 💻 Set Up kubectl on the Master Node
+ * We need to set up kubectl to interact with the Kubernetes cluster from the master node.
 
-## Step 4: Set Up kubectl on the Master Node
-We need to set up kubectl to interact with the Kubernetes cluster from the master node.
-
-``` bash
+```hcl
 mkdir -p $HOME/.kube
 sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
 sudo chown $(id -u):$(id -g) $HOME/.kube/config
 ```
-> 👉 Now, you can interact with the cluster using kubectl.
+ * 👉 ☸️ Now, you can interact with the cluster using kubectl.
 
-------------------------------------------------------------------------
+## 5️⃣ 🕸️🌐 Install Calico CNI Plugin (Pod Network) (Master node Only)
+ * To allow pods to communicate, you need a network plugin.
 
-## Step 5: Install Calico CNI Plugin (Pod Network) (Master node Only)
-To allow pods to communicate, you need a network plugin.
-``` bash
+```hcl
 kubectl apply -f https://raw.githubusercontent.com/projectcalico/calico/v3.26.1/manifests/calico.yaml
 ```
-👉 Calico creates a network between your pods, so they can talk to each other across different nodes.
+ * 👉 🔄 Calico creates a network between your pods, so they can talk to each other across different nodes.
 
-------------------------------------------------------------------------
+## 6️⃣ ➕ Join Worker Nodes
+ * On the worker nodes, run the join command you saved from Step 3:
 
-## Step 6: Join Worker Nodes
-On the worker nodes, run the join command you saved from Step 3:
-Run on worker nodes:
-
-``` bash
+### 🖥️ Run on worker nodes:
+```hcl
 kubeadm join <master-ip>:6443 --token <token> --discovery-token-ca-cert-hash sha256:<hash>
 ```
 
-👉 To retrieve the join command again If lost:
-
-``` bash
+* 👉 🔍 To retrieve the join command again If lost:
+```hcl
 kubeadm token create --print-join-command
 ```
 
-------------------------------------------------------------------------
-
-## Step 7: Verify the Cluster
-#### After joining the worker nodes, verify everything is working correctly
-On the master node:
-
-``` bash
+## 7️⃣ ✅ Step 7: Verify the Cluster
+  * 🔎 After joining the worker nodes, verify everything is working correctly
+  * 🖥️ On the master node:
+```hcl
 kubectl get nodes
 ```
 
-If all nodes show **Ready**, your on‑prem Kubernetes cluster is successfully set up.
+🎉 If all nodes show **Ready**, your on‑prem Kubernetes cluster is successfully set up.
