@@ -161,16 +161,15 @@ Examples:
 
 ---
 
-## ✅ Summary
-
-- 🧠 **Control Plane** manages the cluster
-- ⚙️ **Worker Nodes** run applications
-- 🌐 API Server is the communication hub
-- 💾 etcd stores all cluster data
-- 📍 Scheduler decides placement
-- 🔁 Controllers enforce desired state
-- 🤖 Kubelet runs and monitors Pods
-- 🌐 kube-proxy handles networking
-- 📦 Container Runtime runs containers
-
----
+## ✅ ☸️ Kubernetes Core Components
+| 🧩 **Component**          | 🎯 **Role**               | 📖 **Description**                        | 💡 **Key Responsibility**                            |
+| ------------------------- | ------------------------- | ----------------------------------------- | ---------------------------------------------------- |
+| 🧠 **Control Plane**      | Manages the cluster       | Central management layer of Kubernetes    | Maintains cluster state and orchestration            |
+| 🌐 **API Server**         | Communication Hub         | Entry point for all Kubernetes operations | Processes `kubectl` and component requests           |
+| 💾 **etcd**               | Cluster Database          | Distributed key-value store               | Stores Pods, Nodes, Secrets, ConfigMaps, Deployments |
+| 📍 **Scheduler**          | Pod Placement             | Decides which node runs a Pod             | Selects the best available node                      |
+| 🔁 **Controller Manager** | Desired State Enforcement | Monitors resources and corrects drift     | Ensures actual state matches desired state           |
+| ⚙️ **Worker Nodes**       | Run Applications          | Machines where workloads execute          | Host Pods and containers                             |
+| 🤖 **Kubelet**            | Node Agent                | Runs on every worker node                 | Creates, monitors, and reports Pod status            |
+| 🌐 **kube-proxy**         | Networking                | Handles Pod and Service networking        | Enables service discovery and load balancing         |
+| 📦 **Container Runtime**  | Container Execution       | Runs container workloads                  | Executes Docker, containerd, or CRI-O containers     |
