@@ -129,3 +129,68 @@ Allocating resources using requests and limits:
  * ✅ `CPU overuse` → Container is `throttled`. ( its CPU usage has been `restricted` by the system )
  * ✅ `Memory overuse` → Container is `OOMKilled` and `restarted`.
  * ✅ HPA commonly scales pods based on `CPU` or `Memory utilization`.
+
+---
+
+# 🚀 HPA + Cluster Autoscaler Together in EKS
+
+🔹 * HPA (Horizontal Pod Autoscaler) and Cluster Autoscaler (CA) work together to provide complete autoscaling in Kubernetes.
+
+## 🎯 What HPA Does
+🔹 * Scales Pods based on `CPU`, `memory`, or `custom metrics`.
+🔹 * Example:
+     🔸 * CPU usage exceeds `70%`
+     🔸 * HPA increases replicas from `2 → 5 pods`
+
+## ⚙️ What Cluster Autoscaler Does
+🔹 * Scales Nodes when there is `not enough capacity to run new pods`.
+🔹 * Example:
+    🔸 * HPA creates `5 pods`
+    🔸 * Existing nodes can run only `3 pods`
+    🔸 * 2 pods remain in `Pending state`
+    🔸 * Cluster Autoscaler `adds a new EC2 node`
+    🔸 * Pending pods get `scheduled on the new node`.
+
+### 🌟 This is the most common production setup.
+
+```text
+📈 User Traffic Increases
+         │
+         ▼
+🔥 CPU Usage > 70%
+         │
+         ▼
+📦 HPA Scales Pods
+(2 → 5 Pods)
+         │
+         ▼
+⚠️ Not Enough Node Capacity
+         │
+         ▼
+⏳ Pods Pending
+         │
+         ▼
+🔍 Cluster Autoscaler Detects Pending Pods
+         │
+         ▼
+🖥️ Adds New EC2 Node
+         │
+         ▼
+✅ Pending Pods Scheduled
+```
+
+🔹 * Here:
+    🔸 * HPA scales Pods
+    🔸 * Cluster Autoscaler scales Nodes
+
+| 🧩 Component                       | 📈 Scales | ⚡ Trigger                     |
+| ---------------------------------- | -------- | ----------------------------- |
+| Horizontal Pod Autoscaler (HPA)    | Pods     | CPU, Memory, Custom Metrics   |
+| Cluster Autoscaler                 | Nodes    | Pending/Unschedulable Pods    |
+
+---
+
+## 🎤 Interview Answer
+
+🔹 * HPA scales application pods based on metrics such as CPU or memory utilization, while Cluster Autoscaler scales worker nodes when pods cannot be scheduled due to insufficient resources.
+🔹 * HPA increases or decreases the number of pods, and Cluster Autoscaler ensures enough node capacity to run those pods...
