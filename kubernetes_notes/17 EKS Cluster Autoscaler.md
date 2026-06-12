@@ -281,3 +281,18 @@ kubectl logs -f deployment/cluster-autoscaler -n kube-system
 4️⃣ Tag your Node Group ASG  
 5️⃣ Deploy and configure Cluster Autoscaler  
 6️⃣ Watch logs and test scaling  
+
+### Interview Answer (Detailed and Professional)
+ * To configure Cluster Autoscaler in `AWS EKS`, I first enabled the OIDC provider for the cluster.
+ * This is required because EKS uses IAM Roles for Service Accounts (IRSA), which allows Kubernetes pods to securely access AWS services without storing AWS access keys.
+ * Next, I created an `IAM policy` with the `necessary permissions` to interact with AWS Auto Scaling Groups.
+ * After creating the policy, I created a `Kubernetes Service Account` and attached the IAM role to it using IRSA.
+ * This ensures that only the Cluster Autoscaler pod has the required permissions to communicate with `AWS APIs`.
+ * Then, I tagged the Auto Scaling Group associated with the EKS node group. These tags enable Cluster Autoscaler to `automatically discover` and manage the node groups that it is allowed to scale.
+ * Once the IAM and tagging configuration was complete, I deployed the Cluster Autoscaler pod in the `kube-system namespace` and configured it with node group auto-discovery settings.
+ * The Cluster Autoscaler `continuously monitors the cluster` for `unschedulable` or `pending pods`.
+ * To validate the setup, I deployed a workload that `requested more CPU` and `memory` resources than the existing nodes could provide. Since the scheduler could not place some pods, they entered the Pending state. Cluster Autoscaler detected these pending pods, communicated with the AWS Auto Scaling Group, increased the desired capacity, and launched additional EC2 worker nodes.
+
+After the new nodes joined the cluster, Kubernetes automatically scheduled the pending pods onto those nodes. Similarly, when resource usage decreased and nodes became underutilized, Cluster Autoscaler was able to scale down the infrastructure by removing unnecessary nodes, helping optimize AWS costs.
+
+This setup provides automatic infrastructure scaling in EKS, ensuring applications always have sufficient resources while maintaining cost efficiency."
