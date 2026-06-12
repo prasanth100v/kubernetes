@@ -120,7 +120,7 @@ spec:
 
 ---
 
-# Deployment vs Service
+# Deployment vs Service Ports
 ### Deployment
 ```yaml
 containers:
