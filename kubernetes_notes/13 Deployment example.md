@@ -117,3 +117,35 @@ spec:
 | 3️⃣         | 📦 Pod → `containerPort: 8080`  | 👉 Application inside container handles request                                         |
 
 👉 Client → Service **port 80** → Pod **targetPort 8080** → Container **containerPort 8080**
+
+---
+
+### Deployment
+```yaml
+containers:
+  - name: nginx
+    image: nginx
+    ports:
+      - containerPort: 80
+```
+   * 👉 containerPort in Deployment is mainly `documentation/metadata`.
+   * 🌍 It tells Kubernetes which port the application listens on `inside the container`., Kubernetes `does not use it for traffic routing`.
+
+### Service 
+```yaml
+spec:
+  ports:
+  - port: 80
+    targetPort: 80
+```
+  * `port` = Service port (what clients connect to).
+  *` targetPort` = Port on the `Pod/container` where traffic is sent.
+
+## Important Rule
+  * ✅ `targetPort` must match the port where the `application is actually listening`.
+  * ❌ If the application listens on `8080` but targetPort is `9090`, traffic will fail.
+
+## Q: Is Service port 80 mandatory?
+ * 🔗 No. Service port can be `any valid port number`. You can use any valid port number (`1–65535`) for the Service port.
+ * Port` 80` is commonly used for `HTTP applications`, but Kubernetes allows any port.
+ * 🌍 The `targetPort` should match the application's listening port inside the container.
