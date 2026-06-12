@@ -236,7 +236,7 @@ wget <service-name>:<port>
 | 🌍 **NodePort**         | 🌐 External (via Node IP) | Exposes service on a static port (30000–32767) on each node | Opens same port on all nodes → routes traffic to service | 🧪 Testing or simple external access without LB    |
 | ☁️ **LoadBalancer**     | 🌍 Public internet        | Exposes service using cloud provider LB                     | Automatically provisions external IP (AWS ELB, GCP LB)   | 🚀 Production apps needing public access           |
 | 🔗 **ExternalName**     | 🌍 External DNS           | Maps service to an external DNS name                        | Returns a CNAME record instead of proxying traffic       | 🌐 Connect to external DB or API                   |
-| 🧩 **Headless Service** | 🔒 Internal (no VIP)      | Directly exposes Pod IPs (no load balancing)                | `clusterIP: None` → DNS returns Pod IPs                  | ⚡ Stateful apps (Kafka, MongoDB, Redis clusters)   |
+| 🧩 **Headless Service** | 🔒 Internal (no IP)      | Directly exposes Pod IPs (no load balancing)                | `clusterIP: None` → DNS returns Pod IPs                  | ⚡ Stateful apps (Kafka, MongoDB, Redis clusters)   |
 
 ### 🔍 Key Differences
 | Feature         | ClusterIP | NodePort   | LoadBalancer | ExternalName      | Headless      |
