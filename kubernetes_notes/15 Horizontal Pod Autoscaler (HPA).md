@@ -23,18 +23,20 @@
  - ❗ Not for long-term metrics (use `Prometheus + Grafana` for that)
 
 **🛠️ Command**
-```
-    kubectl top pods
+```hcl
     kubectl top nodes
+    kubectl top pods -A
 ```
+   * If output shows `CPU` and `Memory usage`, Metrics Server is working. Install Metrics Server (`If Not Installed`)
 
 ## 🚀 Install Metrics Server (Required for HPA)
-```
+```hcl
     kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
 ```
 **✅ Verify**
-```
+```hcl
     kubectl get deployment metrics-server -n kube-system
+    kubectl get pods -n kube-system | grep metrics-server
 ```
 
 # ⚙️ How HPA Works
