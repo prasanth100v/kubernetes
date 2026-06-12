@@ -1,9 +1,9 @@
 # 🧱 3. Cluster Autoscaler
 
 ## 📌 What it does
- * Cluster Autoscaler automatically adds or removes nodes in the cluster based on:
-     * ➕ Pods that can't be scheduled → **adds nodes**
-     * ➖ Nodes that are underutilized → **removes nodes**
+ * Cluster Autoscaler automatically:
+    * ✅ Adds `EC2 worker nodes` when pods are pending due to insufficient resources → **➕ adds nodes**
+    * ✅ `Removes` underutilized nodes to save cost → **➖ removes nodes**
 
 ## 🌐 Requirements
   - ☁️ Works with cloud providers (`AWS`, `GCP`, `Azure`, etc.)
