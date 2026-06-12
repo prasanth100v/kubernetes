@@ -121,3 +121,11 @@ Allocating resources using requests and limits:
   - 🚫 Prevents resource overuse
   - 🚀 Improves performance and stability
   - 🔄 Enables effective autoscaling
+
+---
+
+ * ✅ `CPU` = Processing power used to `execute application code`.
+ * ✅ `Memory` = RAM used to store application data while running.
+ * ✅ `CPU overuse` → Container is `throttled`. ( its CPU usage has been `restricted` by the system )
+ * ✅ `Memory overuse` → Container is `OOMKilled` and `restarted`.
+ * ✅ HPA commonly scales pods based on `CPU` or `Memory utilization`.
