@@ -11,7 +11,10 @@
      * 📦 mysql-1
      * 📦 mysql-2  
 
- * 🌐 **Stable network identity** -- Each pod gets a `stable` DNS hostname  Example: `mysql-0.mysql.default.svc.cluster.local`
+ * 🌐 **Stable network identity** -- Each pod gets a `stable` DNS hostname
+     * Example:
+       *  `mysql-0.mysql.default.svc.cluster.local`
+       *  `mysql-1.mysql.default.svc.cluster.local`   
  * 💾 **Persistent storage** -- Each pod can have its own `PersistentVolumeClaim (PVC)` that is never deleted when the pod is rescheduled.
  * 🔄 **Ordered deployment & scaling** -- Pods are started, updated, and deleted `one-by-one` in order.
 
