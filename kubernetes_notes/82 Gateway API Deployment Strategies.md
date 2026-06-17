@@ -1,11 +1,12 @@
 # 🚀 Gateway API Deployment Strategies
-## 🚦 What is Traffic Splitting in Gateway API ?
+ * Gateway API can be used to implement `modern deployment strategies` such as:
+    * ✅ Rolling Update
+    * ✅ Canary Deployment
+    * ✅ Blue-Green Deployment
+    * ✅ Traffic Splitting (`A/B Testing`)
+   
+## 🚦 What is Traffic Splitting (A/B Testing) in Gateway API ?
  * 💡 Traffic splitting allows you to send `different percentages of traffic` to different backend services (Versions) .
- * Common use cases:
-     * ✅ Canary Deployment
-     * ✅ Blue-Green Deployment
-     * ✅ A/B Testing
-     * ✅ Gradual Rollout
   * 🚀 Example: `90%` Traffic to `v1`, `10%` Traffic to `v2`
   * HTTPRoute YAML
   ```yaml
@@ -74,6 +75,17 @@
 | 🚦 **Traffic Splitting (A/B Testing)** | **100% Traffic** → `50% → v1`, `50% → v2`                                                  | Compare multiple versions simultaneously | User behavior testing         |
 | 🟦🟩 **Blue-Green Deployment**         | **Before:** 100% → Blue<br>**After:** 100% → Green                                           | Switch entire workload to new version    | Fast rollback & zero downtime |
 | 🐤 **Canary Deployment**               | **Phase 1:** `90% → v1`, `10% → v2`<br>**Phase 2:**` 70% → v1`, `30% → v2`<br>**Phase 3:** `100% → v2` | Gradually release new version     | Lowest deployment risk        |
+| 🔄 **Rolling Update (Default)**        | **Before:** 100% → v1<br>**During:** Gradually replace v1 Pods with v2 Pods<br>**After:** 100% → v2    | Update application with zero downtime  | Default Kubernetes strategy, Replace Pods Gradually |
+
+---
+
+## 🎯 Interview One-Liner
+| Strategy             | Answer                                                                               |
+| -------------------- | ------------------------------------------------------------------------------------ |
+| 🔄 Rolling Update    | Gradually replaces old Pods with new Pods without downtime.  `v1 Pods → gradually replaced by v2 Pods `  |
+| 🚦 Traffic Splitting | Distributes traffic between multiple versions using weighted routing.                |
+| 🟦🟩 Blue-Green      | Switches all traffic between two identical environments.                             |
+| 🐤 Canary            | Gradually shifts a small percentage of traffic to a new version before full rollout. |
 
 ---
 
