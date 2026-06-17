@@ -69,6 +69,7 @@
 | 📊 **User Exposure**        | Users see different versions simultaneously  | Users see only one environment at a time       | Small percentage of users see new version first |
 | 🧪 **Testing Capability**   | Excellent for experiments                    | Excellent for full-environment validation      | Excellent for production validation             |
 
+
 ### 🚀 Deployment Traffic Flow Examples
 | 🧩 **Deployment Strategy**             | 📖 **Traffic Flow Example**                                                               | 🎯 **Purpose**                           | 💡 **Key Benefit**            |
 | -------------------------------------- | -------------------------------------------------------------------------------------------- | ---------------------------------------- | ----------------------------- |
@@ -83,7 +84,7 @@
 | Strategy             | Answer                                                                               |
 | -------------------- | ------------------------------------------------------------------------------------ |
 | 🔄 Rolling Update    | Gradually replaces old Pods with new Pods without downtime.  `v1 Pods → gradually replaced by v2 Pods `  |
-| 🚦 Traffic Splitting | Distributes traffic between multiple versions using weighted routing.                |
+| 🚦 Traffic Splitting | Distributes traffic between multiple versions using weighted routing. `Test Both Versions`         |
 | 🟦🟩 Blue-Green      | Switches all traffic between two identical environments.                             |
 | 🐤 Canary            | Gradually shifts a small percentage of traffic to a new version before full rollout. |
 
@@ -101,3 +102,4 @@
 | 📜 **History Required** | Creates a new revision                                                                    | Uses previous revision                  |
 | 💡 **Example**          | v1 ➜ v2                                                                                   | v2 ➜ v1                                 |
 | 🎯 **Goal**             | Release new features                                                                      | Restore service quickly                 |
+
