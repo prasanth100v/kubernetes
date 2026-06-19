@@ -285,11 +285,10 @@ kubectl logs <pod-name>
 ---
 
 # 📌🎉 Summary
-
-✔ ConfigMaps store **non-sensitive configuration**
-✔ Separate **config from container images**
-✔ Can inject into pods as **env variables or files**
-✔ **Secrets should be used for sensitive data**
+ * ✔ ConfigMaps store **non-sensitive configuration**
+ * ✔ Separate **config from container images**
+ * ✔ Can inject into pods as **env variables or files**
+ * ✔ **Secrets should be used for sensitive data**
 
 ---
 
