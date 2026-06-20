@@ -221,7 +221,7 @@ volumes:
 
 ---
 
-# ⭐🚀 Final Thought
+## ⭐🚀 Final Thought
  * Volumes are a **core concept in Kubernetes**.
  * Mastering them helps you:
     * Build **stateful applications**
