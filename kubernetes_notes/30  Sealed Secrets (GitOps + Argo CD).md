@@ -18,21 +18,21 @@
 ---
 
 ## 🎯🚀 Goal (End-to-End Flow)
-```bash
+```hcl
 Secret → Encrypt (kubeseal) → Store in Git → Deploy → Auto Decrypt in Cluster
 ```
 
 ## ⚙️🛠️ Step 1: Install Sealed Secrets Controller
-```bash
-kubectl apply -f https://github.com/bitnami-labs/sealed-secrets/releases/download/v0.25.0/controller.yaml
+```hcl
+kubectl apply -f https://github.com/bitnami-labs/sealed-secrets/releases/latest/download/controller.yaml
 ```
 📌 This installs the controller in the `kube-system` namespace.
 
 ### 📦 Install kubeseal CLI
-```bash
-wget https://github.com/bitnami-labs/sealed-secrets/releases/download/v0.25.0/kubeseal-linux-amd64 -O kubeseal
-chmod +x kubeseal
-sudo mv kubeseal /usr/local/bin/
+```hcl
+wget https://github.com/bitnami-labs/sealed-secrets/releases/latest/download/kubeseal-linux-amd64
+chmod +x kubeseal-linux-amd64
+sudo mv kubeseal-linux-amd64 /usr/local/bin/kubeseal
 ```
 
 ## 🧾📄 Step 2: Create a Normal Secret (YAML)
@@ -46,16 +46,22 @@ data:
   username: YWRtaW4=
   password: c2VjcmV0MTIz
 ```
-
-📌 This creates a file: `my-secret.yaml`
+ * 📌 This creates a file: `my-secret.yaml`
 
 ## 🔐🔄 Step 3: Encrypt Secret using kubeseal
-```bash
+```hcl
 kubeseal --format=yaml < my-secret.yaml > my-sealed-secret.yaml
+
+or
+
+kubeseal \
+  --format yaml \
+  < my-secret.yaml \
+  > my-sealed-secret.yaml
 ```
 ✅ Output file: `my-sealed-secret.yaml`
 
-## 🔒📦 Sample SealedSecret (Safe for Git)
+## 🔒📦 Generated: Sample SealedSecret (Safe for Git)
 ```yaml
 apiVersion: bitnami.com/v1alpha1
 kind: SealedSecret
@@ -67,8 +73,8 @@ spec:
     username: AgB3Y2F...
     password: AgBjbXc...
 ```
-
-💡✨ This file is **safe to commit to Git** 🚀
+ * 💡✨ This file is **safe to commit to Git** 🚀
+ * Only the controller can `decrypt` this value.
 
 ## 🚀📤 Step 4: Apply SealedSecret in Cluster
 ```bash
@@ -78,15 +84,23 @@ kubectl apply -f my-sealed-secret.yaml
         * 🔓 Decrypt the secret
         * 📦 Create a normal Kubernetes Secret automatically
 
-## 🔄🚀 Step 5: GitOps Flow with Argo CD
+## 🔍 Verify :
+```
+kubectl get sealedsecret
+kubectl get secret mysql-secret -o yaml
+```
+
+## 🔄🚀 Step 5: Now commit sealed-secret.yaml to Git : (GitOps Flow with Argo CD)
 ```bash
 git add my-sealed-secret.yaml
 git commit -m "Add sealed secret for app password"
 git push origin main
 ```
+  * ✅ Safe to store in Git
+  * ✅ Safe to share in GitHub
+  * ✅ Only the Sealed Secrets controller in the cluster can decrypt it
 
 ### 🔹⚡ What Happens Next?
-
   * Argo CD detects changes
   * Syncs manifests to cluster
   * Sealed Secrets Controller:
@@ -132,10 +146,12 @@ spec:
 ---
 
 ## 🎯🚀 Final Thought
-
  * > "Git is public, cluster is private 🔒"
  * Design your system assuming Git can be accessed by anyone, but only your cluster can decrypt secrets.
 
----
+## Interview Answer:
+ * 👉 KMS Encryption protects Secrets stored in `EKS etcd`.
+ * 👉 Sealed Secrets protects Secrets stored in `Git repositories`.
+ * 👉 In production, many organizations use `both together`. 🚀
 
 ✨🎉 **Happy Secure GitOps with Sealed Secrets! 🚀🔐**
