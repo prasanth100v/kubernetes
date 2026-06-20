@@ -227,4 +227,4 @@ volumes:
     * Build **stateful applications**
     * Handle **configuration properly**
     * Secure sensitive data
-    * Succeed in **DevOps interviews**
+   
