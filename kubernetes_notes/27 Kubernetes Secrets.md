@@ -223,8 +223,45 @@ kubectl get configmap my-config -o yaml
 
 ---
 
-## 🎯 Kubernetes ConfigMaps & Secrets
+## EKS + KMS Encryption Flow
+ * KMS protects secrets at rest (inside etcd).
+ * In EKS, KMS encrypts Kubernetes Secrets before they are stored in `etcd`.
+ * When an application or authorized user requests a Secret, the Kubernetes API server uses `KMS to decrypt it` and return the `plaintext value`.
+ * KMS protects Secrets at rest, while Kubernetes `RBAC` controls which users can view those Secrets.
+    * If a user has verbs: `- get` `- list` `- watch` on Secrets, they can view them.
 
+### 🔐 How to Enable KMS Encryption in Amazon EKS
+| 🔢 **Step** | 🧩 **Action**                | 📖 **Description**                                                                                            |
+| ----------- | ---------------------------- | --------------------------------------------------------------------------------------------------------------- |
+| 1️⃣         | 🔑 Create AWS KMS Key        | Create a customer-managed KMS key in AWS KMS                                                                   |
+| 2️⃣         | ☸️ Associate KMS with EKS    | Enable EKS Secret encryption using the KMS key during cluster creation or with `associate-encryption-config` after EKS creation |
+| 3️⃣         | 📝 Create Kubernetes Secrets | Create Secrets normally using `kubectl create secret` or `YAML manifests  `                                    |
+| 4️⃣         | 🔒 Encrypt Before Storage    | EKS encrypts Secret data before storing it in etcd                                                             |
+| 5️⃣         | 💾 Store in etcd             | Encrypted Secret is stored in the Kubernetes database (`etcd`)                                                 |
+| 6️⃣         | 🔓 Decrypt on Access         | API Server uses KMS to decrypt the Secret when an authorized request is made                                   |
+| 7️⃣         | 📦 Pod Consumes Secret       | Authorized Pods receive the plaintext Secret as `environment variables` or `mounted files`                     |
+
+```hcl
+kubectl create secret
+        ↓
+Kubernetes API Server
+        ↓
+AWS KMS Encrypts Secret
+        ↓
+Encrypted Data Stored in etcd
+        ↓
+Pod Requests Secret
+        ↓
+API Server Calls KMS
+        ↓
+KMS Decrypts Secret
+        ↓
+Pod Receives Secret
+```
+
+---
+
+## 🎯 Kubernetes ConfigMaps & Secrets
 | 🔢     | ❓ Question                                               | ✅ Answer                                                                                     |
 | ------ | -------------------------------------------------------- | -------------------------------------------------------------------------------------------- |
 | 🌈 1   | What is a ConfigMap?                                     | 📦 A ConfigMap stores **non-sensitive configuration data** as `key-value pairs`.               |
