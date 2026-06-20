@@ -1,7 +1,11 @@
-# 🧩 What is volumeMounts?
+# 📦 What is volumeMounts in Kubernetes?
+ * volumeMounts is used `inside a container` to specify where a Volume should be `mounted` inside the container's filesystem.
+ * Think of it like:
+     * 📍Volume = Storage device (`EBS`, `PVC`, `ConfigMap`, `Secret`, `EmptyDir`, etc.)
+     * 📍volumeMounts = `Location inside the container` where that storage appears
 
  * In Kubernetes, **`volumeMounts`** is defined inside a **container** and is used to:
-  * 👉 Attach a **volume** to a specific path inside the container's filesystem.
+   * 👉 Attach a **volume** to a specific path inside the container's filesystem.
 
 ## 🏗 Basic Concept
   * Volumes are defined at the **Pod level**
@@ -106,14 +110,17 @@ volumeMounts:
 
 ---
 
-## 🎯 Quick Summary
+☸️ Kubernetes volumes vs volumeMounts
+| 🧩 **Feature**             | 📦 **volumes**                                   | 📂 **volumeMounts**                                    |
+| -------------------------- | ------------------------------------------------ | ------------------------------------------------------- |
+| 🎯 **Purpose**             | Defines the storage source                       | Defines where the storage is mounted inside a container |
+| 📍 **Configuration Level** | Pod-level (storage shared across containers in the same Pod) | Container-level (Attaches the volume to a `specific container`) |
+| 📖 **What It Specifies**   | PVC, ConfigMap, Secret, EmptyDir, HostPath, etc. | Mount path such as `/data`, `/config`, `/logs`          |
+| 🔗 **Relationship**        | Creates/attaches storage to the Pod              | Connects the volume to a specific container             |
+| 🏗️ **Location in YAML**   | `spec.volumes`                                    | `spec.containers[].volumeMounts`                        |
+| 💡 **Example**             | `persistentVolumeClaim: my-pvc`                  | `mountPath: /etc/secrets`                               |
+| ☸️ **Scope**               | Available to all containers in the Pod           | Applied only to the container where defined             |
 
-| 🧩 **Component**    | 📖 **Description**             | 🧠 **How It Works**                                                      | 💡 **Real-World Insight**                                                      |
-| ------------------- | ------------------------------ | ------------------------------------------------------------------------ | ------------------------------------------------------------------------------ |
-| 📦 **volumes**      | Defined at the Pod level       | 👉 Declares storage that can be shared across containers in the same Pod | Used to define sources like ConfigMap, Secret, emptyDir, hostPath              |
-| 🔗 **volumeMounts** | Defined at the Container level | 👉 Attaches the volume to a specific container                           | A Pod can have multiple containers, each can mount the same volume differently |
-| 📍 **mountPath**    | Path inside the container      | 👉 Specifies where the volume appears inside the container filesystem    | Example: `/app/config`                                                         |
-| ⚠️ **Behavior**     | Overrides existing directory   | 👉 Mounted volume hides existing files at that path                      | Important when mounting over pre-existing directories                          |
 
 ---
 
@@ -141,7 +148,6 @@ volumeMounts:
 ```
 
 ## ⭐ Final Thought
-
  * `volumeMounts` is essential for:
      * Configuration management
      * Secure data handling
