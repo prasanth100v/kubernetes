@@ -87,7 +87,7 @@ metadata:
 type: Opaque
 data:
   username: YWRtaW4=
-  password: cGFzczEyMw==
+  password: cGFzczEyMw==   #Not encrypted, just encoded.
 ```
 
 ## 2️⃣🐳 Docker Registry Secret
