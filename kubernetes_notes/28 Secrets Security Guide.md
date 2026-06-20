@@ -13,9 +13,6 @@
      * 🔹 Encryption keys are managed by **AWS KMS**.
      * 🔹 Only **authorized IAM roles/users** can decrypt them.
 
-📌 Important:  
- > ⚠️ Encryption must be enabled **during cluster creation**. It **cannot be added later**.
-
 ### 🧪✨ Example
 ``` bash
 eksctl create cluster --encrypt-secrets
