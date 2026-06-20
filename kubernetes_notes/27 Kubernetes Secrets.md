@@ -220,3 +220,50 @@ kubectl get configmap my-config -o yaml
 ```
 
 ✅ 💡✨ **Tip:** Use **Secrets + RBAC + Encryption at Rest** for better security in production clusters.
+
+---
+
+## 🎯 Kubernetes ConfigMaps & Secrets
+
+| 🔢     | ❓ Question                                               | ✅ Answer                                                                                     |
+| ------ | -------------------------------------------------------- | -------------------------------------------------------------------------------------------- |
+| 🌈 1   | What is a ConfigMap?                                     | 📦 A ConfigMap stores **non-sensitive configuration data** as `key-value pairs`.               |
+| 🔐 2   | What is a Secret?                                        | 🔑 A Secret stores **sensitive data** such as passwords, tokens, API keys, and certificates. |
+| ⚡ 3    | Why use ConfigMaps?                                      | 🎛️ To separate configuration from application code.                                         |
+| 🛡️ 4  | Why use Secrets?                                         | 🔒 To securely manage sensitive information.                                                 |
+| 🔄 5   | ConfigMap vs Secret?                                     | 📦 ConfigMap = Non-sensitive data, 🔐 Secret = Sensitive data.                               |
+| 💾 6   | How is Secret data stored in etcd?                       | 📄 Base64 encoded by default (not encrypted unless encryption is enabled).                   |
+| 🚀 7   | Create a ConfigMap command?                              | `kubectl create configmap app-config --from-literal=env=prod`                                |
+| 🔑 8   | Create a Secret command?                                 | `kubectl create secret generic db-secret --from-literal=password=admin123`                   |
+| 📂 9   | How can a Pod consume a ConfigMap?                       | 🌿 Environment Variables, 📁 Volume Mounts, 🖥️ Command-line Arguments.                      |
+| 📂 10  | How can a Pod consume a Secret?                          | 🌿 Environment Variables or 📁 Volume Mounts.                                                |
+| ⚙️ 11  | Which field loads ConfigMap as env vars?                 | `envFrom`                                                                                    |
+| 🌿 12  | Which field loads a specific key as env var?             | `env`                                                                                        |
+| 📁 13  | Which field mounts ConfigMap as files?                   | `volumes` + `configMap`                                                                      |
+| 🔑 14  | Which field mounts Secret as files?                      | `volumes` + `secret`                                                                         |
+| 🎯 15  | What is the maximum size of a ConfigMap?                 | 📏 1 MB                                                                                      |
+| 🎯 16  | What is the maximum size of a Secret?                    | 📏 1 MB                                                                                      |
+| 🔄 17  | Do mounted ConfigMaps update automatically?              | ✅ Yes, eventually (except when using `subPath`).                                             |
+| 🔄 18  | Do mounted Secrets update automatically?                 | ✅ Yes, eventually (except when using `subPath`).                                             |
+| 🚫 19  | Does a Pod restart automatically when ConfigMap changes? | ❌ No.                                                                                        |
+| 🚫 20  | Does a Pod restart automatically when Secret changes?    | ❌ No.                                                                                        |
+| 🛠️ 21 | How to view ConfigMaps?                                  | `kubectl get configmaps`                                                                     |
+| 🔍 22  | How to view Secrets?                                     | `kubectl get secrets`                                                                        |
+| 📖 23  | Describe a ConfigMap?                                    | `kubectl describe configmap <name>`                                                          |
+| 📖 24  | Describe a Secret?                                       | `kubectl describe secret <name>`                                                             |
+| 🗑️ 25 | Delete a ConfigMap?                                      | `kubectl delete configmap <name>`                                                            |
+| 🗑️ 26 | Delete a Secret?                                         | `kubectl delete secret <name>`                                                               |
+| 🌍 27  | Are ConfigMaps namespace-scoped?                         | ✅ Yes                                                                                        |
+| 🌍 28  | Are Secrets namespace-scoped?                            | ✅ Yes                                                                                        |
+| 📄 29  | Can ConfigMaps store files?                              | ✅ Yes                                                                                        |
+| 📄 30  | Can Secrets store certificates?                          | ✅ Yes                                                                                        |
+| 🔐 31  | Secret type for TLS certificates?                        | `kubernetes.io/tls`                                                                          |
+| 🐳 32  | Secret type for Docker registry?                         | `kubernetes.io/dockerconfigjson`                                                             |
+| 🛡️ 33 | Best practice for Secrets?                               | 🔒 Enable etcd encryption and RBAC.                                                          |
+| 🎯 34  | Can a Pod use multiple ConfigMaps?                       | ✅ Yes                                                                                        |
+| 🎯 35  | Can a Pod use multiple Secrets?                          | ✅ Yes                                                                                        |
+| 🔄 36  | How to update a ConfigMap?                               | `kubectl edit configmap <name>`                                                              |
+| 🔄 37  | How to update a Secret?                                  | `kubectl edit secret <name>`                                                                 |
+| 📦 38  | What is `stringData` in Secrets?                         | ✍️ Allows plain text input without Base64 encoding.                                          |
+| 🔑 39  | What is `data` in Secrets?                               | 📄 Stores Base64 encoded values.                                                             |
+| 🚀 40  | Which is more secure?                                    | 🔐 Secret (with encryption enabled)                                                          |
