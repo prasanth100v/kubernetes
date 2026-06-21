@@ -1,41 +1,40 @@
 # 🌐 Kubernetes NFS Volume 
 ## 📦 What is NFS?
-
- * **NFS (Network File System)** allows Multiple Pods to **share the same storage over a network**
+ * NFS (Network File System) is a shared storage system that allows multiple Pods and Nodes to access the same files over the network.
     * Works across different nodes
     * Supports **ReadWriteMany (RWX)** access
     * Ideal for **shared file systems**
 
 ## 🚀 Key Benefits
-
   * Share data between Pods on different nodes
   * Enable **simultaneous read/write access**
   * Centralized storage management
   * Works outside Kubernetes cluster  
 
 ## 🏗 NFS Architecture
-
-```
-        NFS Server
-     (External Storage)
-             ↓
-   PersistentVolume (PV)
-             ↓
- PersistentVolumeClaim (PVC)
-             ↓
-            Pod
-             ↓
-      Mounted Directory
+```hcl
++------------------+
+|   NFS Server     |
+| 192.168.1.100    |
+| /shared-data     |
++--------+---------+
+         ↓
+PersistentVolume (PV)
+         ↓
+PersistentVolumeClaim (PVC)
+         ↓
+ --------------------------
+ |           |            |
+Pod-1      Pod-2       Pod-3
+(Mount)    (Mount)     (Mount)
 ```
 
 ## 🔸 Prerequisites
-
   * Running **NFS server** with exported directory
   * Kubernetes nodes can access NFS (`IP/DNS`)
   * Use **NFSv4** for better performance  
 
 ## 🧾 1️⃣ PersistentVolume (PV) using NFS
-
 ```yaml
 apiVersion: v1
 kind: PersistentVolume
@@ -51,11 +50,7 @@ spec:
     server: 192.168.1.100
   persistentVolumeReclaimPolicy: Retain
 ```
-
----
-
-## 📌 Explanation
-
+### 📌 Explanation
 | 🧩 Field           | 💡 Description                              |
 | ------------------ | -------------------------------------------- |
 | 💾 `storage`       | 📏 Defines size of the volume               |
@@ -66,7 +61,6 @@ spec:
 
 
 ## 🧾 2️⃣ PersistentVolumeClaim (PVC)
-
 ```yaml
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -80,13 +74,11 @@ spec:
       storage: 5Gi
 ```
 
-## 📌 Explanation
-
+### 📌 Explanation
 * Requests storage from PV  
 * Must match **access mode + size**
 
 ## 🧾 3️⃣ Pod / Deployment using NFS
-
 ```yaml
 volumeMounts:
 - name: nfs-vol
@@ -115,23 +107,20 @@ Pod B (Node 2) ─┘
 ---
 
 # ⚡ Access Modes Explained
-
-| 🔐 Mode                    | 📖 Description               | 🧠 How It Works                                         | 💡 Real-World Use Case                   |
-| -------------------------- | ---------------------------- | ------------------------------------------------------- | ---------------------------------------- |
-| 🟢 **ReadWriteOnce (RWO)** | 📦 Single node read/write    | 👉 Mounted as read-write by **only one node at a time** | 🗄 Databases (MySQL, PostgreSQL)         |
-| 🔵 **ReadOnlyMany (ROX)**  | 📚 Multiple nodes read-only  | 👉 Many nodes can read, but **no writes allowed**       | 📄 Shared static content (docs, configs) |
-| 🟣 **ReadWriteMany (RWX)** | 🌐 Multiple nodes read/write | 👉 Multiple nodes can read & write simultaneously       | 📂 Shared storage (NFS, EFS)             |
+| 🔐 Mode                    | 📖 Description               | 🧠 How It Works                                         | 💡 Real-World Use Case                     |
+| -------------------------- | ---------------------------- | ------------------------------------------------------- | -------------------------------------------- |
+| 🟢 **ReadWriteOnce (RWO)** | 📦 Single node read/write    | 👉 Mounted as read-write by **only one node at a time** | 🗄 Databases (`MySQL`, `PostgreSQL`)         |
+| 🔵 **ReadOnlyMany (ROX)**  | 📚 Multiple nodes read-only  | 👉 Many nodes can read, but **no writes allowed**       | 📄 Shared static content (`docs`, `configs`) |
+| 🟣 **ReadWriteMany (RWX)** | 🌐 Multiple nodes read/write | 👉 Multiple nodes can read & write simultaneously       | 📂 Shared storage (`NFS`, `EFS`)             |
 
 👉 NFS supports **RWX (multi-node access)**
 
 ## ⚠️ Important Considerations
-
  * ❗ Network latency can affect performance  
  * ❗ Not ideal for high IOPS workloads (like databases)
  * ❗ Requires proper NFS server security  
 
 ## 🚀 Best Practices
-
   * Use **NFSv4**
   * Restrict access using firewall rules
   * Use **dedicated NFS server**
@@ -139,7 +128,6 @@ Pod B (Node 2) ─┘
   * Avoid for **high-performance databases**
 
 # 💡 Pro Tip
-
  * 👉 Use NFS when you need:
      * Shared storage across multiple pods
      * Simple and cost-effective solution
@@ -148,7 +136,6 @@ Pod B (Node 2) ─┘
 ---
 
 ## ⭐ Final Thought
-
  * NFS is one of the **simplest ways to implement shared storage** in Kubernetes.
     * Great for **RWX workloads**
     * Easy to configure
