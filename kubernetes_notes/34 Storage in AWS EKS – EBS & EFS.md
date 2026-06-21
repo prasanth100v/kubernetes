@@ -6,7 +6,6 @@
  * 👉 EFS works with **CSI Driver** for dynamic provisioning
 
 ## 📦✨ Storage Options in EKS
-
 | 💾 **Storage**                   | 🧩 **Type**   | 🔐 **Access Mode**     | 📖 **How It Works**                                                            | 💡 **Best Use Case**                               |
 | -------------------------------- | ------------- | ---------------------- | ------------------------------------------------------------------------------ | -------------------------------------------------- |
 | 🗄 **EBS (Elastic Block Store)** | Block Storage | 🟢 ReadWriteOnce (RWO) | 👉 Attached to a single EC2 node as a disk<br>👉 High performance, low latency | 🗄 Databases (MySQL, PostgreSQL), single-node apps |
@@ -15,14 +14,12 @@
 
 ## ✨ Important Fields Explained
 ## 📏✨ capacity.storage
-
 Defines volume size
 ```yaml
 storage: 5Gi
 ```
 
 ## 🔁✨ accessModes
-
 | 🔐 Access Mode             | 📖 Description              | 🧠 How It Works                                           | ☁️ Supported Storage             | 💡 Real-World Use Case                 |
 | -------------------------- | --------------------------- | --------------------------------------------------------- | -------------------------------- | -------------------------------------- |
 | 🟢 **ReadWriteOnce (RWO)** | 📦 One Pod read/write       | 👉 Mounted as read-write on **single node only**          | 💾 AWS EBS, GCP PD, Azure Disk   | 🗄 Databases (MySQL, PostgreSQL)       |
@@ -31,15 +28,12 @@ storage: 5Gi
 
 
 ## ⚠️🚨 Important Note
-
 ❗ Not all storage supports all modes  
 👉 Example: **EBS supports only RWO**
 
----
-
 ## ♻️ Kubernetes `persistentVolumeReclaimPolicy`
   Defines what happens after PVC deletion
-
+  
 | 🔧 Policy         | 📖 Description                     | 💡 Behavior                                  | 🎯 Best Use Case                             |
 | ----------------- | ---------------------------------- | -------------------------------------------- | -------------------------------------------- |
 | 🔹 **Retain**     | 💾 Keeps volume after PVC deletion | ✔ Data remains<br>⚠️ Manual cleanup required | 🛡️ Data safety (databases, critical data)   |
@@ -50,16 +44,13 @@ storage: 5Gi
 ---
 
 # 🧾✨ Static Provisioning with AWS EBS
-
 ## 🔹📌 Prerequisites
-
  * Create EBS volume manually (AWS Console / CLI)
  * Note:
     * Volume ID
     * Availability Zone (AZ) (Must match worker node AZ)
 
 ## 📦 1️⃣ PersistentVolume (PV)
-
 ```yaml
 apiVersion: v1
 kind: PersistentVolume
@@ -80,13 +71,11 @@ spec:
 ```
 
 ## 🔍✨ storageClassName: manual
-
   * Indicates **static provisioning**
      * 👉 Kubernetes will NOT create storage dynamically
      * 👉 It uses **existing EBS volume**
 
 ## 📄 2️⃣ PersistentVolumeClaim (PVC)
-
 ```yaml
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -108,7 +97,6 @@ PVC → Matches PV → Bound → Ready to use
 
 
 ## 🚀✨ 3️⃣ Mount PVC to Pod
-
 ```yaml
 volumeMounts:
 - name: ebs-volume
@@ -127,17 +115,20 @@ volumes:
 
 # 🧠✨ EBS vs EFS Quick Comparison
 
-| 🧩 Feature     | 💾 EBS (Elastic Block Store)          | 📂 EFS (Elastic File System)    |
-| -------------- | -------------------------------------- | ------------------------------- |
-| 🗂️ Type       | 📦 Block storage                       | 📁 NFS (file storage)           |
-| 🔄 Access      | 🟢 RWO (single node)                  | 🟣 RWX (multi-node)             |
-| 🖥️ Multi-node | ❌ Not supported                        | ✅ Supported                    |
-| 🎯 Use Case    | 🗄 Databases, OS disks , Stateful apps   | 🌐 Shared storage, file sharing |
-| ⚡ Performance  | 🚀 High (low latency)                  | ⚖️ Moderate (network-based)     |
-
+| 🧩 **Feature**            | 💾 **EBS (Elastic Block Store)**               | 📂 **EFS (Elastic File System)**                   |
+| ------------------------- | ---------------------------------------------- | -------------------------------------------------- |
+| 🗂️ **Storage Type**      | 📦 Block Storage                               | 📁 Network File Storage (NFS)                      |
+| 🔄 **Access Mode**        | 🟢 RWO (ReadWriteOnce)                         | 🟣 RWX (ReadWriteMany)                             |
+| 🖥️ **Multi-Node Access** | ❌ Not Supported                                | ✅ Supported                                        |
+| ☸️ **Kubernetes Access**  | One Pod/Node typically writes at a time        | Multiple Pods across multiple nodes can read/write |
+| 🎯 **Best Use Case**      | 🗄️ Databases, Stateful Applications, OS Disks | 🌐 Shared Files, Uploads, Logs, Website Content    |
+| ⚡ **Performance**         | 🚀 High Performance, (Low Latency)           | ⚖️ Moderate, (Network-Based)                         |
+| 💰 **Cost**               | Usually Lower                                  | Usually Higher                                     |
+| 🔒 **Availability**       | Single AZ Volume                               | Multi-AZ by Design                                 |
+| 📈 **Scalability**        | Manual Resize                                  | Automatically Scales                               |
+| ☁️ **EKS CSI Driver**     | EBS CSI Driver                                 | EFS CSI Driver                                     |
 
 ## ⚠️ Common Mistakes
-
  * ❌ Using EBS for `multi-node` workloads
  * ❌ `AZ mismatch` between `PV` and `node`
  * ❌ Forgetting `storageClassName`
@@ -146,26 +137,13 @@ volumes:
 ---
 
 # 🚀✨ Best Practices
-
  * Use **EBS for databases**
  * Use **EFS for shared storage**
  * Prefer **dynamic provisioning with CSI drivers**
- * Always match AZ for EBS volumes
+ * Always `match AZ` for EBS volumes
  * Use **Retain policy for critical data**
 
 ## 💡✨ Pro Tip
-
  * 👉 In production EKS:
    - Use **EBS CSI Driver** for dynamic volumes  
    - Use **EFS CSI Driver** for shared workloads  
-
----
-
-# ⭐🚀 Final Thought
-
- * Understanding storage in Kubernetes (especially in EKS) is **critical for DevOps interviews**.
-   * Helps design **stateful applications**
-   * Ensures **data safety**
-   * Improves **system scalability**
-  
-   
