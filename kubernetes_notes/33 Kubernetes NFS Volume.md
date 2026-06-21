@@ -12,6 +12,7 @@
   * Works outside Kubernetes cluster  
 
 ## 🏗 NFS Architecture
+
 ```hcl
 +------------------+
 |   NFS Server     |
