@@ -91,6 +91,7 @@
 ## 🌐✨ Kubernetes DNS (CoreDNS)
  * ☸️ CoreDNS is the `DNS server` in Kubernetes that provides service discovery by resolving `service names` such as `my-service.default.svc.cluster.local` into `Service ClusterIP` addresses
  * 🚀 Enabling Pods to communicate using `DNS names` instead of `IP addresses`.
+
 | 🧩 **Concept**           | 💡 **Details**                                      | 📖 **Description**                           |
 | ------------------------ | --------------------------------------------------- | -------------------------------------------- |
 | 🌐 **Component**         | CoreDNS                                             | Default DNS server in Kubernetes             |
@@ -136,7 +137,7 @@
 ## 🔥✨ Advanced Notes
  - IPVS is preferred for production
  - Calico/WeaveNet supports network policies
- - Cilium uses eBPF(Extended Berkeley Packet Filter) (next-gen networking)
+ - Cilium uses eBPF (Extended Berkeley Packet Filter) to provide `high-performance networking`, `security`, and `observability`. (next-gen networking)
  - NetworkPolicies require supported CNI
 
 ---
@@ -182,24 +183,39 @@
   curl <service-name>:<port>                              # 📌 Test Service access
   wget <service-name>:<port>                              # 📌 Alternative to curl
 
-                                                  # 🖥️ Node Networking
-  kubectl get nodes -o wide                         # 📌 Check node internal IPs
+                                                    # 🖥️ Node Networking
+  kubectl get nodes -o wide                           # 📌 Check node internal IPs
                                                        
-  kubectl exec -it <pod-name> -- curl <service-name>:<port>                 # 🧪 Service Testing from Pod
+  kubectl exec -it <pod-name> -- curl <service-name>:<port>              # 🧪 Service Testing from Pod
   kubectl exec -it <pod-name> -- wget <service-name>:<port>
 
-                                                                     # 🔄 Port Forwarding (Local Test)
+                                                                         # 🔄 Port Forwarding (Local Test)
   kubectl port-forward svc/<service-name> 8080:<port>                    # 📌 Access service locally
 ```
-  ## 🛠️ Tools inside Pod
-| 🧰 **Tool**       | 📌 **Purpose**       | 🧠 **What It Checks**                           | 💡 **Example Use Case**                                        |
-| ----------------- | -------------------- | ----------------------------------------------- | -------------------------------------------------------------- |
-| 🌐 **curl**       | HTTP testing         | 👉 Tests API endpoints, HTTP response, headers  | Check if service/Ingress is responding (`curl http://service`) |
-| 📡 **ping**       | Connectivity check   | 👉 Verifies if a host is reachable (ICMP)       | Check Pod-to-Pod or Pod-to-node connectivity                   |
-| 🛣 **traceroute** | Network path tracing | 👉 Shows path packets take to reach destination | Identify network delays or routing issues                      |
-| 🔍 **dig**        | DNS query            | 👉 Detailed DNS resolution info                 | Debug service DNS (`dig my-service.default.svc.cluster.local`) |
-| 🔎 **nslookup**   | DNS lookup           | 👉 Simple DNS resolution check                  | Verify service name resolves to IP                             |
-| 📊 **tcpdump**    | Packet capture       | 👉 Captures and analyzes network traffic        | Deep debugging of network issues                               |
+
+## ☸️ Kubernetes Network Troubleshooting Tools Inside a Pod
+| 🧰 **Tool**         | 📌 **Purpose**         | 🧠 **What It Checks**                                        | 💡 **Example Use Case**                    |
+| ------------------- | ---------------------- | ------------------------------------------------------------ | ------------------------------------------ |
+| 🌐 **curl**         | HTTP Testing           | Tests APIs endpoints, web applications, HTTP response, and headers | `curl http://my-service`                   |
+| 📡 **ping**         | Connectivity Check     | Verifies basic network reachability using ICMP               | Check Pod-to-Pod connectivity              |
+| 🛣️ **traceroute**  | Network Path Tracing   | Shows the route packets take to the destination              | Identify routing delays or network hops    |
+| 🔍 **dig**          | DNS Query Tool         | Provides detailed DNS resolution information                 | `dig my-service.default.svc.cluster.local` |
+| 🔎 **nslookup**     | DNS Lookup             | Simple DNS resolution verification                           |Verify service name resolves to IP  `nslookup my-service`    |
+| 📊 **tcpdump**      | Packet Capture         | Captures and analyzes network packets                        | Debug network traffic issues               |
+| 🔗 **wget**         | HTTP Download/Test     | Tests web endpoints and downloads content                    | `wget http://my-service`                   |
+| 🌐 **netstat / ss** | Socket Inspection      | Displays listening ports and active connections              | Verify application ports                   |
+| 🧪 **telnet / nc**  | Port Connectivity Test | Checks if a specific port is reachable                       | `nc -zv mysql-service 3306`                |
+
+## 🚀 Common Kubernetes Debug Commands
+| Problem                | Tool           | Example                                    |
+| ---------------------- | -------------- | ------------------------------------------ |
+| DNS Issue              | 🔎 nslookup    | `nslookup kubernetes.default`              |
+| DNS Issue (Detailed)   | 🔍 dig         | `dig my-service.default.svc.cluster.local` |
+| Service Not Responding | 🌐 curl        | `curl http://my-service`                   |
+| Port Connectivity      | 🧪 nc          | `nc -zv my-service 80`                     |
+| Network Reachability   | 📡 ping        | `ping 10.244.1.5`                          |
+| Routing Issue          | 🛣️ traceroute | `traceroute google.com`                    |
+| Packet Analysis        | 📊 tcpdump     | `tcpdump -i eth0`                          |
 
 
 ## ✨ Tips:
@@ -207,5 +223,3 @@
    * Verify NetworkPolicies are not blocking traffic
    * Always test DNS before debugging connectivity
    * Check CNI health if networking fails
-
-  
