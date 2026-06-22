@@ -13,6 +13,7 @@
 ### ✅ Amazon VPC CNI
   * Amazon VPC CNI supports Kubernetes `NetworkPolicy` in modern EKS versions.
   * Modern EKS clusters using `recent Amazon VPC CNI versions` support NetworkPolicies natively.
+
 | 🕒 **Period**                          | 🌐 **Networking Solution** | 🛡️ **NetworkPolicy Support** | 💡 **Notes**                                                                       |
 | -------------------------------------- | -------------------------- | ----------------------------- | ---------------------------------------------------------------------------------- |
 | 📜 **Earlier Amazon VPC CNI Versions** | AWS VPC CNI                | ❌ Not Supported               | Kubernetes NetworkPolicy resources existed, but AWS VPC CNI could not enforce them |
