@@ -1,29 +1,43 @@
-# 🚀 Gateway API Deployment Strategies
+# What is a Kubernetes-Native API Gateway?
+ * ☸️ A Kubernetes-Native API Gateway is a traffic management layer that acts as a `single entry point for applications running in Kubernetes`.
+ * 🛡️ Modern Kubernetes environments commonly use `Gateway API implementations` such as `Istio`, `Kong` and `NGINX Gateway Fabric` to manage external traffic efficiently.
+
+### What additional features does Istio Gateway API provide beyond routing?
+ * ⚡ Istio Gateway API provides `advanced traffic management` features such as `path` and `host-basedrouting`, `SSL/TLS` termination, `JWT authentication`, `authorization policies`, `rate limiting`, `load balancing`, `traffic splitting` for canary deployments.
+ * 💥 Observability through `Prometheus/Grafana/Jaeger/Kiali`.
+ * 🛠️ Istio Gateway API supports resiliency features such as `retries`, `timeouts`, `circuit breaking`, and `fault injection`. These features improve application reliability.
+ * 🎯 It acts as an `enterprise-grade API gateway` for Kubernetes applications...
+
+### 🚀 Istio Gateway API Features
+| 🧩 **Feature**               | 📖 **Description**                                                           | 🎯 **Use Case**                                        |
+| ---------------------------- | ---------------------------------------------------------------------------- | ------------------------------------------------------ |
+| 🌐 **Routing**               | Route traffic based on `hostnames`, `paths`,` headers`                      | `Host-based`, `path-based`, and `header-based` routing       |
+| 🔐 **Authentication**        | Validate `JWT tokens` and integrate with `OAuth/OIDC` providers             | User authentication and API security                   |
+| 🛡️ **Authorization**         | Allow or deny requests using `security policies`                             | RBAC and access control                                |
+| 🚦 **Rate Limiting**         | Restrict `requests per user`, `IP`, `API key`, or `service `                | Protect APIs from abuse and `excessive traffic`          |
+| 🔒 **SSL/TLS Termination**   | Terminate HTTPS at the gateway and forward traffic internally                | Secure external communication                          |
+| ⚖️ **Load Balancing**        | Distribute traffic across multiple pods or services                          | High availability and scalability                      |
+| 🔄 **Traffic Splitting**     | Support canary deployments, blue-green deployments, and A/B testing          | Safer application releases                             |
+| 📊 **Observability**         | Provides `metrics`, `logs`, and `distributed tracing `                     | Monitoring with `Prometheus`, `Grafana`, `Jaeger`, and `Kiali` |
+| 🛠️ **Resiliency**           | Supports `retries`, `timeouts`, `circuit breaking`, and `fault injection `   | Improve application reliability                        |
+| 🌍 **Multi-Cluster Support** | Route traffic across multiple Kubernetes clusters                            | Disaster recovery and global applications              |
+
+### 🚀 Istio Resiliency Features
+| 🧩 **Feature**         | 🎯 **Purpose**                                | 📖 **Description**                                                    | 💡 **Example**                                                                     |
+| ---------------------- | --------------------------------------------- | ---------------------------------------------------------------------- | ----------------------------------------------------------------------------------- |
+| 🔄 **Retries**         | Automatically retry failed requests           | Envoy retries requests when transient (temporary) failures occur       | Retry 3 times if service returns **503 Service Unavailable**                          |
+| ⏱️ **Timeouts**        | Stop waiting after a `specified duration` (Fail request after **5 seconds**) | timeout specifies the `maximum amount of time` Istio will wait for a response from a backend service.| Istio terminates the request and returns an `error`. |
+| ⚡ **Circuit Breaking** | Prevent sending traffic to unhealthy services | Stops requests when a service becomes overloaded or unhealthy | Istio Limiting the maximum number of connections ( `maxConnections` ) and the number of requests per connection  |
+| 💥 **Fault Injection** | Simulate failures for testing                 |  Tests application `resilience` and `error handling`       | Inject **5-second delay** or **HTTP 500 errors** for how applications behave under failure conditions.  |
+
+---
+
+## 🚀 Gateway API Deployment Strategies
  * Gateway API can be used to implement `modern deployment strategies` such as:
     * ✅ Rolling Update
     * ✅ Canary Deployment
     * ✅ Blue-Green Deployment
     * ✅ Traffic Splitting (`A/B Testing`)
-
-## What is a Kubernetes-Native API Gateway?
- * A Kubernetes-Native API Gateway is a traffic management layer that acts as a `single entry point for applications running in Kubernetes`.
- * It provides `routing`, `authentication`, `rate limiting`, `SSL termination`, `load balancing`, and `observability`.
- * Modern Kubernetes environments commonly use `Gateway API implementations` such as `Istio`, `Kong` and `NGINX Gateway Fabric` to manage external traffic efficiently.
-
-### 🚀 Istio Gateway API Features
-| 🧩 **Feature**               | 📖 **Description**                                                           | 🎯 **Use Case**                                        |
-| ---------------------------- | ---------------------------------------------------------------------------- | ------------------------------------------------------ |
-| 🌐 **Routing**               | Route traffic based on hostnames, paths, headers, query parameters, and more | Host-based, path-based, and header-based routing       |
-| 🔐 **Authentication**        | Validate JWT tokens and integrate with OAuth/OIDC providers                  | User authentication and API security                   |
-| 🛡️ **Authorization**        | Allow or deny requests using security policies                               | RBAC and access control                                |
-| 🚦 **Rate Limiting**         | Restrict requests per user, IP, API key, or service                          | Protect APIs from abuse and excessive traffic          |
-| 🔒 **SSL/TLS Termination**   | Terminate HTTPS at the gateway and forward traffic internally                | Secure external communication                          |
-| ⚖️ **Load Balancing**        | Distribute traffic across multiple pods or services                          | High availability and scalability                      |
-| 🔄 **Traffic Splitting**     | Support canary deployments, blue-green deployments, and A/B testing          | Safer application releases                             |
-| 📊 **Observability**         | Provides metrics, logs, and distributed tracing                              | Monitoring with Prometheus, Grafana, Jaeger, and Kiali |
-| 🛠️ **Resiliency**           | Supports retries, timeouts, circuit breaking, and fault injection            | Improve application reliability                        |
-| 🌍 **Multi-Cluster Support** | Route traffic across multiple Kubernetes clusters                            | Disaster recovery and global applications              |
-
 
 ## 🚦 What is Traffic Splitting (A/B Testing) in Gateway API ?
  * 💡 Traffic splitting allows you to send `different percentages of traffic` to different backend services (Versions) .
