@@ -4,7 +4,27 @@
     * ✅ Canary Deployment
     * ✅ Blue-Green Deployment
     * ✅ Traffic Splitting (`A/B Testing`)
-   
+
+## What is a Kubernetes-Native API Gateway?
+ * A Kubernetes-Native API Gateway is a traffic management layer that acts as a `single entry point for applications running in Kubernetes`.
+ * It provides `routing`, `authentication`, `rate limiting`, `SSL termination`, `load balancing`, and `observability`.
+ * Modern Kubernetes environments commonly use `Gateway API implementations` such as `Istio`, `Kong` and `NGINX Gateway Fabric` to manage external traffic efficiently.
+
+### 🚀 Istio Gateway API Features
+| 🧩 **Feature**               | 📖 **Description**                                                           | 🎯 **Use Case**                                        |
+| ---------------------------- | ---------------------------------------------------------------------------- | ------------------------------------------------------ |
+| 🌐 **Routing**               | Route traffic based on hostnames, paths, headers, query parameters, and more | Host-based, path-based, and header-based routing       |
+| 🔐 **Authentication**        | Validate JWT tokens and integrate with OAuth/OIDC providers                  | User authentication and API security                   |
+| 🛡️ **Authorization**        | Allow or deny requests using security policies                               | RBAC and access control                                |
+| 🚦 **Rate Limiting**         | Restrict requests per user, IP, API key, or service                          | Protect APIs from abuse and excessive traffic          |
+| 🔒 **SSL/TLS Termination**   | Terminate HTTPS at the gateway and forward traffic internally                | Secure external communication                          |
+| ⚖️ **Load Balancing**        | Distribute traffic across multiple pods or services                          | High availability and scalability                      |
+| 🔄 **Traffic Splitting**     | Support canary deployments, blue-green deployments, and A/B testing          | Safer application releases                             |
+| 📊 **Observability**         | Provides metrics, logs, and distributed tracing                              | Monitoring with Prometheus, Grafana, Jaeger, and Kiali |
+| 🛠️ **Resiliency**           | Supports retries, timeouts, circuit breaking, and fault injection            | Improve application reliability                        |
+| 🌍 **Multi-Cluster Support** | Route traffic across multiple Kubernetes clusters                            | Disaster recovery and global applications              |
+
+
 ## 🚦 What is Traffic Splitting (A/B Testing) in Gateway API ?
  * 💡 Traffic splitting allows you to send `different percentages of traffic` to different backend services (Versions) .
   * 🚀 Example: `90%` Traffic to `v1`, `10%` Traffic to `v2`
