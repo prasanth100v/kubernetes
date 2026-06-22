@@ -49,6 +49,10 @@
 
 
 ### 🎯 Scenario 1: Deny All Traffic to a Namespace (No Pod should send or receive traffic.)
+ * 🎯 Requirement :
+ * No Pod in the production namespace should:
+      * Receive traffic (Ingress) ❌
+      * Send traffic (Egress) ❌
 ```yaml
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
@@ -80,10 +84,38 @@ spec:
 
 ---
 
+### ✅ Scenario 2: Allow Traffic Only from Frontend to Backend
+ * 🎯 Requirement :
+     * Only the `Frontend Pod` should be able to communicate with the `Backend Pod`.
+     * All other Pods must be `denied access`.
+```yaml
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: backend-policy
+spec:
+  podSelector:
+    matchLabels:
+      app: backend            # ✅ This policy applies only to: Backend Pod 
 
+  policyTypes:
+  - Ingress                   # ✅ Controls incoming traffic to Backend Pods.
 
+  ingress:
+  - from:
+    - podSelector:
+        matchLabels:
+          app: frontend       # ✅ Allow traffic only from Pods with: app: frontend
+```
+Result Table :
+| Source Pod    | Label          | Backend Access |
+| ------------- | -------------- | -------------- |
+| Frontend      | app=frontend   | ✅ Allowed      |
+| Database      | app=mysql      | ❌ Denied       |
+| Prometheus    | app=prometheus | ❌ Denied       |
+| Any Other Pod | Any Label      | ❌ Denied       |
 
-
+ * 👉 This NetworkPolicy selects backend Pods and `allows ingress traffic only` from Pods labeled `app=frontend`; all other Pods are `denied access` to the backend.
 
 
 
