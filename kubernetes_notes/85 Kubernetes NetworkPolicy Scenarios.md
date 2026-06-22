@@ -47,6 +47,7 @@
 | 9️⃣ | 📊 **Monitoring Access**        | Allow only monitoring tools (e.g., Prometheus) | Prevents unauthorized access to application metrics endpoints.                             |
 | 🔟  | 🏗️ **Production 3-Tier App**   | Frontend → Backend → Database only             | Implements least-privilege communication in production. (`Real-world microservices security model`) |
 
+---
 
 ### 🎯 Scenario 1: Deny All Traffic to a Namespace (No Pod should send or receive traffic.)
  * 🎯 Requirement :
@@ -116,6 +117,8 @@ Result Table :
 | Any Other Pod | Any Label      | ❌ Denied       |
 
  * 👉 This NetworkPolicy selects backend Pods and `allows ingress traffic only` from Pods labeled `app=frontend`; all other Pods are `denied access` to the backend.
+
+---
 
 
 
