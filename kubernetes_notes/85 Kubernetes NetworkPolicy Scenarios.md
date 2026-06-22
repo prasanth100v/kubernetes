@@ -11,9 +11,8 @@
     * ➡️ Outgoing traffic (`Egress`)
 
 ### ✅ Amazon VPC CNI
-  * Amazon VPC CNI supports Kubernetes `NetworkPolicy` in modern EKS versions.
-  * Modern EKS clusters using `recent Amazon VPC CNI versions` support NetworkPolicies natively.
----
+* Amazon VPC CNI supports Kubernetes `NetworkPolicy` in modern EKS versions.
+* Modern EKS clusters using `recent Amazon VPC CNI versions` support NetworkPolicies natively.
 
 | 🕒 **Period**                          | 🌐 **Networking Solution** | 🛡️ **NetworkPolicy Support** | 💡 **Notes**                                                                       |
 | -------------------------------------- | -------------------------- | ----------------------------- | ---------------------------------------------------------------------------------- |
