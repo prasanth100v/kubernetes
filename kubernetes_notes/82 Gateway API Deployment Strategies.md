@@ -2,7 +2,7 @@
  * ☸️ A Kubernetes-Native API Gateway is a traffic management layer that acts as a `single entry point for applications running in Kubernetes`.
  * 🛡️ Modern Kubernetes environments commonly use `Gateway API implementations` such as `Istio`, `Kong` and `NGINX Gateway Fabric` to manage external traffic efficiently.
 
-### What additional features does Istio Gateway API provide beyond routing?
+## What additional features does Istio Gateway API provide beyond routing?
  * ⚡ Istio Gateway API provides `advanced traffic management` features such as `path` and `host-basedrouting`, `SSL/TLS` termination, `JWT authentication`, `authorization policies`, `rate limiting`, `load balancing`, `traffic splitting` for canary deployments.
  * 💥 Observability through `Prometheus/Grafana/Jaeger/Kiali`.
  * 🛠️ Istio Gateway API supports resiliency features such as `retries`, `timeouts`, `circuit breaking`, and `fault injection`. These features improve application reliability.
