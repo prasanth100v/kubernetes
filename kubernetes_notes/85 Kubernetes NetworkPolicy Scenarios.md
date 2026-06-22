@@ -14,11 +14,11 @@
 * Amazon VPC CNI supports Kubernetes `NetworkPolicy` in modern EKS versions.
 * Modern EKS clusters using `recent Amazon VPC CNI versions` support NetworkPolicies natively.
 
-| 🕒 **Period**                          | 🌐 **Networking Solution** | 🛡️ **NetworkPolicy Support** | 💡 **Notes**                                                                       |
-| -------------------------------------- | -------------------------- | ----------------------------- | ---------------------------------------------------------------------------------- |
-| 📜 **Earlier Amazon VPC CNI Versions** | AWS VPC CNI                | ❌ Not Supported               | Kubernetes NetworkPolicy resources existed, but AWS VPC CNI could not enforce them |
-| 🔄 **Calico + Amazon VPC CNI**         | AWS VPC CNI + Calico       | ✅ Supported via Calico        | Calico enforced NetworkPolicies while AWS VPC CNI handled networking               |
-| 🚀 **Recent Amazon VPC CNI (EKS)**     | AWS VPC CNI                | ✅ Native Support              | AWS VPC CNI can now enforce Kubernetes NetworkPolicies without requiring Calico    |
+| 🕒 **Period**                          | 🌐 **Networking Solution** | 🛡️ **NetworkPolicy Support**  |                      💡 **Notes**                                                  |
+| -------------------------------------- | -------------------------- | ------------------------------- | ---------------------------------------------------------------------------------- |
+| 📜 **Earlier Amazon VPC CNI Versions** | AWS VPC CNI                | ❌ Not Supported               | Kubernetes NetworkPolicy resources existed, but `AWS VPC CNI could not enforce them` |
+| 🔄 **Calico + Amazon VPC CNI**         | AWS VPC CNI + Calico       | ✅ Supported via Calico        | `Calico` enforced NetworkPolicies while `AWS VPC CNI handled networking`           |
+| 🚀 **Recent Amazon VPC CNI (EKS)**     | AWS VPC CNI                | ✅ Native Support              | AWS VPC CNI can now enforce Kubernetes NetworkPolicies `without requiring Calico`    |
 
 ### 🛡️ Without NetworkPolicy vs With NetworkPolicy
 | 🧩 **Feature**                  | ❌ **Without NetworkPolicy**             | ✅ **With NetworkPolicy**                  |
@@ -29,7 +29,7 @@
 | ⚠️ **Attack Surface**           | Higher risk of lateral movement attacks | Limits attack surface                        |
 | 🏗️ **Microservices Isolation** | Difficult to enforce                    | Easy to enforce                              |
 | 🗄️ **Database Protection**     | Any Pod may reach the database          | Only authorized Pods can access the database |
-| 🏢 **Multi-Tenant Clusters**    | Poor isolation                          | Strong namespace/workload isolation          |
+| 🏢 **Multi-Tenant Clusters**    | Poor isolation                          | Strong `namespace/workload` isolation          |
 | 🎯 **Compliance & Governance**  | Harder to meet requirements             | Easier to enforce security policies          |
 | 🛡️ **Zero Trust Model**         | Not possible                             | Supported                                    |
 
@@ -63,20 +63,22 @@ spec:
 ```
 | Policy Type | Action                     |
 | ----------- | -------------------------- |
-| Ingress     | Block all incoming traffic |
-| Egress      | Block all outgoing traffic |
+| Ingress     | 🚫 Block all incoming traffic |
+| Egress      | 🚫 Block all outgoing traffic |
 
 #### Result:
-| Source     | Destination | Status    |
-| ---------- | ----------- | --------- |
-| frontend   | backend     | ❌ Blocked |
-| backend    | mysql       | ❌ Blocked |
-| frontend   | Internet    | ❌ Blocked |
-| DNS Server | frontend    | ❌ Blocked |
+|      Source  = Destination      | Status    |
+| ------------------------------- | --------- |
+| frontend    ─────►  backend     | ❌ Blocked |
+| backend     ─────►  mysql       | ❌ Blocked |
+| frontend    ─────►  Internet    | ❌ Blocked |
+| DNS Server  ─────►  frontend    | ❌ Blocked |
 
 ### Why use a Deny-All NetworkPolicy?
- * To implement a `Zero Trust Security Model`.
- * First `block all traffic`, then explicitly allow only the required communication between Pods..
+ * 🛡️ To implement a `Zero Trust Security Model`.
+ * 🚫 First `block all traffic`, then explicitly allow only the required communication between Pods..
+
+---
 
 
 
