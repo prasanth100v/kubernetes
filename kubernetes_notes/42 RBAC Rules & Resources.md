@@ -3,6 +3,7 @@
   * 🌟 Structure of a Rule :
       * Each RBAC rule defines **what access is allowed**.
   * 🧩 A Rule Contains:
+
 | 🏷️ **Field**    | 🎯 **Purpose**               | 💡 **Example**                               |
 | ---------------- | ---------------------------- | -------------------------------------------- |
 | 🔹 **apiGroups** | API group of the resource    | `""` (Core API), `"apps"`, `"batch"`         |
