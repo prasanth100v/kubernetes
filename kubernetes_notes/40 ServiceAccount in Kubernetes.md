@@ -201,3 +201,52 @@ roleRef:
   - Tokens are automatically `mounted`
   - RBAC controls `permissions`
   - If not specified ServiceAccount, `default` is used
+
+---
+
+## 🚀 Kubernetes ServiceAccount – Rapid Fire Interview Questions & Answers
+| 🔢     | ❓ Question                                                | ✅ Answer                                                                             |
+| ------ | --------------------------------------------------------- | ------------------------------------------------------------------------------------ |
+| 1️⃣    | What is a ServiceAccount?                                 | 🤖 An identity used by Pods to communicate with the Kubernetes API Server.           |
+| 2️⃣    | Why do we need a ServiceAccount?                          | 🔐 To provide authentication and authorization for applications running inside Pods. |
+| 3️⃣    | Who uses a ServiceAccount?                                | 📦 Pods, Deployments, StatefulSets, DaemonSets, Jobs, and CronJobs.                  |
+| 4️⃣    | Is a ServiceAccount a user?                               | ❌ No, it is a non-human identity for workloads.                                      |
+| 5️⃣    | Default ServiceAccount name?                              | 🎯 `default`                                                                         |
+| 6️⃣    | Does every namespace have a default ServiceAccount?       | ✅ Yes                                                                                |
+| 7️⃣    | What happens if no ServiceAccount is specified?           | 🔄 Pod uses the `default` ServiceAccount.                                            |
+| 1️⃣3️⃣ | Is ServiceAccount namespace-scoped?                       | ✅ Yes                                                                                |
+| 1️⃣4️⃣ | Can two namespaces have the same ServiceAccount name?     | ✅ Yes                                                                                |
+| 1️⃣5️⃣ | Can Pods share a ServiceAccount?                          | ✅ Yes                                                                                |
+| 1️⃣6️⃣ | Does every Pod need its own ServiceAccount?               | ❌ No, multiple Pods can use the same ServiceAccount.                                 |
+| 1️⃣7️⃣ | Where is ServiceAccount specified in Pod YAML?            | `serviceAccountName:`                                                                |
+| 1️⃣8️⃣ | What is mounted inside Pods?                              | 🔑 ServiceAccount token                                                              |
+| 1️⃣9️⃣ | Path of ServiceAccount token?                             | `/var/run/secrets/kubernetes.io/serviceaccount/`                                     |
+| 2️⃣0️⃣ | What does the token contain?                              | 🎫 Identity used to authenticate to API Server.                                      |
+| 2️⃣1️⃣ | Can ServiceAccount access API Server automatically?       | ✅ Yes, using the mounted token.                                                      |
+| 2️⃣2️⃣ | Does ServiceAccount provide permissions?                  | ❌ No, permissions come from RBAC.                                                    |
+| 2️⃣3️⃣ | What provides permissions to ServiceAccounts?             | 🛡️ Role & RoleBinding or ClusterRole & ClusterRoleBinding.                          |
+| 2️⃣4️⃣ | What is RBAC?                                             | 🔐 Role-Based Access Control.                                                        |
+| 2️⃣5️⃣ | What is the relationship between ServiceAccount and RBAC? | 🤝 RBAC grants permissions to ServiceAccounts.                                       |
+| 2️⃣6️⃣ | Can a ServiceAccount create Pods by default?              | ❌ No                                                                                 |
+| 2️⃣7️⃣ | Can a ServiceAccount read Pods?                           | ❌ Not unless RBAC permissions are granted.                                           |
+| 2️⃣8️⃣ | Can one Role be bound to multiple ServiceAccounts?        | ✅ Yes                                                                                |
+| 2️⃣9️⃣ | Can one ServiceAccount have multiple Roles?               | ✅ Yes                                                                                |
+| 3️⃣0️⃣ | What is the format of a ServiceAccount identity?          | `system:serviceaccount:<namespace>:<sa-name>`                                        |
+| 3️⃣1️⃣ | What is a Role?                                       | 📜 Defines permissions within a namespace.                     |
+| 3️⃣2️⃣ | What is a ClusterRole?                                | 🌍 Defines cluster-wide permissions.                           |
+| 3️⃣3️⃣ | What is a RoleBinding?                                | 🔗 Connects a Role to a User, Group, or ServiceAccount.        |
+| 3️⃣4️⃣ | What is a ClusterRoleBinding?                         | 🔗 Connects a ClusterRole to a User, Group, or ServiceAccount. |
+| 3️⃣5️⃣ | Can a ServiceAccount use ClusterRole?                 | ✅ Yes                                                          |
+| 3️⃣9️⃣ | What does `apiGroup: rbac.authorization.k8s.io` mean? | 🛡️ RBAC API group used for Roles and Bindings.                |
+| 4️⃣0️⃣ | Which resource grants pod read access?                | 📜 Role with `get`, `list`, `watch` permissions.               |
+| 4️⃣1️⃣ | Why are ServiceAccounts important in EKS?  | ☁️ Used with IAM Roles for Service Accounts (IRSA).     |
+| 4️⃣2️⃣ | What is IRSA?                              | 🔐 IAM Roles for Service Accounts.                      |
+| 4️⃣3️⃣ | Why use IRSA?                              | Secure AWS API access without storing `AWS keys in Pods`. |
+| 4️⃣4️⃣ | What is required before IRSA?              | 🌐 OIDC Provider. (allows you to` grant temporary, secure access` to AWS resources from external platforms without using long-lived static credentials like `IAM access keys`.) |
+| 4️⃣5️⃣ | Which AWS service uses IRSA commonly?      | 💾 EBS CSI Driver, Cluster Autoscaler, ALB Controller.  |
+| 4️⃣6️⃣ | Can Pods access AWS APIs without IRSA?     | ⚠️ Possible using node IAM role, but not recommended.   |
+| 4️⃣7️⃣ | ServiceAccount used by EBS CSI Driver?     | `ebs-csi-controller-sa`                                 |
+| 4️⃣8️⃣ | ServiceAccount used by Cluster Autoscaler? | `cluster-autoscaler`                                    |
+| 4️⃣9️⃣ | Why not use node IAM role for everything?  | 🔒 Violates least privilege principle.                  |
+| 5️⃣0️⃣ | Best practice in EKS?                      | ✅ Use IRSA with dedicated ServiceAccounts.              |
+
