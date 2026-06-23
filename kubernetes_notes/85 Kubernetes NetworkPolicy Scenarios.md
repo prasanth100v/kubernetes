@@ -120,5 +120,155 @@ Result Table :
 
 ---
 
+### ✅ Scenario 3: Allow Traffic on Frontend + Port 8080 Specific Port Only
+ * 🎯 Requirement
+     * Allow traffic to Backend Pods only on `TCP Port 8080`.
+     * All other ports must be blocked.
+```yaml
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: frontend-to-backend-8080
+
+spec:
+  podSelector:
+    matchLabels:
+      app: backend              # ✅ Policy applies only to Backend Pods 
+
+  policyTypes:
+  - Ingress                     # ✅ Control only Ingress Incoming Traffic
+
+  ingress:
+  - from:
+    - podSelector:
+        matchLabels:
+          app: frontend          # ✅ Allow frontend pod only
+
+    ports:
+    - protocol: TCP
+      port: 8080                 # ✅ Allow TCP/8080 with frontend pod only
+```
+Result Table
+| Source     | Port | Status     |
+| ---------- | ---- | ---------- |
+| Frontend   | 8080 | ✅ Allowed |
+| Frontend   | 80   | ❌ Denied  |
+| Other Pods | 8080 | ❌ Denied  |
+
+* 🛡️ This NetworkPolicy allows ingress traffic to backend Pods only on TCP port 8080 with frontend pod only. All other ports are denied...
+
+---
+
+### ✅ Scenario 4: Allow Traffic from Specific Namespace
+ * 🎯 Requirement
+   * 🛡️ Allow traffic only from Pods running in the `dev namespace`, Deny traffic from all other namespaces.
+   * Label the namespaces:
+        * `kubectl label ns dev env=dev`
+        * `kubectl label ns prod env=prod`
+   * Verify:
+        * `kubectl get ns --show-labels`
+```yaml
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-dev
+
+spec:
+  podSelector: {}             #✅ This policy applies to all Pods in this namespace 
+
+  policyTypes:
+  - Ingress                   #✅ Control only Incoming Traffic
+
+  ingress:
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          env: dev            #✅ Allow Only dev Namespace
+```
+Result Table
+| Source Namespace | Label    | Access    |
+| ---------------- | -------- | --------- |
+| dev              | env=dev  | ✅ Allowed |
+| prod             | env=prod | ❌ Denied  |
+| test             | env=test | ❌ Denied  |
+| default          | No label | ❌ Denied  |
+
+* 👉 This NetworkPolicy allows ingress traffic only from namespaces labeled env=dev.
+* ❌ Traffic from namespaces such as `prod`, `test`, or `default` is denied.
+
+---
+
+### ✅ Scenario 5: Allow Database Access Only from Backend
+ * 🎯 Requirement
+    * Only the `Backend Pod` should be able to access the `MySQL Database` on `port 3306`.
+    * All other Pods must be denied.
+    * Architecture :
+    ```hcl
+     Frontend
+   (app=frontend)
+         │
+         ▼
+     Backend
+   (app=backend)
+         │
+    TCP 3306
+         ▼
+    Database
+     (app=mysql)
+
+   Frontend ──► Database ❌ Denied
+   Other Pods ─► Database ❌ Denied
+   ```
+```yaml
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: db-policy
+
+spec:
+  podSelector:
+    matchLabels:
+      app: mysql            #✅ This policy applies only to Database Pods (app=mysql) 
+
+  policyTypes:
+  - Ingress                 #✅ Controls traffic entering the database Pods (Ingress)
+
+  ingress:
+  - from:
+    - podSelector:
+        matchLabels:
+          app: backend       #✅ Allow Only Backend Pods (Only Pods labeled app: backend)
+
+    ports:
+    - port: 3306             #✅ Only MySQL traffic is allowed (Only MySQL Port: 3306)
+      protocol: TCP
+```
+Result Table
+| Source Pod    | Port | DB Access |
+| ------------- | ---- | --------- |
+| Backend       | 3306 | ✅ Allowed |
+| Frontend      | 3306 | ❌ Denied  |
+| Prometheus    | 3306 | ❌ Denied  |
+| Any Other Pod | 3306 | ❌ Denied  |
+| Backend       | 80   | ❌ Denied  |
+
+* 🛡️ This policy restricts both `source` and `port`
+    * `Source = app=backend`
+    * `Port   = 3306`
+* Both conditions must match., Backend + 3306  ✅ Allowed
+* 👉 This NetworkPolicy allows only backend Pods (`app=backend`) to access MySQL Pods (`app=mysql`) on TCP port `3306`, while all other Pods and ports are `denied`.
+
+---
+
+
+
+
+
+
+
+
+
+
+
 
 
