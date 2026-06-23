@@ -4,10 +4,11 @@
   * It uses **roles and bindings** to give permissions.
 
 ### 🧠 Simple Understanding
-   - 👤 Who → `User` / `Group` / `ServiceAccount`  
-   - 📦 What → Resource (`pods`, `services`, etc.)  
-   - ⚙️ Action → `get`, `create`, `delete`, `update`
-   - 👉 RBAC = `Who + What + Action`
+| 🧩 **Component** | 💡 **Meaning**                 | 📖 **Example**                               |
+| ---------------- | ------------------------------ | -------------------------------------------- |
+| 👤 **Who**       | User, Group, or ServiceAccount | `dev-user`, `developers`, `backend-sa`       |
+| 📦 **What**      | Kubernetes Resource            | `pods`, `services`, `deployments`, `secrets` |
+| ⚙️ **Action**    | Operation on Resource          | `get`, `list`, `create`, `update`, `delete`  |
 
 ## 🎯 Purpose of RBAC
    - Control access to Kubernetes resources  
@@ -26,19 +27,17 @@
 ---
 
 ## 🔐 RBAC Authorization Flow (Step-by-Step)
-| 🔢 **Step** | 📖 **What Happens**                       | 🧠 **Explanation**                                   | 💡 **Real-World Insight**                                   |
-| ----------- | ----------------------------------------- | ---------------------------------------------------- | ----------------------------------------------------------- |
-| 1️⃣         | 👤 User / 🤖 Pod makes request            | 👉 Request sent to Kubernetes API server             | Could be `kubectl`, CI/CD tool, or Pod using ServiceAccount |
-| 2️⃣         | 🌐 Kubernetes API Server receives request | 👉 Acts as the central entry point                   | All operations go through API server                        |
-| 3️⃣         | 🛡️ RBAC checks Role / ClusterRole        | 👉 Determines what actions are allowed               | Checks permissions like `get, list, create `                  |
-| 4️⃣         | 🔗 Check RoleBinding / ClusterRoleBinding | 👉 Verifies if user/ServiceAccount is linked to role | Ensures correct identity mapping                            |
-| 5️⃣         | ✅ Permission `Allow / ❌ Deny `          | 👉 Final decision based on `RBAC rules`                | Access granted or rejected                               |
- 
+| 🔢 **Step** | 📖 **What Happens**                       | 🧠 **Explanation**                                 | 
+| ----------- | ----------------------------------------- | ---------------------------------------------------- | 
+| 1️⃣         | 👤 User / 🤖 Pod makes request            | 👉 Request sent to Kubernetes API server             | 
+| 2️⃣         | 🌐 Kubernetes API Server receives request | 👉 Acts as the central entry point                   | 
+| 3️⃣         | 🛡️ RBAC checks Role / ClusterRole        | 👉 Determines what actions are allowed               |
+| 4️⃣         | 🔗 Check RoleBinding / ClusterRoleBinding | 👉 Verifies if user/ServiceAccount is linked to role | 
+| 5️⃣         | ✅ Permission `Allow / ❌ Deny `          | 👉 Final decision based on `RBAC rules`               |
 
 ---
 
 ## ✅ 1. Namespace-Scoped RBAC (Role + RoleBinding)
-
 ### 🧾 Role (Permissions inside namespace)
 ```yaml
 apiVersion: rbac.authorization.k8s.io/v1
