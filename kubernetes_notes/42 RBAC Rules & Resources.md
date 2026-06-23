@@ -2,10 +2,12 @@
   * RBAC rules define access using `apiGroups`, `resources`, and `verbs`. These rules are attached to roles and assigned via bindings to control access securely in Kubernetes.
   * 🌟 Structure of a Rule :
       * Each RBAC rule defines **what access is allowed**.
-  * A Rule Contains:
-      * 🔹 apiGroups → API group of the resource
-      * 🔹 resources → What resources (pods, deployments, etc.)
-      * 🔹 verbs → What actions are allowed  
+  * 🧩 A Rule Contains:
+| 🏷️ **Field**    | 🎯 **Purpose**               | 💡 **Example**                               |
+| ---------------- | ---------------------------- | -------------------------------------------- |
+| 🔹 **apiGroups** | API group of the resource    | `""` (Core API), `"apps"`, `"batch"`         |
+| 🔹 **resources** | Which Kubernetes resources   | `pods`, `services`, `deployments`, `secrets` |
+| 🔹 **verbs**     | Allowed actions on resources | `get`, `list`, `create`, `update`, `delete`  |
 
 ## 🔐 Kubernetes RBAC Verbs (Actions)
 | 🧩 Verb               | 💡 Meaning                               |
@@ -37,7 +39,7 @@ rules:
 | --------------------------------- | --------------------------- | ---------------------------------------------------------------------- | ---------------------------------- |
 | 1️⃣ **Core (`apiGroups: [""]`)**  | Basic cluster resources     | 📦 Pods, Services, ConfigMaps, Secrets, Namespaces, PV, PVC, Endpoints | 🔗 Core building blocks of any app |
 | 2️⃣ **apps**                      | Workload management         | 🚀 Deployments, ReplicaSets, StatefulSets, DaemonSets                  | ⚙️ Managing app lifecycle          |
-| 3️⃣ **batch**                     | Batch processing            | 🧪 Jobs, CronJobs                                                      | ⏰ Scheduled tasks, data processing |
+| 3️⃣ **batch**                     | Batch processing            | 🧪 Jobs, CronJobs                                                      | ⏰ Scheduled tasks                   |
 | 4️⃣ **rbac.authorization.k8s.io** | Access control              | 🔐 Roles, RoleBindings, ClusterRoles, ClusterRoleBindings              | 🛡 Security & permissions          |
 | 5️⃣ **networking.k8s.io**         | Networking rules            | 🌐 Ingresses, NetworkPolicies, IngressClasses                          | 🌍 Traffic routing & security      |
 | 6️⃣ **autoscaling**               | Auto scaling                | 📈 HorizontalPodAutoscalers                                            | ⚖️ Scale apps based on load        |
@@ -49,6 +51,7 @@ rules:
 
 ## 🔍 Useful Command
   * To list all resources in your cluster: `kubectl api-resources`
+  * An API Group is a way Kubernetes organizes its `resources into categories`.
 
 ---
 
@@ -62,13 +65,13 @@ rules:
 
 
 ### 🔹 Pod access to S3 (Secure way)
-| 🔢 **Step** | 📖 **What You Do**             | 🧠 **How It Works**                                  | 💡 **Why It Matters**                    |
-| ----------- | ------------------------------ | ---------------------------------------------------- | ---------------------------------------- |
-| 1️⃣         | Enable OIDC provider           | 👉 Connects Kubernetes cluster identity with AWS IAM | Required for trust between cluster & AWS |
-| 2️⃣         | Create IAM policy              | 👉 Define S3 permissions (read/write/list)           | Follows least privilege principle        |
-| 3️⃣         | Create IAM role + trust policy | 👉 Allows ServiceAccount to assume IAM role          | Secure identity mapping                  |
-| 4️⃣         | Annotate ServiceAccount        | 👉 Link IAM role using annotation                    | Example: `eks.amazonaws.com/role-arn`    |
-| 5️⃣         | Use ServiceAccount in Pod      | 👉 Pod inherits IAM role permissions                 | Pod can securely access S3               |
+| 🔢 **Step** | 📖 **What You Do**                  | 🧠 **How It Works**                                            | 💡 **Why It Matters**                      |
+| ----------- | ----------------------------------- | -------------------------------------------------------------- | ------------------------------------------ |
+| 1️⃣         | 🔗 Enable OIDC Provider             | Connects EKS identity with AWS IAM                             | Required for trust between EKS and AWS     |
+| 2️⃣         | 📜 Create IAM Policy                | Define S3 permissions (`GetObject`, `PutObject`, `ListBucket`) | Follows least-privilege principle          |
+| 3️⃣         | 🔐 Create IAM Role + Trust Policy   | Allows a Kubernetes ServiceAccount to assume the IAM role      | Secure identity mapping                    |
+| 4️⃣         | 🤖 Create & Annotate ServiceAccount | Link IAM Role using `eks.amazonaws.com/role-arn` annotation    | Connects K8s identity to AWS identity      |
+| 5️⃣         | 📦 Use ServiceAccount in Pod        | Pod automatically receives temporary AWS credentials           | Secure access to S3 without hardcoded keys |
 
 ### ⚙️ Example Annotation
 ```yaml
@@ -92,6 +95,7 @@ metadata:
 | 🛡️ RBAC           | 🎯 Authorization system (what actions are allowed) |
 | 👤 ServiceAccount | 🆔 Identity for Pods inside Kubernetes             |
 | ☁️ IAM            | 🔑 Cloud permissions (AWS/GCP/Azure access)        |
+ 
  * 👉 All work together for secure access  
 
 ---
@@ -99,9 +103,9 @@ metadata:
 ## 🧠 Quick Revision
 | 🧩 Concept       | 💡 Meaning                                                  |
 | ---------------- | ----------------------------------------------------------- |
-| 📂 `apiGroups`   | 🌍 Where the resource belongs (core, apps, batch, etc.)     |
-| 📦 `resources`   | 🎯 What you are accessing (pods, deployments, services)     |
-| ⚙️ `verbs`       | ✏️ What actions you can perform (get, list, create, delete) |
+| 📂 `apiGroups`   | 🌍 Where the resource belongs (`core`, `apps`, `batch`, etc.)     |
+| 📦 `resources`   | 🎯 What you are accessing (`pods`, `deployments`,` services`)     |
+| ⚙️ `verbs`       | ✏️ What actions you can perform (`get`, `list`, `create`, `delete`) |
 | 📄 `Role`        | 📦 Namespace-level permissions                              |
 | 🌐 `ClusterRole` | 🌍 Cluster-wide permissions                                 |
 
