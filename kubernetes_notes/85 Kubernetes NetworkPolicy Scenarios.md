@@ -33,6 +33,20 @@
 | 🎯 **Compliance & Governance**  | Harder to meet requirements             | Easier to enforce security policies          |
 | 🛡️ **Zero Trust Model**         | Not possible                             | Supported                                    |
 
+### 🛡️ Kubernetes NetworkPolicy: Ingress vs Egress
+| 🧩 **Feature**                    | 📥 **Ingress Traffic**        | 📤 **Egress Traffic**               |
+| --------------------------------- | ----------------------------- | ----------------------------------- |
+| 📖 **Meaning**                    | Traffic coming **into a Pod** | Traffic going **out from a Pod**    |
+| 🚦 **Direction**                  | Incoming                      | Outgoing                            |
+| 🎯 **Controls**                   | Who can access the Pod        | Where the Pod can connect           |
+| ⚙️ **Policy Type**                | `Ingress`                     | `Egress`                            |
+| 💡 **Use Case**                   | Allow Frontend → Backend      | Allow Backend → Database / Internet |
+| 🔓 **Default (No NetworkPolicy)** | Allowed                       | Allowed                             |
+| ❓ Who                            | Who can talk **TO** Backend? (✅ Frontend can access Backend) | Who Backend can talk **TO**? (✅ Backend can access Database)  |
+
+
+
+
 ## 🛡️ Kubernetes NetworkPolicy Scenarios
 | #   | 🎯 **Scenario**                 | 🔒 **Policy Goal**                            | 💡 **Interview Explanation**                                                             |
 | --- | ------------------------------- | ---------------------------------------------- | ---------------------------------------------------------------------------------------- |
@@ -41,7 +55,6 @@
 | 3️⃣ | ⚙️➡️🗄️ **Backend → Database**  | Only backend can access database               | Protects databases from direct access by `frontend` or `other Pods`.                     |
 | 4️⃣ | 🔓 **Allow Specific Port**      | Open only required ports (e.g., 8080)          | Reduces attack surface by `blocking unnecessary ports`.                                    |
 | 5️⃣ | 🏢 **Namespace Isolation**      | Restrict communication between namespaces      | Useful for `multi-team` or `multi-tenant` clusters.                                          |
-| 6️⃣ | 🌍 **Allow DNS Traffic**        | Permit UDP/TCP port 53 traffic                  | Required for Pods to resolve domain names using CoreDNS.                                 |
 | 7️⃣ | ☁️ **Allow Internet Access**    | Permit outbound traffic to external services   | Applications can access `external APIs`, SaaS platforms, and `external databases`.          |
 | 8️⃣ | 🔐 **Restrict Internet Access** | Block all outbound internet traffic            | Common for highly secure workloads handling `sensitive data`.                              |
 | 9️⃣ | 📊 **Monitoring Access**        | Allow only monitoring tools (e.g., Prometheus) | Prevents unauthorized access to application metrics endpoints.                             |
@@ -260,15 +273,50 @@ Result Table
 
 ---
 
+### ✅ Combined Ingress + Egress NetworkPolicy
+ * 🎯 Requirement
+   * `Allow Frontend → Backend`
+   * `Allow Backend → Database`
+   * Deny Other Pods → Backend
+   * Deny Backend → Internet
+   * Deny Backend → Any Other Pod
+```yaml
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: backend-policy
 
+spec:
+  podSelector:
+    matchLabels:
+      app: backend           #✅ Policy applies only to Backend Pods
 
+  policyTypes:
+  - Ingress
+  - Egress
 
+  ingress:
+  - from:
+    - podSelector:
+        matchLabels:
+          app: frontend     # ✅ (Allow:Frontend ---> Backend) , ❌ (Deny:Other Pods ---> Backend) 
 
+  egress:
+  - to:
+    - podSelector:
+        matchLabels:
+          app: database      # ✅ (Allow:Backend ---> Database) , ❌ (Deny: Backend ---> Internet & Other Pods ❌)
+```
+Result Table :
+| Source     | Destination | Status    |
+| ---------- | ----------- | --------- |
+| Frontend   | Backend     | ✅ Allowed |
+| Backend    | Database    | ✅ Allowed |
+| Other Pods | Backend     | ❌ Denied  |
+| Backend    | Internet    | ❌ Denied  |
+| Backend    | Other Pods  | ❌ Denied  |
 
-
-
-
-
-
+* 👉 This combined NetworkPolicy allows only `Frontend Pods to access Backend Pods` and allows` Backend Pods to communicate only with Database Pods`.
+* ❌ All other ingress and egress traffic is denied.
 
 
