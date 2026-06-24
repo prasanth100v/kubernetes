@@ -1,6 +1,5 @@
 # 🔐 EKS RBAC + IAM 
 ## What happens if a user has NO RoleBinding or ClusterRoleBinding❓
-
  * 👉 They **cannot perform any actions**
  * ❌ Kubernetes will return : **Forbidden Error**
  * 💡 Reason:
@@ -9,7 +8,6 @@
      * ❌ No permissions = No access
 
 ## 🔥 `system:masters` Group (Very Important)
-
   * Built-in Kubernetes group
   * Has **cluster-admin permissions**
   * ⚠️ What it means:
@@ -18,7 +16,6 @@
      * 👉 Equivalent to **root/admin access**
 
 ## 🧪 kubectl auth can-i Command
-
   * 🎯 Purpose: Check if a `user/service account` has permission
   * 📌 Example: `kubectl auth can-i create pods --as=dev-user -n dev`
   * 👉 Output:
@@ -26,32 +23,30 @@
        * no  ❌ → denied  
 
 ## ✅ 1. How RBAC Works in EKS?
-
   * EKS uses:
      * ☁️ IAM → Authentication
      * 🔐 RBAC → Authorization  
 
 ### 🔄 Flow:
-| 🔢 Step | 📖 What Happens                       | 🧠 Explanation                 |
+| 🔢 Step | 📖 What Happens                      | 🧠 Explanation                 |
 | ------- | ------------------------------------- | ------------------------------ |
 | 1️⃣     | 🔑 IAM user/role logs in              | 👉 AWS authenticates identity  |
 | 2️⃣     | 🔗 `aws-auth` ConfigMap maps identity | 👉 IAM → Kubernetes user/group |
-| 3️⃣     | 🛡️ RBAC checks permissions           | 👉 Allows or denies actions    |
-
+| 3️⃣     | 🛡️ RBAC checks permissions            | 👉 Allows or denies actions    |
 
 ## 🧾 2. What is aws-auth ConfigMap?
-
   - Located in: `kube-system` namespace  
-  - Used to` map IAM `→ Kubernetes  
+  - Used to maps AWS `IAM users` and `IAM roles` to Kubernetes users and groups.
 
 ### 📌 Example:
 ```yaml
 mapUsers:
-- userarn: arn:aws:iam::111122223333:user/dev-user  
+- userarn: arn:aws:iam::111122223333:user/dev-user        # 👉 user Aiam arn
   username: dev-user  
   groups:
-    - dev-group  
+    - dev-group                                           # 👉 k8s group
 ```
+
 ---
 
 ## ⚠️ Important Limitation
@@ -62,17 +57,19 @@ mapUsers:
    - IAM Roles
    - ✅ Solution : Attach same `IAM Role` to multiple users
 
+### 📌 How do you attach an IAM Role to an EKS cluster?
+  * 👉 IAM roles are attached to an EKS cluster by mapping the `IAM role ARN` in the `aws-auth ConfigMap`.
+  * 👉 The role is mapped to `Kubernetes groups`, and RBAC determines what permissions the role has `inside the cluster`.
 
 ## 🧪 Testing Access in EKS
 ### 📌 Command:
 ```yaml
 kubectl auth can-i get pods --as=dev-user -n dev
 ```
-👉 Checks:
+ * 👉 Checks:
       - If IAM mapping + RBAC both allow access  
 
 ## ❌ What if IAM user is NOT mapped in aws-auth?
-
  * 👉 User CANNOT access cluster
  * Even if:
       - RBAC permissions exist ❗
@@ -87,14 +84,12 @@ kubectl auth can-i get pods --as=dev-user -n dev
 
 ## 🔗 ServiceAccount + IAM (IRSA)
 ### Can they be connected ❓
-   
    * 👉 YES ✅ using IRSA (IAM Roles for Service Accounts)
    * 🎯 What it does:
         * Links Kubernetes ServiceAccount → `IAM Role `
         * Allows Pods to access AWS services
      * 💡 Example Use:
-        * Pod → Access S3
-        * Pod → Access DynamoDB
+        * Pod → Access S3 & Pod → Access DynamoDB
         * No credentials stored & Secure access  
 
 ---
@@ -111,7 +106,6 @@ kubectl auth can-i get pods --as=dev-user -n dev
 
 # 🔑 Kubernetes RBAC Key Concepts 
 ## 🌟 RBAC = Who Can Do What
-
   * RBAC controls:
      - 👤 Who → User / Group / ServiceAccount  
      - ⚙️ What action → get, list, create, delete  
@@ -130,7 +124,6 @@ kubectl auth can-i get pods --as=dev-user -n dev
 ---
 
 ## 🔐 Important Concept
-
 ### RBAC ONLY controls Kubernetes API access
   * ❌ It does NOT control:
       * Container-level permissions
@@ -143,12 +136,10 @@ kubectl auth can-i get pods --as=dev-user -n dev
 | 🔐 **Authentication** | 👤 Who you are     | 🔑 Verified using IAM, certificates, tokens  |
 | 🔒 **Authorization**  | 🎯 What you can do | 🛡️ Controlled by RBAC (roles & permissions) |
 
-   👉 Both are required  
+ 👉 Both are required  
 
 ## 🔐 Key RBAC Rules
-
 ### 🧾 1. Roles = What can be done
-
  * Define:
   - Verbs:
     - get, list, watch → Read  
@@ -162,15 +153,12 @@ kubectl auth can-i get pods --as=dev-user -n dev
     - secrets  
 
 ### 🔗 2. Bindings = Who can do it
-
  Subjects can be:
    - 👤 User  
    - 👥 Group  
    - 📦 ServiceAccount  
 
-
 ## ⚠️ Important Warning
-
  * ❌ Avoid using: `system:masters  `
  * 👉 Because:
     - Gives FULL admin access  
@@ -178,13 +166,11 @@ kubectl auth can-i get pods --as=dev-user -n dev
 
 ## 🔐 Security Best Practices
   - ✅ Follow least privilege principle  
-  - ✅ Give only required permissions  
-  - ✅ Avoid "*" (`wildcards`) in resources  
+  - ✅ Give only required permissions   
   - ✅ Be very strict with secrets access  
   - ✅ Use groups instead of individual users  
 
 ## 📂 Git Best Practice
-
  * Store all RBAC YAML files in Git:
    - Role  
    - RoleBinding  
@@ -198,9 +184,9 @@ kubectl auth can-i get pods --as=dev-user -n dev
 ---
 
 ## 🧠 Quick Revision
-| 🧩 Concept                | 💡 Meaning                                                |
-| ------------------------- | --------------------------------------------------------- |
-| 🛡️ RBAC                  | 🎯 Controls **who + what + resource**                     |
+| 🧩 Concept                 | 💡 Meaning                                                |
+| -------------------------- | --------------------------------------------------------- |
+| 🛡️ RBAC                   | 🎯 Controls **who + what + resource**                     |
 | 📄 Role                   | 📦 Namespace-level permissions                            |
 | 🌐 ClusterRole            | 🌍 Cluster-wide permissions                               |
 | 🔗 Binding                | 🔑 Assigns permissions (RoleBinding / ClusterRoleBinding) |
