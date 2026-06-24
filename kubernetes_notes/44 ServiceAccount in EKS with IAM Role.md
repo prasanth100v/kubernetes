@@ -41,16 +41,20 @@ eksctl utils associate-iam-oidc-provider --cluster <cluster-name> --approve
 ```
 ### Using AWS CLI:
 Verify:
-```yaml
+```hcl
 aws eks describe-cluster \
-  --name <cluster-name> \
-  --query "cluster.identity.oidc.issuer" \
-  --output text
+--name eks-cluster2 \
+--region ap-south-1 \
+--query "cluster.identity.oidc.issuer" \
+--output text
 ```
 
 ### If not enabled:
-```yaml
-aws eks update-cluster-config --name <cluster-name> --resources-vpc-config oidc={enabled=true}
+```hcl
+eksctl utils associate-iam-oidc-provider \
+--cluster eks-cluster2 \
+--region ap-south-1 \
+--approve
 ```
 
 ### Verify:
@@ -58,86 +62,78 @@ aws eks update-cluster-config --name <cluster-name> --resources-vpc-config oidc=
 aws iam list-open-id-connect-providers | grep <CLUSTER_NAME>
 ```
 
-## 🟢 Step 2: Create IAM Role (Trust Policy)
+## 🟢 Step 2:Create IAM Policy for S3 Access
 
  * 👉 This role:
    - Trusts OIDC
    - Grants AWS permissions (e.g., S3 access)
 
-### 🧾 Trust Policy Example
+### 🧾 `vi s3-policy.json`
 ```yaml
 {
   "Version": "2012-10-17",
   "Statement": [
     {
       "Effect": "Allow",
-      "Principal": {
-        "Federated": "arn:aws:iam::<ACCOUNT_ID>:oidc-provider/oidc.eks.<REGION>.amazonaws.com/id/<OIDC_ID>"
-      },
-      "Action": "sts:AssumeRoleWithWebIdentity",
-      "Condition": {
-        "StringEquals": {
-          "oidc.eks.<REGION>.amazonaws.com/id/<OIDC_ID>:sub": "system:serviceaccount:<NAMESPACE>:<SERVICE_ACCOUNT_NAME>"
-        }
-      }
+      "Action": [
+        "s3:ListBucket"
+      ],
+      "Resource": [
+        "arn:aws:s3:::my-eks-demo-bucket"
+      ]
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "s3:GetObject",
+        "s3:PutObject",
+        "s3:DeleteObject"
+      ],
+      "Resource": [
+        "arn:aws:s3:::my-eks-demo-bucket/*"
+      ]
     }
   ]
 }
 ```
 
-### 🔍 Explanation (Very Important)
-| 🧩 Field         | 💡 Meaning                                                        |
-| ---------------- | ------------------------------------------------------------------ |
-| 🔗 **Federated** | 🌐 OIDC provider ARN (`EKS identity provider`)                     |
-| ⚙️ **Action**    | 🔑 Allows Pod to assume IAM role (`sts:AssumeRoleWithWebIdentity`) |
-| 🎯 **Condition** | 🔒 Restricts access to specific ServiceAccount                     |
-
-👉 Only that Pod can use this IAM role
-
-## 🔍 Replace Values
-  - ACCOUNT_ID → Your `AWS Account ID  `
-  - REGION → us-west-2 (example)  
-  - OIDC_ID → From cluster  
-  - NAMESPACE → default  
-  - SERVICE_ACCOUNT → `s3-reader ` 
-
-## 🟢 Step 3: Create IAM Role
-```yaml
-aws iam create-role \
---role-name EKS-S3-ReadOnly-Role \
---assume-role-policy-document file://trust-policy.json
+### Create policy:
+```hcl
+aws iam create-policy \
+--policy-name EKS-S3-Access-Policy \
+--policy-document file://s3-policy.json
+```
+### Output: (Save this ARN.)
+```hcl
+arn:aws:iam::<ACCOUNT-ID>:policy/EKS-S3-Access-Policy
 ```
 
-## 🟢 Step 4: Attach Permissions
+## 🟢 Step 3:Create IAM Role + Kubernetes ServiceAccount
 ```yaml
-aws iam attach-role-policy \
---role-name EKS-S3-ReadOnly-Role \
---policy-arn arn:aws:iam::aws:policy/AmazonS3ReadOnlyAccess
+eksctl create iamserviceaccount \
+--cluster eks-cluster2 \
+--namespace default \
+--name s3-access-sa \
+--attach-policy-arn arn:aws:iam::<ACCOUNT-ID>:policy/EKS-S3-Access-Policy \
+--approve \
+--region ap-south-1
 ```
+### Verify:
+```hcl
+kubectl get sa s3-access-sa
+```
+Describe:
+```hcl
+kubectl describe sa s3-access-sa
+```
+ * You should see: `eks.amazonaws.com/role-arn`
 
 ## ✅ What Happens Now?
   - Only Pods using this ServiceAccount can use the role  
   - Pods get temporary credentials  
   - No secrets stored  
 
-## 🟢 Step 5: Create ServiceAccount (Link IAM Role)
-```yaml
-apiVersion: v1  
-kind: ServiceAccount  
-metadata:  
-  name: s3-access-sa  
-  namespace: default  
-  annotations:  
-    eks.amazonaws.com/role-arn: arn:aws:iam::1234567890:role/S3ReaderRole  
-```
- 👉 This annotation is the magic link between `Kubernetes & AWS`
-
-## 🟢 Apply:
-```yaml
-kubectl apply -f serviceaccount.yaml
-```
-
-## 🟢 Step 6: Deploy Pod with ServiceAccount
+## 🟢 Step 4: Deploy Pod with ServiceAccount
 ```yaml
 apiVersion: apps/v1  
 kind: Deployment  
@@ -164,7 +160,7 @@ spec:
 /var/run/secrets/eks.amazonaws.com/serviceaccount/token
 ```
 
-## 🟢 Step 7: Verify Access
+## 🟢 Step 5: Verify Access
 ```yaml
 kubectl exec -it s3-access-pod -- aws s3 ls
 ```
