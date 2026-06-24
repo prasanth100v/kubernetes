@@ -89,12 +89,15 @@ kubectl get nodes
  * 👉 Expected:
     * pods → ✅ allowed
     * nodes → ❌ denied (if not permitted)  
-    
+
+### How do you create a user and give permissions in a kubeadm Kubernetes cluster?
+ * In a kubeadm cluster, Kubernetes `does not have a built-in user management system`.
+ * We typically create a user by generating a `client certificate`, then grant permissions using RBAC objects such as Roles, ClusterRoles, RoleBindings, or ClusterRoleBindings.
+ * Authentication is done through `certificates`, and authorization is controlled by `RBAC`.
 
 ---
 
 # 🤖 Creating ServiceAccount for RBAC
-
  * ServiceAccounts are used by **Pods inside cluster** to talk to Kubernetes API.
 
 ## 🟢 Step 1: Create Namespace
@@ -112,14 +115,12 @@ metadata:
 ```
 
 ## 🟢 Step 3: Attach Permissions
-
   * 👉 Create:
       * Role
       * RoleBinding  (define rules as per requirement)
   
 
 ## 🔐 How ServiceAccount Works
-
    - Token is automatically mounted inside Pod  
    - Used for authentication with API server
    - 👉 Inside pod📍 Token path : `/var/run/secrets/kubernetes.io/serviceaccount/`
@@ -129,7 +130,6 @@ metadata:
        * Used to call Kubernetes API
 
 ## 👥 Groups in Kubernetes
-
   - Kubernetes does NOT manage groups directly  
   - Groups come from:
      - OIDC  
@@ -143,15 +143,14 @@ metadata:
 
 ## ☁️ Important EKS Concept
 ###  Can we use RBAC alone without aws-auth in EKS❓
-
   * ❌ No
   * 👉 You need BOTH:
      * IAM (aws-auth) → Authentication
      * RBAC → Authorization  
 
 ## ⚖️ Key Differences
-| 🧩 **Feature**     | 👤 **User (kubeadm)**                    | 📦 **ServiceAccount**       | 🧠 **Explanation**                                                      |
-| ------------------ | ---------------------------------------- | --------------------------- | ----------------------------------------------------------------------- |
+| 🧩 **Feature**     | 👤 **User (kubeadm)**                    | 📦 **ServiceAccount**             | 🧠 **Explanation**                                                      |
+| ------------------ | ---------------------------------------- | ----------------------------------- | ----------------------------------------------------------------------- |
 | 👥 **Used by**     | 👨‍💻 Humans (admins, devs)                    | 🤖 Pods / applications         | Users are external identities; ServiceAccounts are for workloads        |
 | 🔑 **Auth method** | 🪪 Certificate (client cert via kubeconfig) | 🔑 Token (auto-mounted in Pod) | Different authentication mechanisms                                     |
 | ⚙️ **Created by**  | 🛠️ Manual (admin creates certs/kubeconfig)  | ⚡ Automatically by Kubernetes | Every namespace gets a default ServiceAccount                           |
@@ -161,9 +160,9 @@ metadata:
 | 🧩 Concept        | 💡 Meaning                                |
 | ----------------- | ----------------------------------------- |
 | 👤 Users          | 🪪 Created using certificates             |
-| 🏷️ CN            | 🧑 Username (Common Name in cert)         |
+| 🏷️ CN             | 🧑 Username (Common Name in cert)         |
 | 👥 O              | 👨‍👩‍👧 Group (Organization field)       |
-| 🛡️ RBAC          | 🎯 Controls permissions (what you can do) |
+| 🛡️ RBAC           | 🎯 Controls permissions (what you can do) |
 | 📦 ServiceAccount | 🤖 Pod identity inside cluster            |
 | 🔑 Token          | 🔐 Auto-mounted credential for Pods       |
 
