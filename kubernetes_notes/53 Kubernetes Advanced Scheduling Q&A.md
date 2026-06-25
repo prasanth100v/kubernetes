@@ -1,5 +1,4 @@
 # 🚀 Kubernetes Advanced Scheduling (Interview Q&A)
-
  * 👉 Advanced scheduling ensures:
     * ⚡ Optimal resource utilization
     * 🌍 High availability
@@ -27,7 +26,6 @@
 
 # Common Scenarios & Answers
 ##  What if ALL nodes are tainted (NoSchedule) and no toleration❓
-
   * 🚫 No Pods will be scheduled
   * Fix: `Add toleration` OR `remove taint`  
 
@@ -39,7 +37,6 @@ kubectl taint nodes gpu-node type=gpu:NoSchedule
 ```
 
 #### How to run DaemonSet on tainted nodes ❓
-
   * 👉 Add matching tolerations in DaemonSet spec
   * 💡 Why?
      * Ensures logging/monitoring agents run everywhere
@@ -50,12 +47,10 @@ tolerations:
 
 ## nodeSelector + nodeAffinity Together
 #### What happens if both are defined❓
-
  * 👉 Both conditions must be satisfied ✅, ⚠️ If any fails : ❌ Pod remains Pending
 
 # 🧠 Real-World Scheduling Scenarios
 ## 🎯 Scenario 1: Stateful app on SSD + specific zone
-
  * 👉 Requirement:
    - SSD nodes  
    - Zone us-east-1a 🌍
@@ -80,7 +75,6 @@ affinity:
 
 
 ## 🎯 Scenario 2: 5 replicas, avoid same node
-
  * 👉 Requirement: Spread Pods across nodes  
 
 ### ✅ Solution
@@ -97,7 +91,6 @@ podAntiAffinity:
 ```
 
 ## 🎯 Scenario 3: Allow Pods on tainted nodes
-
  * 👉 Requirement:
  * Node taint:
     * `dedicated=high-perf:NoSchedule  `
@@ -116,7 +109,6 @@ tolerations:
  * High priority pods → Evicts low priority Pods  
 
 ## 🎯 Scenario 5: Pod stuck in Pending
-
 👉 Debug steps:
 ```yaml
  kubectl describe pod <pod-name>              # Check events    
@@ -129,7 +121,6 @@ tolerations:
 ```
 
 ## 🎯 Scenario 6: Prefer SSD but allow others
-
  * 👉 Requirement:
     - Prefer SSD  
     - Allow other nodes if needed
@@ -148,9 +139,7 @@ affinity:
           - ssd
 ```
 
-
 ## 🎯 Scenario 7: Drain Node (Stop New Pods, Keep Existing)
-
  * 👉 Requirement:
    - Do NOT schedule new Pods  
    - Existing Pods should continue running
@@ -168,9 +157,7 @@ kubectl taint nodes <node-name> key=value:NoSchedule
   - Gradual migration  
   - Safe draining
 
-
 # 🔥 Scenario 8: High Priority Pod in Full Cluster
-
  * 👉 Problem:
     - Cluster is full  
     - Low-priority Pods running  
@@ -184,12 +171,10 @@ kubectl taint nodes <node-name> key=value:NoSchedule
       * Evicts low-priority Pods
       * Frees resources
       * Schedules high-priority Pod  
-
 ### ⚡ This is called: **Preemption**
 
 
 ## 🌍 Scenario 9: Topology Spread + Zone Failure
-
  * 👉 Requirement:
     - Spread Pods across zones  
     - One zone becomes unavailable  
@@ -198,7 +183,6 @@ kubectl taint nodes <node-name> key=value:NoSchedule
 ```hcl
 whenUnsatisfiable: DoNotSchedule
 ```
-
  * 🧠 Behavior
    - ❌ Pod NOT scheduled  
    - Maintains strict distribution  
@@ -212,7 +196,7 @@ whenUnsatisfiable: ScheduleAnyway
     - Distribution rule ignored
 
 ### 🎯 Use Case
-| ⚙️ **Mode**           | 📖 **When to Use**             | 🧠 **How It Works**                                                                 | 💡 **Real-World Example**                                   |
+| ⚙️ **Mode**           | 📖 **When to Use**             | 🧠 **How It Works**                                                                | 💡 **Real-World Example**                                   |
 | --------------------- | ------------------------------ | ----------------------------------------------------------------------------------- | ----------------------------------------------------------- |
 | 🔒 **DoNotSchedule**  | Strict HA requirement          | 👉 If spreading rules (like `maxSkew`) are violated → Pod **will NOT be scheduled** | 🏦 Critical apps (banking/payments) needing even distribution |
 | 🤏 **ScheduleAnyway** | Availability over strict rules | 👉 Scheduler **tries** to follow spread rules but still schedules if not possible   | 🌐 General apps                                              |
@@ -235,5 +219,4 @@ whenUnsatisfiable: ScheduleAnyway
 | 📍 **nodeAffinity**     | 🎯 Control where Pods are placed         |
 
 ## 🎯 One-Line Answer
-
   * Advanced scheduling in Kubernetes uses `affinity rules`, `taints`, `tolerations`, and priorities to precisely control Pod placement for performance, availability, and resource optimization.
