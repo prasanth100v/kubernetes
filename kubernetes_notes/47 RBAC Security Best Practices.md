@@ -23,12 +23,29 @@
       * Emergency access
 
 ## 🔒 3. Never Use Wildcards (*) Carelessly
- * ❌ Dangerous:
-    * resources: ["*"]
-    * verbs: ["*"]  
- * ✅ Safe:
-     - Specify exact resources  
-     - Specify required actions  
+ * In Kubernetes RBAC, these `wildcards` mean all resources and all actions.
+ * ❌ Dangerous: This grants full access to `every Kubernetes resource` covered by the scope of the `Role` or `ClusterRole`.
+   ```hcl 
+    * rules:
+      - apiGroups: ["*"]         # All API groups
+        resources: ["*"]         # All resources
+        verbs: ["*"]             # All actions (create, get, list, watch, update, patch, delete, etc.)
+   ```
+  * ✅ Safe: Specify `exact resources` & Specify `required actions` 
+
+### Example: Full Access Role (Namespace Only)
+```yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: full-access
+  namespace: dev          #This allows full access only in the dev namespace.
+
+rules:
+- apiGroups: ["*"]
+  resources: ["*"]
+  verbs: ["*"]
+```
 
 ## 🔐 4. Protect Secrets Strictly
  Secrets contain:
