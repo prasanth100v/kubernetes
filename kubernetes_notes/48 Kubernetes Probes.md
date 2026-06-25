@@ -1,6 +1,5 @@
 # 🔍 Kubernetes Probes (Startup, Liveness, Readiness) 
 ## 🌟 What are Probes in Kubernetes?
- 
  * Probes are used to check the **health of containers** running inside Pods.
  * 👉 Kubernetes uses probes to decide :
      * 🔁 When to restart a container
@@ -9,12 +8,10 @@
      * ⏳ Wait for app to start 
 
 ## 🎯 Why Probes are Important
-
  * Probes ensure your application:
    1. 🟢 Starts properly → Startup Probe  
    2. 🔄 Restarts if crashed → Liveness Probe  
    3. 🚦 Receives traffic only when ready → Readiness Probe
-
 
 ## 🧠 Kubernetes provides 3 types of probes:
 | 🔍 Probe Type          | 🎯 Purpose                            | 🧠 How It Works                                                       | 💡 Real-World Use Case                    |
@@ -26,7 +23,6 @@
 ---
 
 # 🔹 1. Liveness Probe (Alive Check)
-
  * 👉 Checks if the application is `running` properly
  * ❌ If fails → Kubernetes `RESTARTS` the container
 
@@ -46,13 +42,11 @@ livenessProbe:
   - 🔁 periodSeconds → Check every `10` seconds
   - ❌ If fails multiple times → `container restarts`
   - 🎯 Use Case :
-      - App stuck
-      - Deadlock
-      - Not responding  
-
+       - App stuck
+       - Deadlock
+       - Not responding  
 
 # 🔹 2. Readiness Probe (Traffic Control)
-
   * 👉 Checks if the container is ready to receive traffic
   * ❌ If fails:
      - Pod is removed from Service endpoints
@@ -83,9 +77,7 @@ readinessProbe:
        * Wait for external APIs
        * Warm-up cache  
 
-
 # 🔹 3. Startup Probe (Slow Start Apps)
-
   * 👉 Used for slow-starting applications (Java, Spring Boot, Large microservices 🚀)
   * 👉 What it does:
      * Checks if the application has started successfully
@@ -101,7 +93,7 @@ startupProbe:
   periodSeconds: 10
 ```
 ### 🧠 Explanation
-* ⏱ Behavior:
+ * ⏱ Behavior:
     - ⏳  30 attempts × 10s = 300s (`5 minutes`) wait
     - During this time:  Kubernetes waits before checking other probes
     - ❌ Liveness disabled
@@ -119,51 +111,6 @@ startupProbe:
    - 👉 Best practice: Use ALL three together  
 
 ---
-
-# 🧪 Probe Types
-
-## 🌐 HTTP Check (httpGet)
-```yaml
-httpGet:
-  path: /health
-  port: 8080
-```
-  * 🌍 Calls HTTP endpoint
-
-## 🔌 TCP Check (tcpSocket)
-```yaml
-tcpSocket:
-  port: 3306
-```
- * ➡️ Checks if port is open (e.g., MySQL)
- * 👉 Verifies container accepts connections on port 
-
-## 🖥 Command Check (exec)
-```yaml
-exec:
-  command: ["cat","/tmp/healthy"]
-```
-👉 Executes command inside container  
-
----
-
-# 🧠 Key Parameters
-| 🔧 Parameter                      | 📖 Meaning                    | 🧠 How It Works                                        | 💡 Real-World Tip               |
-| --------------------------------- | ----------------------------- | ------------------------------------------------------ | --------------------------------- |
-| ⏱ **initialDelaySeconds**         | ⏳ Delay before first check    | 👉 Waits before starting probes after container starts | 🐢 Increase for slow-start apps |
-| 🔁 **periodSeconds**              | 🔄 Interval between checks    | 👉 Defines how often probe runs                        | ⚖️ Balance speed vs overhead    |
-| ✅ **successThreshold**            | ✔ Success count to be healthy | 👉 Number of consecutive successes required         | 📈 Use >1 for stable readiness    |
-| ❌ **failureThreshold**            | ❗ Fail count to be unhealthy  | 👉 Number of consecutive failures before action     | 🛡️ Avoid false restarts          |
-| 🔍 **httpGet / exec / tcpSocket** | ⚙️ Probe type                 | 👉 Defines how health is checked                       | 🎯 Match app type (API/DB/custom) |
-
-## 🎯 When to Use What?
-| ⚙️ Situation                       | 🔍 Use Probe                      | 🧠 Why This Probe                                                   | 💡 Real-World Example          |
-| ---------------------------------- | ----------------------------------- | ------------------------------------------------------------------- | ------------------------------ |
-| 💥 App crashes / hangs             | ❌ **Liveness Probe**              | 👉 Detects unhealthy app → restarts container                      | Node.js stuck loop              |
-| ⏳ App not ready (DB/cache loading) | 🚦 **Readiness Probe**            | 👉 Blocks traffic until app is ready                                | App waiting for DB connection  |
-| 🐢 App slow startup                | 🟢 **Startup Probe**              | 👉 Gives time before health checks begin                             | Java / Spring Boot app startup |
-| 🌐 Web server health check         | ❌ **Liveness** + 🚦 **Readiness** | 👉 Liveness = ensures app running<br>👉 Readiness = traffic control | NGINX / API server            |
-
 
 # 🔥 What Happens on Failures?
 | ❌ **Probe Type**           | 🚨 **Failure Action**       | 🧠 **What Kubernetes Does**                                                   | 💡 **Real-World Impact**              |
@@ -184,17 +131,17 @@ exec:
 
 ## 🧪 Troubleshooting Probes
 ```hcl
-kubectl logs <pod>                                               #📌 Check Logs
-kubectl describe pod <pod>                                       # 📌 Describe Pod  #👉 Shows probe failures and events  
+kubectl logs <pod>                                                 #📌 Check Logs
+kubectl describe pod <pod>                                         # 📌 Describe Pod  #👉 Shows probe failures and events  
 kubectl exec -it <pod> -- curl http://localhost:8080/health        # 📌 Test Manually
 ```
 
 ## 🔧 Useful kubectl Commands 
 ```hcl
 kubectl get pod <pod-name> -o yaml               # ✅ Check Probe Config
-kubectl describe pod <pod-name>                 # ✅ Describe Pod
+kubectl describe pod <pod-name>                  # ✅ Describe Pod
 kubectl delete pod <pod-name>                    # ✅ Delete Pod (Testing Restart)
-kubectl get events --watch                      # 🔁 Watch Real-Time Events
+kubectl get events --watch                       # 🔁 Watch Real-Time Events
 ```
 ## 👉 Shows:
    - Probe failures  
@@ -219,7 +166,7 @@ kubectl get pods -o wide --watch                  # 🔄 Extra Info
 
 # 🎯 Interview Questions
 ### What happens if readiness probe fails❓
-  * 👉 Pod removed from service (no traffic)
+  * 👉 Pod removed from service (`no traffic`)
   * ➡️ No traffic, but container keeps running
 
 ### What happens if liveness probe fails❓
@@ -233,10 +180,10 @@ Example:
 - periodSeconds: 3  
 ```
   * ➡️ After startup success: Enable Liveness & Readiness
+
 ---
 
 ## ⚠️ Best Practices
-
   - ✅ Always use readiness probe  
   - ✅ Use startup probe for slow apps  
   - ✅ Use liveness for health checks  
