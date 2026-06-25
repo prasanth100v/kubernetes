@@ -1,6 +1,5 @@
 # 🚀 Advanced Scheduling in Kubernetes 
 ## 🌟 What is Scheduling in Kubernetes?
-
  * The **Kubernetes Scheduler** decides **Which node will run your Pod** using labels, rules, and constraints.
  * 👉 Main concepts:
     - NodeSelector  
@@ -16,7 +15,6 @@
    - ➡️ This is basic scheduling
 
 ## 🎯 What is Advanced Scheduling?
-
  * 👉 Advanced scheduling = **Control how Pods are placed on nodes**
  * Instead of letting Kubernetes decide randomly, you can:
     * 🎯 Force Pods to specific nodes
@@ -35,6 +33,7 @@
        - ⚡ Performance optimization
     * ➡️ That’s where Advanced Scheduling comes in!
 
+---
 
 ## 🌟 Scheduling Concepts & Features
 ## 1. nodeSelector (🟢 Simple Scheduling)
@@ -47,7 +46,7 @@ nodeSelector:
   disktype: ssd
 ```
 ### 🧠 Explanation :
-   - Pod will ONLY run on nodes with: disktype=ssd
+   - Pod will ONLY run on nodes with: `disktype=ssd`
    - ❌ If no matching node → Pod stays Pending  
 
 ## 🎯 Use Case
@@ -57,9 +56,9 @@ nodeSelector:
      * ❌ No conditions (`AND/OR not supported`)
      * ❌ If no matching node → `Pod stays Pending`
 
+---
 
 ## 2. nodeAffinity (🎯 Advanced Node Selection)
-
  * 👉 More powerful and flexible than nodeSelector
  * 🧩 Supports:
      - ✅ In
@@ -100,12 +99,12 @@ spec:
             values:
             - us-west-1a
 ```
-
 ## 🧠 Explanation
    - MUST run on `SSD` or `NVMe nodes ` 
    - Prefers zone `us-west-1a ` 
    - weight (`1–100`) → importance Higher (`more preference`)
 
+---
 
 ## ❌ Anti-Affinity (Node Level)
   * 👉 Prevent scheduling on certain nodes:
@@ -148,7 +147,6 @@ spec:
 ---
 
 ## 3. Pod Affinity (🤝 Stay Together)
-
  * 👉 Schedule Pods **close to other Pods**
  * Used for:
     * `Frontend + Backend` communication
@@ -187,13 +185,11 @@ spec:
               app: cache
           topologyKey: kubernetes.io/hostname
 ```
-
   * 🎯 This way, pods still schedule but prefer being near cache when available.
 
 ---
 
 ## 4. Pod Anti-Affinity (🚫 Stay Apart)
-
  * 👉 Schedule Pods **away from each other**
  * 🎯 Benefit
       * Spread replicas across nodes → `High Availability`
@@ -250,7 +246,6 @@ kubectl get nodes --show-labels
 ## 5. Taints & Tolerations (🚫 + 🔓 Control Access)
 #### 🚫 Taints (Node Protection) (Block Nodes)
   * 👉 Prevent Pods from scheduling on a node
-
 ### 📌 Example:
 ```yaml
 # Three types of effects
@@ -258,7 +253,6 @@ kubectl taint nodes node1 key=value:NoSchedule                # Hard - won't sch
 kubectl taint nodes node1 key=value:PreferNoSchedule          # Soft - tries to avoid
 kubectl taint nodes node1 key=value:NoExecute                 # Evict existing pods
 ```
-
    * NoSchedule         :	New pods won't be scheduled unless they `tolerate`
    * PreferNoSchedule	:  Scheduler tries to avoid, but not guaranteed
    * NoExecute          : 	New pods won't schedule + existing pods without toleration are evicted
@@ -290,17 +284,14 @@ kubectl taint nodes node1 app=database:NoSchedule       # Hard - won't schedule
 | ⚠️ **PreferNoSchedule** | ⚠️ Try to avoid        | 👉 Scheduler **tries to avoid** placing Pods, but may still schedule if no other option      | 
 | 🧹 **NoExecute**        | 🚫 Remove running Pods | 👉 Existing Pods **are evicted** if they don’t tolerate the taint<br>👉 Also blocks new Pods | 
 
-
 ## 🎯 Use Cases
    - GPU nodes  
    - Database nodes  
    - Critical workloads  
    - Infrastructure nodes
 
-
 ## 🔓 Tolerations (Pod Permission)
  * 👉 Allow Pods to run on tainted nodes
-
 ```yaml
 spec:
   containers:
@@ -325,4 +316,3 @@ spec:
 | ⚙️ **Backend**      | 🔗 Pod Affinity (with DB) | 👉 Backend Pods scheduled close to database Pods         | ⚡ Low latency communication                     |
 | 🗄 **Database**     | 🚫 Tainted Nodes          | 👉 Only DB Pods (with toleration) can run on these nodes | 🔒 Dedicated, high-performance isolation        |
 | ⚡ **Cache (Redis)** | 📍 Node Affinity (SSD)    | 👉 Pods scheduled on nodes with SSD disks                | 🚀 Faster read/write performance                |
-
