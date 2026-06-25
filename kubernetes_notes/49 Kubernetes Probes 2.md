@@ -1,6 +1,5 @@
 # 🔍 Kubernetes Probes Deep Dive
 ## What happens when a Liveness Probe fails❓
- 
  * 👉 Kubernetes **💥kills the container and restarts it**
  * ⚙️ Behavior depends on `restartPolicy`
  * Used for detecting `crashed` or `stuck apps`
@@ -13,12 +12,11 @@
 | Never            | ❌ No restart               |
 
 ## 🔐 What is failureThreshold❓
-
  * 👉 failureThreshold = Number of consecutive failures before Kubernetes takes action
  * 📌 Applies to ALL Probes :
      * 🔹 Liveness Probe : After failureThreshold failures → 🔄 Container restarted
      * 🔹 Readiness Probe :
-         * After failureThreshold failures → 🚫 Pod removed from Service endpoints (no traffic)
+         * After failureThreshold failures → 🚫 Pod removed from Service endpoints (`no traffic`)
          * Container NOT restarted
      * 🔹 Startup Probe :
          * After failureThreshold failures → ❌ Container is killed & restarted
@@ -26,7 +24,6 @@
 ---
 
 ## 🐢 Why Use Higher failureThreshold & periodSeconds❓
-
  * 👉 For slow or sensitive apps (Java, DB-heavy apps)
  * ⚠️ Problem - Some apps are:
      * 🐢 Slow to start (`Java, Spring Boot`)
@@ -62,7 +59,6 @@ livenessProbe:
      * ➡️ App gets 2.5 minutes to recover before restar
 
 ## ⚠️ Without Proper Settings
-
  * ❌ Example:
     - periodSeconds: 5  
     - failureThreshold: 1  
@@ -143,24 +139,19 @@ spec:
    - ✅ If passes → `allows traffic` 
    - ✔ No restart  
 
-
 ## 🧠 Real-World Scenario
-
 * 👉 App needs:
      - Database connection  
      - External APIs
      - ✔ Readiness ensures:
           - Traffic only when fully ready
        
-
 ## ⚠️ Best Practices
-
   - ✅ Use startup probe for slow apps  
   - ✅ Tune failureThreshold properly  
   - ✅ Avoid aggressive checks  
   - ✅ Always use readiness probe
   - ✅ Keep endpoints lightweight
-
 
 ## 🧠 Quick Revision
 | 🧩 Concept              | 💡 Meaning                                  |
@@ -179,4 +170,60 @@ spec:
     * 🚦 Intelligent traffic routing
 
 ## 🎯 One-Line Answer
-  * failureThreshold defines how many probe failures Kubernetes tolerates before `restarting a container` or `stopping traffic`, helping avoid false failures in slow or unstable applications.
+   * failureThreshold defines how many probe failures Kubernetes tolerates before `restarting a container` or `stopping traffic`, helping avoid false failures in slow or unstable applications.
+
+---
+
+### 🚀 Kubernetes Probes (Liveness, Readiness & Startup) – Rapid Fire Interview Questions & Answers
+| 🔢  | ❓ Question                                         | ✅ Answer                                                             |
+| --- | -------------------------------------------------- | -------------------------------------------------------------------- |
+| 1️⃣ | What is a Probe in Kubernetes?                     | 🩺 A health check used by Kubernetes to monitor container status.    |
+| 2️⃣ | Why are Probes used?                               | 🚀 To ensure applications are healthy, ready, and started correctly. |
+| 3️⃣ | How many types of Probes are there?                | 🎯 Three: Liveness, Readiness, and Startup.                          |
+| 5️⃣ | Which component performs Probe checks?             | 🤖 Kubelet                                                           |
+| 6️⃣ | Where are Probes configured?                       | 📄 Inside the Pod or Deployment YAML.                                |
+| 7️⃣ | Can a container have multiple Probes?              | ✅ Yes                                                                |
+| 8️⃣ | Are Probes mandatory?                              | ❌ No, but highly recommended.                                        |
+| 9️⃣ | Which resource supports Probes?                    | 📦 Containers inside Pods.                                           |
+| 🔟 | Do Probes check application health or node health? | 🩺 Application health.                                               |
+| 1️⃣1️⃣ | What is a Liveness Probe?                 | ❤️ Checks if the application is still running properly.      |
+| 1️⃣2️⃣ | What happens if the Liveness Probe fails? | 🔄 Kubernetes restarts the container.                        |
+| 1️⃣3️⃣ | Purpose of Liveness Probe?                | 🛠️ Detect and recover from hung or deadlocked applications. |
+| 1️⃣4️⃣ | Does Liveness control traffic?            | ❌ No                                                         |
+| 1️⃣5️⃣ | Does Liveness restart the Pod?            | ❌ It restarts the **container** inside the Pod.              |
+| 1️⃣6️⃣ | When should Liveness be used?             | 💥 When an application may freeze or become unresponsive.    |
+| 2️⃣0️⃣ | Real-world example?                       | 🌐 Restart a web server if it hangs.                         |
+| 2️⃣1️⃣ | What is a Readiness Probe?            | 🚦 Checks if the application is ready to receive traffic.               |
+| 2️⃣2️⃣ | What happens if Readiness fails?      | 🚫 Pod is removed from the Service endpoints.                           |
+| 2️⃣3️⃣ | Does Readiness restart the container? | ❌ No                                                                    |
+| 2️⃣4️⃣ | Purpose of Readiness Probe?           | 🎯 Ensure only ready Pods receive traffic.                              |
+| 2️⃣5️⃣ | When should Readiness be used?        | ⏳ Applications that need time to initialize or connect to dependencies. |
+| 2️⃣6️⃣ | If Readiness succeeds?                | ✅ Pod receives traffic.                                                 |
+| 2️⃣7️⃣ | If Readiness fails?                   | 🚫 Pod stays running but receives no traffic.                           |
+| 2️⃣8️⃣ | Which object uses Readiness status?   | 🌐 Service                                                              |
+| 2️⃣9️⃣ | Can Readiness recover automatically?  | ✅ Yes, when the probe succeeds again.                                   |
+| 3️⃣0️⃣ | Real-world example?                   | 🗄️ Backend waits until database connection is established.             |
+| 3️⃣1️⃣ | What is a Startup Probe?                             | 🚀 Checks whether the application has started successfully.  |
+| 3️⃣2️⃣ | Why use Startup Probe?                               | 🕒 To avoid restarting slow-starting applications too early. |
+| 3️⃣3️⃣ | What happens if Startup Probe fails?                 | 🔄 Kubernetes restarts the container.                        |
+| 3️⃣4️⃣ | When does Startup Probe stop running?                | ✅ After the application starts successfully.                 |
+| 3️⃣5️⃣ | What happens after Startup succeeds?                 | ❤️ Liveness and 🚦 Readiness Probes begin.                   |
+| 3️⃣6️⃣ | Should Startup Probe be used for fast-starting apps? | ❌ Usually not needed.                                        |
+| 3️⃣7️⃣ | Ideal use case?                                      | ☕ Java, Spring Boot, or large enterprise applications.       |
+| 4️⃣1️⃣ | What methods can Probes use?                            | 🌐 HTTP, 🖥️ TCP, 💻 Exec                                                    |
+| 4️⃣2️⃣ | What is an HTTP Probe?                                  | Sends an HTTP request to check application health.                           |
+| 4️⃣3️⃣ | What is a TCP Probe?                                    | Checks whether a TCP port is open.                                           |
+| 4️⃣4️⃣ | What is an Exec Probe?                                  | Runs a command inside the container.                                         |
+| 4️⃣5️⃣ | What is `initialDelaySeconds`?                          | ⏳ Wait time before the first probe.                                          |
+| 4️⃣6️⃣ | What is `periodSeconds`?                                | 🔄 Time between probe checks.                                                |
+| 4️⃣7️⃣ | What is `timeoutSeconds`?                               | ⏱️ Maximum time to wait for a probe response.                                |
+| 4️⃣8️⃣ | What is `failureThreshold`?                             | ❌ Number of failures before the probe is considered failed.                  |
+| 4️⃣9️⃣ | What is `successThreshold`?                             | ✅ Number of successful checks before marking success (mainly for Readiness). |
+| 5️⃣0️⃣ | Which Probe supports `successThreshold` greater than 1? | 🚦 Readiness Probe                                                           |
+
+## 🎯 One-Line Interview Answer
+ * 🩺 Kubernetes Probes monitor `application health`.
+   * ❤️ Liveness Probe `restarts` unhealthy containers,
+   * 🚦 Readiness Probe determines when a Pod can `receive traffic`, and
+   * 🚀 Startup Probe ensures `slow-starting applications` are fully initialized before Liveness and Readiness checks begin.
+
