@@ -1,6 +1,5 @@
 ## 6. 🎯 Topology Spread Constraints in Kubernetes (High Availability & Fault Tolerance) (⚖️ Even Distribution)
 #### 🌐 What are Topology Spread Constraints?
-
  * 👉 Topology Spread Constraints are used to:
     * ⚖️ Evenly distribute Pods
     * 🌍 Pods are evenly distribute Across `nodes`, `zones`, or `regions`
@@ -24,12 +23,11 @@ topologySpreadConstraints:
   * Ensures balanced distribution  
 
 ### topologyKey (🌍 Where to Spread)
-| 🌐 **topologyKey**                   | 📖 **Meaning**          | 🧠 **How It Works**                                  | 💡 **Real-World Use Case**                       |
+| 🌐 **topologyKey**                   | 📖 **Meaning**          | 🧠 **How It Works**                                | 💡 **Real-World Use Case**                       |
 | ------------------------------------ | ----------------------- | ---------------------------------------------------- | ------------------------------------------------ |
 | 🖥 **kubernetes.io/hostname**        | Node level              | 👉 Spreads or groups Pods across **different nodes** | 🔀 Avoid single node failure (high availability) |
 | 🌍 **topology.kubernetes.io/zone**   | Availability Zone level | 👉 Distributes Pods across AZs                       | 🛡 Protect against AZ failure (cloud resilience) |
 | 🌎 **topology.kubernetes.io/region** | Region level            | 👉 Spreads Pods across regions                       | 🌐 Multi-region disaster recovery                |
-
 
 ### 🔹 whenUnsatisfiable
   * 👉 What to do if constraint cannot be met
@@ -57,7 +55,7 @@ topologySpreadConstraints:
 | 2️⃣ **2**            | Small imbalance allowed      | 🔒 High                 | General workloads                          |
 | 3️⃣ **3**            | Moderate imbalance           | ⚖️ Medium               | Flexible scheduling                        |
 | 4️⃣–🔟 **4–10**      | Loose distribution           | ⚠️ Low                  | Less critical workloads                    |
-| 🔓 **>10**           | Very relaxed (almost no restriction)| ❌ Very Low      | Rarely used                                |
+| 🔓 **>10**          | Very relaxed (almost no restriction)| ❌ Very Low      | Rarely used                                |
 
 #### 📊 maxSkew in Topology Spread Constraints
 | 📦 **Scenario**   | 🖥 **Node A** | 🖥 **Node B** | 🖥 **Node C** | 📊 **Skew (Max Difference)** | ✅ **Allowed?** |
@@ -76,7 +74,7 @@ kubectl get nodes -L topology.kubernetes.io/zone           # Check Pod distribut
 # 🧠 Quick Revision
 | 🧩 Field                 | 💡 Meaning                                             |
 | ------------------------ | ------------------------------------------------------ |
-| 🗺️ **topologyKey**      | 📍 Defines **where to spread** Pods (e.g., zone, node) |
+| 🗺️ **topologyKey**       | 📍 Defines **where to spread** Pods (e.g., `zone`, `node`) |
 | ⚖️ **maxSkew**           | 📊 Allowed imbalance between groups                    |
 | 🚦 **whenUnsatisfiable** | ❓ What to do if constraint can’t be met                |
 | 🚫 **DoNotSchedule**     | 🔒 Strict → Pod will NOT be scheduled                  |
@@ -88,7 +86,6 @@ kubectl get nodes -L topology.kubernetes.io/zone           # Check Pod distribut
 
 ## 7. Priority Classes & Preemption (🔥 Critical Pods First)
 ### 🏆 Priority Class
-
  * 👉 A PriorityClass defines the **importance of Pods**
  * Higher priority → Scheduled first  ( `Higher value`)
 
@@ -125,7 +122,6 @@ spec:
 ```
 
 #### 🔥 What Happens?
-
  * 👉 If cluster is full:
    - Low-priority Pods → removed ( `Evicted Pods → go to Pending` )
    - High-priority Pod → scheduled
@@ -203,10 +199,10 @@ resources:
   - Pod cannot exceed: `1 CPU`, `512Mi memory`
 
 ### ⚠️ If Limit Exceeded
-| 🧩 Resource   | 💡 Behavior                                         |
+| 🧩 Resource   | 💡 Behavior                                        |
 | ------------- | --------------------------------------------------- |
 | 🧠 **CPU**    | 🐢 Throttled (limited when exceeding request/limit) |
-| 💾 **Memory** | 💥 Container killed (OOMKilled if limit exceeded)   |
+| 💾 **Memory** | 💥 Container killed (`OOMKilled if limit exceeded`) |
 
  * 👉 Scheduler will: Find node with enough free resources  
 
@@ -226,4 +222,3 @@ resources:
   - ✅ Avoid unnecessary high priorities  
   - ✅ Define proper resource requests  
   - ✅ Use limits to prevent overuse 
-
