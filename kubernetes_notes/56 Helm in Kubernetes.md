@@ -259,7 +259,7 @@ kubectl get svc
 replicas: {{ .Values.replicaCount }}       #🔹 Template (Before Rendering)
 name: {{ .Release.Name }}
 
-replicas: 3                               #🔹 After Rendering
+replicas: 3                                #🔹 After Rendering
 name: myapp
 ```
 
