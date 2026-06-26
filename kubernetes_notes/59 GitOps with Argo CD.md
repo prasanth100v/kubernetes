@@ -65,9 +65,8 @@ Desired State (Git) 📘 vs Live State (Cluster) 🚀
 ---
 
 ### 📦 Argo CD Terminology
-
-| 🧩 Term               | 📖 Meaning             | 🧠 How It Works                                    | 💡 Real-World Insight    |
-| --------------------- | ---------------------- | --------------------------------------------------- | -------------------------- |
+| 🧩 Term               | 📖 Meaning            | 🧠 How It Works                                    | 💡 Real-World Insight    |
+| --------------------- | ---------------------- | -------------------------------------------------- | -------------------------- |
 | 📦 **Application**   | 🎯 What to deploy      | 👉 Defines Kubernetes resources managed by Argo CD | Deploy app using Argo CD  |
 | 📂 **Source**        | 🔗 Git / Helm repo     | 👉 Location of manifests or charts                 | GitHub repo or Helm chart |
 | 🎯 **Destination**   | ☁️ Cluster + namespace | 👉 Where the app is deployed                       | EKS cluster, `prod` namespace |
@@ -111,7 +110,6 @@ kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.pas
 
 ### 🚀 Create First Application
 #### 🌐 Via UI
-
  1. Open Argo CD UI  
  2. Click **New Application**  
  3. 📋 Required Fields
@@ -119,7 +117,6 @@ kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.pas
      - 📂 Path (where YAML exists)
      - 🎯 Cluster & Namespace
      - 🔄 Sync Policy
-
 
 ### 🎯 Final Visualization
 ```hcl
@@ -165,7 +162,6 @@ spec:
 kubectl apply -f myapp-argo-application.yaml
 ```
 ### 🔁 What Happens After You Apply?
-
   - Argo CD watches Git repo 👀  Tracks specific path (e.g., k8s/myapp/)
   - Changes in repo → auto sync to cluster 🚀 Automatic Synchronization
   ```yaml
@@ -191,9 +187,7 @@ kubectl apply -f myapp-argo-application.yaml
    - 📜 Audit logs (`UI + CLI`)
    - 👉 Fully traceable deployments (Audit-friendly)
 
-
 ## 📁 GitHub Repo Structure
-
 ```yaml
 my-k8s-repo:                         # 📦 Root GitOps repository
   README.md:                         # 📄 Documentation for the repo
@@ -248,7 +242,6 @@ Kubernetes Cluster 🚀
  * 🎯 Argo CD can deploy different apps from different folders independently
 
 ### 💡 DevOps Insights (Very Important)
-
   - 🔄 Auto Sync → No need for manual kubectl apply
   - 🧹 Prune = Clean cluster (removes unused resources)
   - 🛠 Self-heal = Drift correction (true GitOps power)
@@ -258,28 +251,18 @@ Kubernetes Cluster 🚀
 ### What if Resource is Deleted❓
  * 👉 Argo CD will:
    - Detect drift 🔍  
-   - Recreate resource (selfHeal: true) ♻️
+   - Recreate resource (`selfHeal: true`) ♻️
 
 ---
 
 # ⚔️ GitOps vs Traditional CI/CD
-
 | 🧩 Feature             | 🔧 Traditional CI/CD | 🔄 GitOps               | 🧠 Explanation                                                    | 💡 Real-World Insight            |
 | ---------------------- | -------------------- | ------------------------ | ----------------------------------------------------------------- | -------------------------------- |
 | 🔁 **Model**           | 📤 Push-based        | 📥 Pull-based          | CI pipeline pushes changes to cluster; GitOps tools pull from Git  | 🔐 Reduces direct cluster access |
 | 🚀 **Deployment**      | CI pushes to cluster | Cluster pulls from Git  | Jenkins/scripts deploy; GitOps agents sync automatically            | ⚙️ More secure & controlled      |
 | 🎯 **Complexity**      | ⚠️ High              | 😊 Simple              | Many scripts vs declarative Git-driven model                       | 🛠 Easier maintenance in GitOps   |
-| 📂 **Source of Truth** | 🛠 CI pipeline       | 📚 Git repository      | Pipeline defines state vs Git defines desired state                | 🔍 GitOps ensures consistency     |
-| 🛠 **Tools**           | Jenkins, scripts     | Argo CD, Flux           | Different ecosystem tools                                          | 🚀 GitOps is Kubernetes-native    |
-
-# 🎯 Tools Used
-| 🧩 Feature         | 🔧 Traditional CI/CD | 🚀 GitOps              |
-| ------------------ | -------------------- | ---------------------- |
-| 🔄 Model           | 📤 Push-based        | 📥 Pull-based          |
-| 🚀 Deployment      | CI pushes to cluster | Cluster pulls from Git |
-| 🎯 Complexity      | ⚠️ Higher            | 😊 Simpler             |
-| 📂 Source of Truth | 🛠 CI pipeline       | 📚 Git repository      |
-| 🧰 Tools           | Jenkins, scripts     | Argo CD, Flux          |
+| 📂 **Source of Truth** | 🛠 CI pipeline       | 📚 Git repository       | Pipeline defines state vs Git defines desired state                | 🔍 GitOps ensures consistency     |
+| 🛠 **Tools**           | Jenkins, scripts     | Argo CD, Flux            | Different ecosystem tools                                          | 🚀 GitOps is Kubernetes-native    |
 
 ---
 
@@ -322,7 +305,6 @@ Cluster Matches Git ✅
  - ✅ Monitor application health  
 
 ### 🧠 Final Summary
-
   * Git = Source of truth
   * Argo CD = Automation engine
   * Auto sync + self-heal
