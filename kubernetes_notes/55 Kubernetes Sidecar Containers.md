@@ -6,22 +6,13 @@
     - Works as a **support system** for your application
     - 🎯 Sidecar = Continuous helper that runs with your app
 
-## 🧠 Real-World Use Cases
-
-| 🎯 Use Case           | 🛠 Tool / Example      | 🧠 How It Works                                                                          | 💡 Real-World Benefit           |
-| --------------------- | ---------------------- | ----------------------------------------------------------------------------------------- | ------------------------------- |
-| 📦 Log Forwarding     | 📊 Fluentd / Logstash  | 👉 Sidecar reads logs from app container (shared volume) and forwards to external system | 📈 Centralized logging (ELK stack)    |
-| 🌐 Service Mesh Proxy | 🔗 Envoy proxy (Istio) | 👉 Intercepts all traffic → manages routing, retries, mTLS                               | 🔐 Secure + observable services |
-| 📊 Metrics Exporter   | 📈 Prometheus exporter | 👉 Exposes metrics endpoint for scraping                                                 | 🚨  Helps in Monitoring & alerting  |
-
-## 🔐 Common Sidecar Tools
+## 🔐 Real-World Use Common Sidecar Tools
 | 🧩 Tool                  | 🎯 Purpose            | 🧠 How It Works                                                         | 💡 Real-World Use Case           |
 | ------------------------ | --------------------- | ----------------------------------------------------------------------- | -------------------------------- |
 | 📦 Fluentd / Logstash    | 📊 Log forwarding     | 👉 Reads logs from (stdout/shared volume) → ships to ELK or external systems | 📈 Centralized logging for microservices |
 | 🌐 Envoy                 | 🔗 Traffic management | 👉 Acts as proxy → handles routing, retries, load balancing, mTLS       | 🔐 Service mesh (e.g., Istio)          |
 | 📊 Prometheus Exporter   | 📈 Metrics            | 👉 Exposes `/metrics` endpoint for scraping                             | 🚨 Monitoring & alerting dashboards        |
 | 🔑 HashiCorp Vault Agent | 🔐 Secrets injection  | 👉 Fetches secrets → injects into Pod (files/env variables)             | 🛡️ Secure credential management |
-
 
 ---
 
@@ -57,9 +48,7 @@
 
 ## 🤖 Automatic Sidecar Injection
  * How It Works; Tools like:
-   - Istio
-   - Linkerd
-   - Use **Mutating Admission Webhooks** to automatically inject sidecars into Pods.
+   - Istio & Linkerd uses **Mutating Admission Webhooks** to automatically `inject sidecars into Pods`.
 
 ### 🔁 What Happens?
 1. Pod creation request sent to `API server`
@@ -81,7 +70,6 @@
 ---
 
 ## 💡 Best Practices
-
   - ✅ Keep sidecars lightweight
   - ✅ Use for continuous tasks only
   - ✅ Monitor resource usage
@@ -95,10 +83,9 @@
   - ✅ Configuration updates
 
 ## 🚀 Final Summary
-
  * Sidecar = **Continuous helper container**
  * Runs **with main app**
- * Adds features like logging, metrics, proxy
+ * Adds features like `logging`, `metrics`, `proxy`
  * Shares **network + storage**
 
  * ✨ *One-Line Understanding:*  
@@ -109,4 +96,3 @@
 | --------------------- | --------------------------------- |
 | 🚀 **Init Container** | 🛠 Setup **before app starts**    |
 | 🔄 **Sidecar**        | 🔌 Support **during app runtime** |
-
