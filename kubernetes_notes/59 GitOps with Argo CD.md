@@ -94,14 +94,19 @@ kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/st
 #### 3️⃣ Verify Pods
 ```yaml
 kubectl get pods -n argocd
+kubectl get svc -n argocd
 ```
  * ✔ Ensure all pods are running
 
-#### 4️⃣ Access UI
-```yaml
-kubectl port-forward svc/argocd-server -n argocd 8080:443
+#### 4️⃣ Access UI (Expose Argo CD)
+ * (Recommended for EKS): LoadBalancer
+ * Change the service type:
+```hcl
+kubectl patch svc argocd-server \
+-n argocd \
+-p '{"spec": {"type": "LoadBalancer"}}'
 ```
- * 👉 Open: https://localhost:8080
+ * 👉 Open: https://af192b1d1d9424b71b0d148226c73e09-399883942.ap-south-1.elb.amazonaws.com
 
 #### 5️⃣ Get Admin Password
 ```yaml
@@ -109,7 +114,7 @@ kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.pas
 ```
 
 ### 🚀 Create First Application
-#### 🌐 Via UI
+#### 🌐 Option: 1 Via UI
  1. Open Argo CD UI  
  2. Click **New Application**  
  3. 📋 Required Fields
@@ -129,32 +134,35 @@ Applies to Kubernetes 🚀
 Cluster stays in sync ✅
 ```
 
-## 📄 Argo CD Application YAML (Declarative GitOps)
+## 📄Option: 2 Argo CD Application YAML (Declarative GitOps)
 ```yaml
-apiVersion: argoproj.io/v1alpha1        # 📌 Argo CD API version
-kind: Application                       # 🚀 Defines an Argo CD Application
+apiVersion: argoproj.io/v1alpha1              # 📌 Argo CD API version
+kind: Application                            # 📦 Creates an Argo CD Application resource
 metadata:
-  name: myapp                           # 🏷 Application name
-  namespace: argocd                     # 📍 Must be 'argocd' namespace
+  name: nginx-app                            # 🏷️ Name of the Argo CD Application
+  namespace: argocd                          # 📂 Namespace where Argo CD is installed
 
 spec:
-  project: default                      # 📂 Argo CD project (default is commonly used)
+  project: default                             # 📂 Argo CD project (default is commonly used)
 
-  source:
-    repoURL: https://github.com/my-user/my-k8s-repo.git         # 📦 Git repo containing Kubernetes manifests
-    targetRevision: main                                        # 🔖 Branch / tag / commit (main branch here)
-    path: k8s/myapp                                             # 📁 Folder path inside repo
+  source:                                    # 📚 Source of application manifests
+    repoURL: https://github.com/<username>/my-argocd-demo.git     # 🔗 Git repository containing Kubernetes YAMLs                                        
 
-  destination:
-    server: https://kubernetes.default.svc           # 🌐 In-cluster Kubernetes API server
-    namespace: myapp-namespace                       # 📍 Target namespace for deployment
+    targetRevision: main                     # 🌿 Git branch, tag, or commit to deploy  (main branch here)
 
-  syncPolicy:
-    automated:                                      # 🔄 Enable auto-sync (GitOps magic)
-      prune: true                                   # 🧹 Remove resources deleted from Git
-      selfHeal: true                                # 🛠 Fix drift (manual changes auto-corrected)
-    syncOptions:
-      - CreateNamespace=true                        # 📦 Auto-create namespace if not exists
+    path: .                                  # 📂 Folder containing manifests, "." means repository root directory                                          
+
+  destination:                               # 🎯 Deployment target
+    server: https://kubernetes.default.svc   # ☸️ Kubernetes API server (Deploy to the same cluster where Argo CD runs)                                          
+
+    namespace: demo                          # 📂 Namespace where the application will be deployed
+  syncPolicy:                                 # 🔄 Defines how Argo CD syncs Git with the cluster
+    automated:                                # 🤖 Enables Automatic Synchronization
+      prune: true                          # 🗑️ Delete resources removed from Git (Keeps the cluster exactly the same as Git)                                       
+      selfHeal: true                            # ❤️ Automatically fixes manual changes
+                                                # If someone edits the cluster manually,  Argo CD restores it back to the Git state
+    syncOptions:                           # ⚙️ Additional synchronization options
+    - CreateNamespace=true                 # 📂 Automatically create the 'demo' namespace if not exists                    
 ```
 
 #### ⚙️ Apply the Application
@@ -170,6 +178,19 @@ kubectl apply -f myapp-argo-application.yaml
   - 👉 If someone manually changes resources: kubectl changes → reverted (`self-heal`) ♻️  
   - 👉 If a resource is deleted from Git: `Argo CD automatically Deletes it from cluster` 🧹
   - 🎯 Argo CD ensures your cluster always matches Git — no matter what changes happen.
+
+### Verify Application:
+```hcl
+kubectl get applications -n argocd
+kubectl get pods -n demo
+kubectl get svc -n demo
+```
+### Verify Self-Heal
+Delete one Pod manually:
+```
+kubectl delete pod -n demo --all
+```
+ * Argo CD and the Kubernetes Deployment controller ensure the `desired state is restored`, so `new Pods are created automatically`.
 
 ---
 
