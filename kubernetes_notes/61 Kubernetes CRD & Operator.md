@@ -158,3 +158,69 @@ System managed automatically 🚀
 
  * 🧩 Ultimate One-Line
     * CRDs extend Kubernetes, and Operators automate complex application management using those extensions.
+
+---
+
+## 🚀 Kubernetes CRD (Custom Resource Definition) – Rapid Fire Interview Questions & Answers
+| 🔢  | ❓ Question                               | ✅ Answer                                                                                                 |
+| --- | ------------------------------------------ | --------------------------------------------------------------------------------------------------------- |
+| 1️⃣ | What is a CRD?                              | 🚀 **Custom Resource Definition (CRD)** extends the Kubernetes API by creating new `custom resource types`. |
+| 2️⃣ | Why do we use CRDs?                         | 🛠️ To `add custom resources` beyond built-in Kubernetes objects.                                           |
+| 3️⃣ | What does CRD stand for?                    | 📖 Custom Resource Definition                                                                             |
+| 4️⃣ | Is a CRD a built-in Kubernetes resource?    | ❌ No                                                                                                      |
+| 5️⃣ | Does CRD extend the Kubernetes API?         | ✅ Yes                                                                                                     |
+| 6️⃣ | What is a Custom Resource (CR)?             | 📦 An instance created from a CRD.                                                                        |
+| 7️⃣ | CRD creates what?                           | 📄 A new API resource.                                                                                    |
+| 8️⃣ | Can Kubernetes understand a CRD by default? | ❌ Only after the CRD is installed.                                                                        |
+| 9️⃣ | Which API server stores CRDs?               | 🌐 Kubernetes API Server                                                                                  |
+| 🔟 | Where are CRDs stored?                      | 💾 etcd                                                                                                   |
+| 1️⃣1️⃣ | Difference between CRD and CR?         | 📋 CRD defines a new resource type; 📦 CR is an object created from that type. |
+| 1️⃣2️⃣ | Can multiple CRs use one CRD?          | ✅ Yes                                                                          |
+| 1️⃣3️⃣ | Is CRD cluster-scoped?                 | ✅ Yes                                                                          |
+| 1️⃣4️⃣ | Is a Custom Resource namespace-scoped? | 📍 Usually yes, but it can also be cluster-scoped depending on the CRD.        |
+| 1️⃣5️⃣ | YAML kind for CRD?                     | `CustomResourceDefinition`                                                     |
+| 1️⃣6️⃣ | API group for CRDs?                    | `apiextensions.k8s.io`                                                         |
+| 1️⃣7️⃣ | Current stable API version?            | `apiextensions.k8s.io/v1`                                                      |
+| 1️⃣8️⃣ | Can CRDs have multiple versions?       | ✅ Yes                                                                        |
+| 1️⃣9️⃣ | Example version names?                 | `v1alpha1`, `v1beta1`, `v1`                                                    |
+| 2️⃣0️⃣ | Can CRDs define schemas?               | ✅ Yes (OpenAPI v3 Schema).                                                    |
+| 2️⃣1️⃣ | Can CRDs validate fields?           | ✅ Yes                                                                            |
+| 2️⃣2️⃣ | Can CRDs define required fields?    | ✅ Yes                                                                            |
+| 2️⃣3️⃣ | Can CRDs have default values?       | ✅ Yes                                                                            |
+| 2️⃣4️⃣ | Can CRDs support multiple versions? | ✅ Yes                                                                            |
+| 2️⃣5️⃣ | Can CRDs be namespaced?             | ✅ The CRD defines whether its custom resources are namespaced or cluster-scoped. |
+| 2️⃣6️⃣ | Can CRDs use labels?                | ✅ Yes                                                                            |
+| 2️⃣7️⃣ | Can CRDs use annotations?           | ✅ Yes                                                                            |
+| 2️⃣8️⃣ | Can CRDs have a status field?       | ✅ Yes                                                                            |
+| 2️⃣9️⃣ | Can CRDs have a spec field?         | ✅ Yes                                                                            |
+| 3️⃣0️⃣ | Can CRDs support `kubectl get`?     | ✅ Yes                                                                            |
+| 3️⃣1️⃣ | What is an Operator?                   | 🤖 A controller that watches Custom Resources and performs automated actions.    |
+| 3️⃣2️⃣ | Do CRDs work without an Operator?      | ✅ Yes, but only as stored custom objects unless another controller acts on them. |
+| 3️⃣3️⃣ | Relationship between CRD and Operator? | 🤝 Operator watches CRs created from a CRD.                                      |
+| 3️⃣4️⃣ | Does CRD contain business logic?       | ❌ No                                                                            |
+| 3️⃣5️⃣ | Where is business logic implemented?   | 🤖 In a Controller or Operator.                                                  |
+| 3️⃣6️⃣ | Which component watches CRs?           | 👀 Controller/Operator                                                           |
+| 3️⃣7️⃣ | Can Operators update CR status?        | ✅ Yes                                                                           |
+| 3️⃣8️⃣ | Example Operator?                      | 🚀 Argo CD Operator, Prometheus Operator, Cert-Manager.                          |
+| 3️⃣9️⃣ | Why use Operators?                     | ⚙️ Automate application lifecycle management.                                    |
+| 4️⃣0️⃣ | Can one Operator manage multiple CRDs? | ✅ Yes                                                                           |
+| 4️⃣1️⃣ | List all CRDs?                  | `kubectl get crd`                                                            |
+| 4️⃣2️⃣ | Describe a CRD?                 | `kubectl describe crd <crd-name>`                                            |
+| 4️⃣3️⃣ | Delete a CRD?                   | `kubectl delete crd <crd-name>`                                              |
+| 4️⃣4️⃣ | View Custom Resources?          | `kubectl get <resource-name>`                                                |
+| 4️⃣5️⃣ | Explain a CRD?                  | `kubectl explain <resource-name>`                                            |
+| 4️⃣6️⃣ | Apply a CRD?                    | `kubectl apply -f crd.yaml`                                                  |
+| 4️⃣7️⃣ | Create a Custom Resource?       | `kubectl apply -f custom-resource.yaml`                                      |
+| 4️⃣8️⃣ | What happens if CRD is deleted? | ⚠️ The CRD is removed, and its associated Custom Resources are also removed. |
+| 4️⃣9️⃣ | Can you edit a CRD?             | ✅ Yes (`kubectl edit crd <name>`).                                          |
+| 5️⃣0️⃣ | Which command verifies CRDs?    | ⭐ `kubectl get crd`                                                     |
+| 5️⃣1️⃣ | Does Argo CD use CRDs?                   | ✅ Yes (`Application`, `AppProject`, etc.).                     |
+| 5️⃣2️⃣ | Does Cert-Manager use CRDs?              | ✅ Yes                                                          |
+| 5️⃣3️⃣ | Does Prometheus Operator use CRDs?       | ✅ Yes (`ServiceMonitor`, `PrometheusRule`, etc.).              |
+| 5️⃣4️⃣ | Does Istio use CRDs?                     | ✅ Yes (`VirtualService`, `DestinationRule`, etc.).             |
+| 5️⃣5️⃣ | Does Gateway API use CRDs?               | ✅ Yes (`Gateway`, `GatewayClass`, `HTTPRoute`, etc.).          |
+| 5️⃣6️⃣ | Does Crossplane use CRDs?                | ✅ Yes                                                          |
+| 5️⃣7️⃣ | Does External Secrets Operator use CRDs? | ✅ Yes                                                          |
+| 5️⃣8️⃣ | Can Helm install CRDs?                   | ✅ Yes                                                          |
+| 5️⃣9️⃣ | Can Argo CD deploy CRDs?                 | ✅ Yes                                                          |
+| 6️⃣0️⃣ | Biggest advantage of CRDs?               | 🚀 Extend Kubernetes without modifying Kubernetes source code.  |
