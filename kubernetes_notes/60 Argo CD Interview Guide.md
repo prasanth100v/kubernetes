@@ -234,7 +234,7 @@ Git Change 📘 → Detect 🔍 → Compare → Sync 🚀
  * Argo CD continuously compares the Git repository with the cluster state, `synchronizes changes`, detects configuration drift, and can automatically `self-heal` and `prune resources` to keep the cluster aligned with the desired state.
 
 
-## 🗑️ What is Prune?
+## 🗑️ What is Prune? 
  * ✅ Prune is an Argo CD feature that `automatically deletes Kubernetes resources` that exist in the cluster but have been `removed from the Git repository`.
  * It helps keep your cluster `100% synchronized with Git` (GitOps).
  * Suppose your application initially has:
@@ -244,3 +244,40 @@ Git Change 📘 → Detect 🔍 → Compare → Sync 🚀
  * Later you `remove the Ingress YAML from Git`.
  * ❌ Without Prune : Ingress` remains in Kubernetes`.
  * ✅ With Prune : Argo CD `deletes the Ingress` automatically.
+
+---
+
+# 🚀 Argo CD Scenario-Based Interview Questions & Answers
+| 🎯 Scenario                                                                                   | ✅ Answer                                                                                                                                                                            |
+| ---------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **1. A developer pushed new code to Git, but Argo CD didn't deploy it. What would you check?** | Check Application status (`kubectl get applications -n argocd`), repository connectivity, sync status, Git branch (`targetRevision`), repository path, and Argo CD controller logs. |
+| **2. Application shows `OutOfSync` but Pods are running correctly. Why?**                      | Someone may have manually modified the cluster, or Git differs from the live state. Argo CD detects configuration drift.                                                            |
+| **3. How do you automatically fix manual changes in the cluster?**                             | Enable `selfHeal: true` in the application's `syncPolicy`. Argo CD restores the desired state from Git.                                                                             |
+| **4. A resource was deleted from Git but still exists in the cluster. Why?**                   | `prune: true` is not enabled, or the application has not synced after the Git change.                                                                                               |
+| **5. What does `prune: true` do?**                                                             | It removes Kubernetes resources from the cluster when they are deleted from the Git repository.                                                                                     |
+| **6. An application remains in `Progressing`. What could be the reason?**                      | Pods are not Ready, image pull failures, failed probes, insufficient resources, or failed Jobs preventing the application from becoming Healthy.                                    |
+| **7. Argo CD cannot access a private GitHub repository. How do you fix it?**                   | Add repository credentials using SSH keys or a GitHub Personal Access Token (PAT), then verify with `argocd repo list`.                                                             |
+| **8. Your application status is `Missing`. What does it mean?**                                | The resource defined in Git does not exist in the cluster. Argo CD will create it during synchronization.                                                                           |
+| **9. Argo CD UI is inaccessible. How do you troubleshoot?**                                    | Check `argocd-server` Pod, Service type, LoadBalancer/Ingress status, port-forwarding, and browser/network connectivity.                                                            |
+| **10. A deployment is Healthy but `OutOfSync`. Why?**                                          | The application is running successfully, but the live configuration differs from what is stored in Git.                                                                             |
+| **11. How do you manually synchronize an application?**                                        | Use the Argo CD UI and click **Sync**, or run `argocd app sync <app-name>`.                                                                                                         |
+| **12. How do you rollback to a previous version?**                                             | Revert the Git commit or use the Argo CD UI to sync to a previous Git revision if available. Git remains the source of truth.                                                       |
+| **13. A namespace doesn't exist when deploying. How do you avoid deployment failure?**         | Enable `CreateNamespace=true` in `syncOptions` or create the namespace before deployment.                                                                                           |
+| **14. How do you deploy to multiple Kubernetes clusters?**                                     | Register additional clusters with Argo CD and create Applications targeting the appropriate cluster and namespace.                                                                  |
+| **15. Why is Git called the "Single Source of Truth" in GitOps?**                              | The desired state is stored in Git. Argo CD continuously compares Git with the cluster and reconciles differences.                                                                  |
+| **16. How do you stop users from changing resources manually?**                                | Use Kubernetes RBAC to restrict access. If changes occur, `selfHeal` can automatically restore the Git-defined state.                                                               |
+| **17. A Pod was deleted manually. What happens?**                                              | The Kubernetes Deployment recreates the Pod. If the Deployment itself was deleted, Argo CD recreates it from Git during reconciliation.                                             |
+| **18. How do you deploy different environments (Dev, QA, Prod)?**                              | Use separate folders, branches, Helm values files, Kustomize overlays, or separate Argo CD Applications.                                                                            |
+| **19. Can Argo CD deploy Helm charts?**                                                        | Yes. Argo CD can deploy Helm charts from Git repositories or Helm repositories without requiring Helm to be installed in the target cluster.                                        |
+| **20. Can Argo CD deploy Kustomize applications?**                                             | Yes. Argo CD has built-in support for Kustomize and generates the manifests before applying them.                                                                                   |
+| **21. A deployment succeeds, but Pods are in `CrashLoopBackOff`. What does Argo CD show?**                    | Sync status is usually **Synced**, but Health status becomes **Degraded** because the workload is unhealthy.                                 |
+| **22. How do you deploy automatically after every Git commit?**                                               | Configure `syncPolicy.automated` with optional `selfHeal` and `prune` settings.                                                              |
+| **23. A YAML file contains a syntax error. What happens?**                                                    | The sync fails, and the application reports an error. Check the application events and controller logs for details.                          |
+| **24. How do you monitor Argo CD?**                                                                           | Monitor the `argocd-*` Pods, view application health in the UI, and integrate metrics with Prometheus and Grafana.                           |
+| **25. One application depends on another (for example, CRDs before Custom Resources). How do you handle it?** | Use sync waves, resource hooks, or separate Applications with controlled deployment order.                                                   |
+| **26. Developers accidentally changed replicas from 3 to 10 using `kubectl scale`. What happens?**            | With `selfHeal: true`, Argo CD changes the replica count back to the value defined in Git.                                                   |
+| **27. What happens if the Git repository becomes unavailable?**                                               | Existing workloads continue running. Argo CD cannot fetch new changes until Git becomes reachable again.                                     |
+| **28. How do you deploy only one microservice without affecting others?**                                     | Create a separate Argo CD Application for each microservice or use an app-of-apps pattern with independent child applications.               |
+| **29. How do you securely manage Secrets with Argo CD?**                                                      | Avoid storing plain-text secrets in Git. Use tools such as Sealed Secrets, External Secrets Operator, or SOPS with encrypted files.          |
+| **30. Why do companies prefer Argo CD over manual `kubectl apply`?**                                          | It provides GitOps, automated synchronization, drift detection, version history, auditing, rollback through Git, and consistent deployments. |
+
