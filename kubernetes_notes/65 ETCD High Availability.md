@@ -17,7 +17,6 @@
 
 ## ✅ ETCD High Availability Concepts
 ### 🔹 1. Cluster with Multiple Members
-
  * Example:
  * Instead of one server:
     - Node1 (`Leader`)
@@ -26,9 +25,8 @@
     - If one node fails → cluster still works (others continue)
 
 ### 🔹 2. Raft Consensus Algorithm
- 
   * etcd uses `Raft Consensus Algorithm` to manage consistency and automatic leader election
-  * Only one node (leader) makes changes at a time.
+  * Only one node (`leader`) makes changes at a time.
   * Followers replicate data, All etcd members store the same data.
   * Leader failure → `new leader elected automatically` 🔄  (No manual action required)
   * 👉 Self-healing system
@@ -48,7 +46,6 @@ Example:
   - So, even if `1 node goes down`, the cluster still works. At least `2 must be healthy` to maintain `write availability`.
 
 ## 🔹 4. Auto Failover
- 
  * 🔄 What Happens if Leader Fails?
     - If Leader crashes 💥
     - Followers detect failure
@@ -57,15 +54,15 @@ Example:
     - ✔ Cluster continues working, 👉 No manual intervention needed
     - 👉 Ensures High Availability 🚀
 
-## 🧠 In Short:
+## ☸️ In Short: etcd High Availability (HA)
   * etcd ensures `High Availability ✅` through clustering, `Raft-based consensus 🔄`, `quorum writes 📊`, and `automatic leader election`.
 
 | 🧩 Feature             | 📖 What It Means    | 🧠 How It Works                                           | 💡 Why It Matters               |
 | ---------------------- | ------------------- | --------------------------------------------------------- | -------------------------------- |
 | 🧱 **Clustering**      | Multiple etcd nodes | 👉 Runs as a distributed cluster (typically 3 or 5 nodes) | 🚫 Avoids single point of failure |
-| 🗳 **Raft Consensus**  | Agreement protocol  | 👉 Ensures All nodes agree on data before commit          | 🔐 Strong consistency         |
-| 🧮 **Quorum Writes**   | Majority approval   | 👉 Write succeeds only if majority (N/2 + 1) nodes agree  | 🛡 Prevents data corruption    |
-| 👑 **Leader Election** | One leader node     | 👉 Leader handles writes; followers replicate             | ⚙️ Ensures Coordinated updates  |
+| 🗳 **Raft Consensus**  | Agreement protocol  | 👉 Ensures All nodes agree on data before commit          | 🔐 Provides strong consistency            |
+| 🧮 **Quorum Writes**   | Majority approval   | 👉 Write succeeds only if majority (N/2 + 1) nodes agree  | 🛡️ Prevents split-brain and data corruption   |
+| 👑 **Leader Election** | One leader node     | 👉 One node becomes the leader and handles all writes; followers replicate the data   | ⚙️ Coordinates updates and ensures failover  |
 
 ## 🔥 What if ALL etcd nodes fail?
   - Kubernetes control plane stops ❌  
@@ -144,10 +141,9 @@ ETCDCTL_API=3 etcdctl snapshot restore /backup/etcd-snapshot.db \
 ---
 
 ## 🎯 Best Practices
-
 | 🧩 Practice                    | 📖 What to Do                   | 🧠 Why It Matters                       | 💡 Pro Tip                   |
 | ------------------------------ | ------------------------------- | --------------------------------------- | ---------------------------- |
-| 🔢 **Use odd number of nodes** | Deploy 3, 5, or 7 nodes         | 👉 Ensures proper quorum (N/2 + 1)      | ⭐ 3-node cluster is most common   |
+| 🔢 **Use odd number of nodes** | Deploy 3, 5, or 7 nodes         | 👉 Ensures proper quorum (`N/2 + 1`)      | ⭐ 3-node cluster is most common   |
 | 💾 **Take regular backups**    | Schedule etcd snapshots         | 👉 Protect cluster state from data loss | ⏰ Automate with cron jobs     |
 | 🔄 **Test restore process**    | Perform periodic restore drills | 👉 Verify backups actually work         | 🧪 Test in staging environment  |
 | 🔐 **Secure certificates**     | Protect `.crt` and `.key` files | 👉 Prevent unauthorized access          | 🔒 Restrict file permissions |
@@ -170,11 +166,10 @@ ETCDCTL_API=3 etcdctl snapshot restore /backup/etcd-snapshot.db \
    - ❌ Losing cert files
 
 ## 🧠 Final Summary
-
 | 🧩 Concept               | 💡 Meaning                               |
 | ------------------------ | ---------------------------------------- |
 | 🧠 **etcd**              | Kubernetes brain (stores cluster state)  |
-| 🗂 **Type**              | Distributed key-value store              |
+| 🗂 **Type**               | Distributed key-value store              |
 | 🧱 **High Availability** | Achieved via clustering + Raft consensus |
 | 🧮 **Quorum**            | Majority (N/2 + 1) ensures consistency   |
 | 💾 **Backup**            | Critical for disaster recovery           |
