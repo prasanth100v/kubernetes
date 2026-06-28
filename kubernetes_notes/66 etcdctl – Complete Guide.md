@@ -205,14 +205,18 @@ Cluster 🔄   → Recreated from Git
 | ⚙️ **Control**           | Limited<br>Less flexibility                                   | Full<br>full customization                        |
 
 
-## 🔄 Best Strategy : 🎯 Production Setup
-```yaml
-etcd Snapshot 📦 (Control Plane)
-       +
-Velero Backup 📦 (Workloads + PVCs)
-       ↓
-Complete Disaster Recovery ✅
-```
+## ☸️ etcd in Kubernetes & Amazon EKS
+| 🧩 **Cluster Type**                    |                                                    💾 **etcd Members** | 👑 **Leader Election** | 🗳️ **Raft Consensus** | ✅ **High Availability** |
+| -------------------------------------- | ---------------------------------------------------------------------: | :--------------------: | :--------------------: | :---------------------: |
+| 🖥️ **Single Control Plane (kubeadm)** |                                                                      1 |            ❌           |            ❌           |            ❌            |
+| 🏗️ **Multi Control Plane (kubeadm)**  |                                                                 3 or 5 |            ✅           |            ✅           |            ✅            |
+| ☁️ **Amazon EKS**                      | AWS-managed (multiple etcd members across multiple Availability Zones) |            ✅           |            ✅           |            ✅            |
+
+ ### Key interview point
+  * etcd always belongs to the `Control Plane`, never the worker nodes.
+  * In a single-control-plane kubeadm cluster, there is only `one etcd member`, so there is `no leader election` or `Raft replication`.
+  * In a highly available kubeadm cluster (`multiple control planes`) and in Amazon EKS, etcd runs as a `distributed cluster` that uses the `Raft consensus algorithm` for leader election and `data replication`
+  * Providing high availability and consistency.
 
 ---
 
