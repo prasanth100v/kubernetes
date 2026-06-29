@@ -166,6 +166,10 @@ Kubernetes uses **X.509 certificates**
   - 👉 Client verifies using `ca.crt`
   - 👉 Secure connection established using `apiserver.key` 🔐
 
+### In Amazon Web Services EKS, etcd is fully managed by AWS, so:
+   * You do not see or manage the etcd certificates.
+   * AWS handles `certificate creation`, `rotation`, and `security automatically`.
+
 ---
 
 # 🤖 What is cert-manager?
