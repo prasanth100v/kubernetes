@@ -25,7 +25,7 @@
    4. Both: “Let’s use this secret key”
    5. Start secure communication
 
-```yaml
+```hcl
 Opening https://google.com                    # (Using Google as example)
 
 🔐 What actually happens (real life)
@@ -90,8 +90,8 @@ TLS Provides 3 Security Pillars:
  - 🔐 Secure `kubectl → API server`  
 
 ### 🕵️‍♂️ What is a Man-in-the-Middle (MITM) attack?
-A Man-in-the-Middle attack happens when an attacker secretly sits between you and a website
-🔓 What attacker can do : 
+ * A Man-in-the-Middle attack happens when an attacker secretly sits between you and a website
+ * 🔓 What attacker can do : 
   - 👀 Read your data (`passwords`, `OTPs`, `cards`)
   - ✏️ Modify data (change transactions)
   - 🎭 Create `fake login` websites pages
@@ -116,9 +116,8 @@ Kubernetes uses **X.509 certificates**
 | 🧩 Tool         | 📌 Type                   | 💡 Description                                                                                           |
 | --------------- | ------------------------- | ---------------------------------------------------------------------------------------------------------- |
 | 🛠️ kubeadm     | ⚙️ Cluster setup tool     | 🤖 Automatically generates certificates during cluster initialization. (creates certs when cluster starts) |
-| 🤖 cert-manager | 🔄 Certificate controller | 🔁 `Auto-creates` & `renews TLS certificates` inside cluster                                                  |
-| 🧰 OpenSSL      | 🛠️ CLI tool              | ✍️ Used to manually generate certificates and keys (create your `own certs`)                                |
-
+| 🤖 cert-manager | 🔄 Certificate controller | 🔁 `Auto-creates` & `renews TLS certificates` inside cluster                                             |
+| 🧰 OpenSSL      | 🛠️ CLI tool              | ✍️ Used to manually generate certificates and keys (create your `own certs`)                          |
 ---
 
 ## 🔐 TLS Usage in Kubernetes
@@ -132,8 +131,8 @@ Kubernetes uses **X.509 certificates**
 | 🌐 Ingress                        | 🌍 External traffic         | 🔒 Provides **HTTPS (TLS)** access to applications                                          |
 | 🔄 Admission Webhooks             | 🧠 Validation/Mutation      | 🔐 Secure API calls during resource creation                                                |
 | 🕸️ Service Mesh (`Istio mTLS`)      | Pod ↔ Pod communication         | 🔐 Encrypts service-to-service traffic inside cluster                                  |
-| 🤖 cert-manager                   | Certificate automation          | ⚙️ Automatically creates & renews TLS certificates                                       |
-| 🔌 Webhook TLS                   | Control-plane communication     | 🔒 Ensures secure internal `API extensions  `                                             |
+| 🤖 cert-manager                    | Certificate automation          | ⚙️ Automatically creates & renews TLS certificates                                       |
+| 🔌 Webhook TLS                    | Control-plane communication     | 🔒 Ensures secure internal `API extensions  `                                             |
 
 ## 🔄 TLS vs mTLS
 | 🧩 Feature         | 🔐 TLS                         | 🔐🔐 mTLS (Mutual TLS)                     |
@@ -170,20 +169,16 @@ Kubernetes uses **X.509 certificates**
 ---
 
 # 🤖 What is cert-manager?
-
-cert-manager is a **Kubernetes controller** that:
-  - Issues TLS certificates 🔐  
-  - Auto-renews certificates before expiry 🔄  
-  - Stores in as Kubernetes Secrets 📦  
+ * cert-manager is a **Kubernetes controller** that:
+   - Issues TLS certificates 🔐  
+   - Auto-renews certificates before expiry 🔄  
+   - Stores in as Kubernetes Secrets 📦
 
 ## 🛠️ Manual TLS Certificate Creation
 ### 🔐 1. Generate Certificate (OpenSSL)
-
 ```hcl
 openssl genrsa -out myapp.key 2048                                                       # 1️⃣ Generate Private Key
-
 openssl req -new -key myapp.key -out myapp.csr -subj "/CN=myapp.example.com"             # 2️⃣ Generate CSR
-
 openssl x509 -req -in myapp.csr -signkey myapp.key -out myapp.crt -days 365              # 3️⃣ Generate Certificate
 ```
 
@@ -207,54 +202,7 @@ spec:
     - myapp.example.com
     secretName: myapp-tls-secret
 ```
-## 🌐🔐 TLS in Kubernetes Gateway API (Terminate vs Passthrough)
-### 👉 "In Gateway API, TLS is configured at the Gateway listener level, not in the route. Routes only handle traffic routing."
 
-| 🧩 Feature                | 🔓 Terminate (Gateway API)     | 🔐 Passthrough (Gateway API)         |
-| ------------------------- | ------------------------------ | ------------------------------------ |
-| 📍 TLS handled at         | 🌐 **Gateway (Listener)**      | 🖥️ **Backend (Service/Pod)**        |
-| 🔄 Traffic inside cluster | 📡 HTTP (via `HTTPRoute`)      | 🔒 HTTPS (via `TLSRoute`)            |
-| 🛡️ Security              | ✅ High                         | 🔥 Very High (end-to-end encryption) |
-| ⚙️ Complexity             | 👍 Easy                        | ⚠️ Advanced                          |
-| 📜 Certificate location   | 📂 Gateway (`certificateRefs`) | 📦 Backend application               |
-| 🧭 Route Type             | 🌍 `HTTPRoute`                 | 🔐 `TLSRoute`                        |
-| 🔧 TLS Mode               | `Terminate`                    | `Passthrough`                        |
-
-### ⚡ When to use
- * 🔓 Termination → ✅ (Most Common) `TLS ends at Gateway`, Traffic becomes HTTP internally (`decrypt early`)
-    * 🎯 Use Case : Standard web apps (`React`, `APIs`, `microservices`)
-    
- * 🔐 Passthrough → ✅ (Advanced) TLS is NOT terminated at Gateway, Encrypted traffic is passed directly to backend 
-    - 🎯 Use Case   :  `Banking / highly secure apps` (mTLS setups, zero-trust, strict security) (stay `encrypted end-to-end` 🔒)
-    - 📌 Key Points :  End-to-end encryption🔥 --Gateway cannot inspect traffic -- Requires backend to manage certificates (Backend service handles `TLS decryption`)
-
- ```yaml
-apiVersion: gateway.networking.k8s.io/v1
-kind: Gateway
-metadata:
-  name: myapp-gateway
-spec:
-  gatewayClassName: nginx
-  listeners:
-  - name: https
-    protocol: HTTPS
-    port: 443
-    hostname: myapp.example.com
-    tls:
-      mode: Terminate    ## 🔓 TLS termination here
-      certificateRefs:
-      - kind: Secret
-        name: myapp-tls-secret
-```
-🔄 Flow
-```yaml
-User 🔒 → Gateway (decrypt) → HTTP → Service
-```
-
-## 🧪 Testing
-```hcl
-curl https://myapp.example.com --insecure
-```
 ---
 
 ## 📊 TLS Certificate Management Comparison
@@ -265,9 +213,9 @@ curl https://myapp.example.com --insecure
 | OpenSSL Manual | ❌ Limited  | ❌ No       | ❌        | ❌       |
 
 ## 📂 Certificate Types
-| 🧩 **Type**               | 📌 **Description**      | 🧠 **How It Works**                    | 🌐 **Example**           |
+| 🧩 **Type**               | 📌 **Description**     | 🧠 **How It Works**                    | 🌐 **Example**           |
 | ------------------------- | ----------------------- | ---------------------------------------- | ------------------------ |
-| ✅ **Single Domain**       | Covers one domain       | 👉 Valid only for one exact domain     | `example.com`            |
+| ✅ **Single Domain**       | Covers one domain      | 👉 Valid only for one exact domain     | `example.com`            |
 | 🌟 **Wildcard**           | Covers all subdomains   | 👉 Uses `*` to match subdomains         | `*.example.com`          |
 | 🌍 **Multi-domain (SAN)** | Covers multiple domains | 👉 Uses SAN (Subject Alternative Name)  | `example.com`, `app.org` |
 
@@ -279,7 +227,6 @@ curl https://myapp.example.com --insecure
 ---
 
 ## ✨ Summary
-
 TLS is:
  - 🔐 Core of internet security  
  - ☸️ Critical in Kubernetes  
