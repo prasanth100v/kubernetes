@@ -28,11 +28,10 @@
 | ✅ DV (Domain Validation)      | 🌐 Verifies domain ownership only⚡ (`Fast & cheap`)       | 📝 Blogs, personal & small sites                         |
 | 🏢 OV (Organization Validation)| 🏢 Verifies domain + company                               | 💼 Business websites & apps                               |
 | 🏦 EV (Extended Validation)   | 🏛️ 🔥 Highest trust level + Shows company name in browser   | 💳 Banking, e-commerce, finance                            |
-| 🌟 Wildcard Certificate       | 🌐 Covers all subdomains                                     | 🔗 `*.example.com` ( api.example.com, multiple subdomains) |
-| 🌍 Multi-domain (SAN)         | 🌐 Multiple domains in one cert                              | 🧩 Multi-app / (`app.org`, `shop.net`) multi-domain systems   |
+| 🌟 Wildcard Certificate       | 🌐 Covers all subdomains                                    | 🔗 `*.example.com` ( api.example.com, multiple subdomains) |
+| 🌍 Multi-domain (SAN certificates) | 🌐 Multiple domains in one cert                       | 🧩 Multi-app / (`app.org`, `shop.net`) multi-domain systems   |
 
 ### 🔐 How DigiCert Works (Trust Chain)
-
  * 🔗 Trust Chain:
    - 1️⃣ Root CA (trusted globally)
    - 2️⃣ Intermediate CA
@@ -44,14 +43,12 @@
  * ✔️ Best for :  Enterprise apps, Public production systems
 
 ### 1️⃣🔐 Generate CSR (Certificate Signing Request)
-
 ```hcl
 openssl req -new -newkey rsa:2048 -nodes \
 -keyout myapp.key \
 -out myapp.csr \
 -subj "/C=IN/ST=YourState/L=YourCity/O=YourOrg/CN=myapp.example.com"
 ```
-
 * 🔹 Output:
     - myapp.key → Private key 🔑
     - myapp.csr → Upload to DigiCert 📄
@@ -69,10 +66,9 @@ openssl req -new -newkey rsa:2048 -nodes \
 2️⃣ Choose certificate type  
 3️⃣ Upload CSR  
 4️⃣ Complete verification
-
 * 👉 You will receive:
-   - certificate.crt  
-   - intermediate.crt  
+    - certificate.crt  
+    - intermediate.crt 
 
 ## 🔗 Create Full Chain
 ```yaml
