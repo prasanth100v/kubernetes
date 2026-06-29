@@ -5,15 +5,6 @@
    - Internal: `HashiCorp Vault`
    - ✔️ CA ensures: Server identity is `valid` & `Clients can trust connection`
 
-## 🔐 Where TLS is Used in Kubernetes?
- ### 🧩 Core Components:
-   - 🔗 API Server (HTTPS for kubectl)
-   - 💾 etcd (encrypted storage communication)
-   - 🖥️ kubelet ↔ API Server (`mTLS`)
-   - ⚙️ Controller Manager & Scheduler
-   - 🌐 Ingress (`HTTPS for apps`)
-   - 🔄 Admission Webhooks
-
 ## 🔐 Self-Signed Certificate
 ### 📌 What is it?
   - Certificate signed by itself (`not CA`)
@@ -32,38 +23,6 @@
 
 ---
 
-### 🔥 Auto TLS with cert-manager
- * 👉 Best practice (Production)
- * Steps:
-  1. Install cert-manager
-  2. Create ClusterIssuer
-  3. Annotate Ingress
-  
-  ```hcl
-    cert-manager.io/cluster-issuer: letsencrypt-prod
-  ```
-   4. ✔️ Automatic certificate creation & renewal
-
-## 🏢 Certificate Authority (CA)
- * A CA is a trusted entity that signs certificates.
- * 🌍 Examples:
-     - Let's Encrypt
-     - DigiCert
-     - HashiCorp Vault
-
-## 🤝 TLS Handshake Process:
-   * Exchange keys  
-   * Verify certificates  
-   * Establish secure connection  
-
-## 🔄 Certificate Renewal / Rotation
-🛠️ kubeadm:
-```yaml
-kubeadm certs renew <component>
-```
-  - cert-manager: ✔️ Auto-renew before expiry (`Auto-renewal enabled`)
-  - Manual: ✔️ Regenerate → Update secrets → Restart pods
-
 ## 🔐 Self-Signed vs CA-Signed
 | 🧩 **Type**        | 🔒 **Trust Level**        | 🧠 **How It Works**                                 | 💡 **Use Case**                  |
 | ------------------ | ------------------------- | --------------------------------------------------- | -------------------------------- |
@@ -74,9 +33,8 @@ kubeadm certs renew <component>
 
 # ☸️ Kubernetes Control Plane Communication
 ## 📌 Overview
-
-In Kubernetes, the **control plane components communicate primarily through the API Server**, which acts as the central management hub.
-#### “No direct communication between components — everything goes through API Server”
+ * In Kubernetes, the **control plane components communicate primarily through the API Server**, which acts as the central management hub.
+ * “No direct communication between components — everything goes through API Server”
 
 ## 🔑 Key Concept
  * 👉 **API Server = Central Hub**
@@ -125,7 +83,6 @@ In Kubernetes, the **control plane components communicate primarily through the 
 
 ## ☸️ Kubernetes Control Plane Security
 ### 🔑 Control Plane Communication :
-
  * 👉 API Server is central hub
  * All components communicate via `API Server` securely
  * `API Server ↔ etcd → TLS encryption` ( etcd only talks to API Server )
@@ -138,17 +95,6 @@ Certificates are stored in:
 ```yaml
 /etc/kubernetes/pki/
 ```
-### 🔐 Kubernetes TLS Files (Core)
-| 📂 File            | 📌 Purpose                 | 💡 Explanation                                            |
-| ------------------ | -------------------------- | --------------------------------------------------------- |
-| 🏛️ `ca.crt`       | Root Certificate Authority | ✅ Trust anchor used to verify all certificates in cluster |
-| 🌐 `apiserver.crt` | API Server Certificate     | 🪪 Identity of API Server (shared with clients)           |
-| 🔑 `apiserver.key` | API Server Private Key     | 🔒 Secret key used by API Server for encryption           |
-
-### Simple Understanding
- - 👉 `ca.crt` → Trusted authority (`who signs`)
- - 👉 `apiserver.crt` → API Server ID card 🪪
- - 👉` apiserver.key` → Secret password 🔒
 
 ## 🚀 Zero Trust Model
  - Every component must authenticate  
