@@ -35,6 +35,7 @@
 | 🚫 **Registry Unavailable** | Docker Hub, ECR, ACR, or GCR is unavailable | Check registry status                            | Retry after the service is restored                     |
 | ⏳ **Rate Limit**            | Docker Hub anonymous pull limit exceeded    | Check Pod events                                 | Authenticate to Docker Hub or use another registry      |
 
+---
 
 ## ☸️ Kubernetes ImagePullBackOff — Common Error Messages & Solutions
 | 🚨 **Error Message**        | 🔍 **Cause**                                  | 🛠️ **Solution**                                             | 💡 **Interview Tip**                                  |
@@ -47,6 +48,17 @@
 | `TLS handshake timeout`     | Registry connection timeout                   | Retry later and verify network connectivity                  | Often caused by slow or unstable networks             |
 | `Back-off pulling image`    | Kubernetes is repeatedly retrying image pulls | Fix the root cause, then restart or recreate the Pod         | This is a symptom, not the root cause                 |
 | `ErrImagePull`              | Initial image pull failed                     | Inspect the detailed error message in Pod events             | Usually appears before `ImagePullBackOff`             |
+
+---
+
+## 🔍 Useful Commands
+| 💻 **Command**                               | 🎯 **Purpose**                          |
+| --------------------------------------------- | --------------------------------------- |
+| `kubectl describe pod <pod-name>`             | View Pod events and image pull errors   |
+| `kubectl get events --sort-by=.lastTimestamp` | Display recent cluster events           |
+| `kubectl get secret`                          | Verify registry secrets exist           |
+| `kubectl describe secret <secret-name>`       | Inspect image pull secret details       |
+| `kubectl delete pod <pod-name>`               | Recreate the Pod after fixing the issue |
 
 ---
 
