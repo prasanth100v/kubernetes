@@ -1,5 +1,5 @@
-# ☸️ Kubernetes Error 1: CrashLoopBackOff 𝕂𝕦𝕓𝕖𝕣𝕟𝕖𝕥𝕖𝕤 𝔼𝕣𝕣𝕠𝕣 𝟙: ℂ𝕣𝕒𝕤𝕙𝕃𝕠𝕠𝕡𝔹𝕒𝕔𝕜𝕆𝕗𝕗
-### 🚨 What is CrashLoopBackOff?
+# ☸️ 𝕂𝕦𝕓𝕖𝕣𝕟𝕖𝕥𝕖𝕤 𝔼𝕣𝕣𝕠𝕣 𝟙: ℂ𝕣𝕒𝕤𝕙𝕃𝕠𝕠𝕡𝔹𝕒𝕔𝕜𝕆𝕗𝕗
+## 🚨 What is CrashLoopBackOff?
  * A CrashLoopBackOff error occurs when a container `starts`, `crashes`, and Kubernetes repeatedly tries to `restart` it.
  * After several failed attempts, Kubernetes `delays the restart`, resulting in the `CrashLoopBackOff` status.
  * 🚀 Common causes include 𝙖𝙥𝙥𝙡𝙞𝙘𝙖𝙩𝙞𝙤𝙣 𝙘𝙧𝙖𝙨𝙝𝙚𝙨, 𝙘𝙤𝙣𝙛𝙞𝙜𝙪𝙧𝙖𝙩𝙞𝙤𝙣 𝙚𝙧𝙧𝙤𝙧𝙨, 𝙢𝙞𝙨𝙨𝙞𝙣𝙜 𝙎𝙚𝙘𝙧𝙚𝙩𝙨, 𝙙𝙚𝙥𝙚𝙣𝙙𝙚𝙣𝙘𝙮 𝙛𝙖𝙞𝙡𝙪𝙧𝙚𝙨, 𝙧𝙚𝙨𝙤𝙪𝙧𝙘𝙚 𝙡𝙞𝙢𝙞𝙩𝙨, 𝙥𝙧𝙤𝙗𝙚 𝙛𝙖𝙞𝙡𝙪𝙧𝙚𝙨, and 𝙨𝙩𝙤𝙧𝙖𝙜𝙚 or 𝙥𝙚𝙧𝙢𝙞𝙨𝙨𝙞𝙤𝙣 𝙞𝙨𝙨𝙪𝙚𝙨.
