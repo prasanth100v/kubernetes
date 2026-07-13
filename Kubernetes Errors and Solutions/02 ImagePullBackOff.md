@@ -1,5 +1,5 @@
-# ☸️ Kubernetes Error 2: ImagePullBackOff
-### 🚨 What is ImagePullBackOff?
+# ☸️ 𝕂𝕦𝕓𝕖𝕣𝕟𝕖𝕥𝕖𝕤 𝔼𝕣𝕣𝕠𝕣 𝟚: 𝕀𝕞𝕒𝕘𝕖ℙ𝕦𝕝𝕝𝔹𝕒𝕔𝕜𝕆𝕗𝕗
+## 🚨 What is ImagePullBackOff?
  * ImagePullBackOff means Kubernetes tried to `download the container image from the container registry but failed`.
  * The kubelet keeps retrying with increasing delays (`backoff`), so the Pod remains in the `ImagePullBackOff state`.
  ```hcl
