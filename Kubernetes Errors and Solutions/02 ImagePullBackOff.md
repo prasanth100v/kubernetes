@@ -1,5 +1,5 @@
 # ☸️ 𝕂𝕦𝕓𝕖𝕣𝕟𝕖𝕥𝕖𝕤 𝔼𝕣𝕣𝕠𝕣 𝟚: 𝕀𝕞𝕒𝕘𝕖ℙ𝕦𝕝𝕝𝔹𝕒𝕔𝕜𝕆𝕗𝕗
-## 🚨 What is ImagePullBackOff?
+## 🚨 𝗪𝗵𝗮𝘁 𝗶𝘀 𝗜𝗺𝗮𝗴𝗲𝗣𝘂𝗹𝗹𝗕𝗮𝗰𝗸𝗢𝗳𝗳❓
  * ImagePullBackOff means Kubernetes tried to `download the container image from the container registry but failed`.
  * The kubelet keeps retrying with increasing delays (`backoff`), so the Pod remains in the `ImagePullBackOff state`.
  ```hcl
@@ -24,7 +24,7 @@
  ImagePullBackOff
  ```
 
-## ☸️ Kubernetes ImagePullBackOff — Common Causes
+## ☸️ 𝙆𝙪𝙗𝙚𝙧𝙣𝙚𝙩𝙚𝙨 𝙄𝙢𝙖𝙜𝙚𝙋𝙪𝙡𝙡𝘽𝙖𝙘𝙠𝙊𝙛𝙛 — 𝘾𝙤𝙢𝙢𝙤𝙣 𝘾𝙖𝙪𝙨𝙚𝙨
 | 🚨 **Cause**                | 📖 **Description**                          | 🔍 **How to Verify**                             | 🛠️ **Solution**                                        |
 | --------------------------- | ------------------------------------------- | ------------------------------------------------ | ------------------------------------------------------- |
 | 🏷️ **Wrong Image Name**    | Image name is incorrect                     | Check the Deployment/Pod YAML                    | Correct the image name                                  |
@@ -37,7 +37,7 @@
 
 ---
 
-## ☸️ Kubernetes ImagePullBackOff — Common Error Messages & Solutions
+## ☸️ 𝙆𝙪𝙗𝙚𝙧𝙣𝙚𝙩𝙚𝙨 𝙄𝙢𝙖𝙜𝙚𝙋𝙪𝙡𝙡𝘽𝙖𝙘𝙠𝙊𝙛𝙛 — 𝘾𝙤𝙢𝙢𝙤𝙣 𝙀𝙧𝙧𝙤𝙧 𝙈𝙚𝙨𝙨𝙖𝙜𝙚𝙨 & 𝙎𝙤𝙡𝙪𝙩𝙞𝙤𝙣𝙨
 | 🚨 **Error Message**        | 🔍 **Cause**                                  | 🛠️ **Solution**                                             | 💡 **Interview Tip**                                  |
 | --------------------------- | --------------------------------------------- | ------------------------------------------------------------ | ----------------------------------------------------- |
 | `manifest unknown`          | Image tag does not exist                      | Use a valid image tag                                        | Verify the tag exists in Docker Hub, ECR, ACR, or GCR |
@@ -51,7 +51,7 @@
 
 ---
 
-## 🔍 Useful Commands
+## 🔍 𝖀𝖘𝖊𝖋𝖚𝖑 𝕮𝖔𝖒𝖒𝖆𝖓𝖉𝖘
 | 💻 **Command**                               | 🎯 **Purpose**                          |
 | --------------------------------------------- | --------------------------------------- |
 | `kubectl describe pod <pod-name>`             | View Pod events and image pull errors   |
@@ -62,7 +62,7 @@
 
 ---
 
-## 🎯 Interview Approach
+## 🎯 𝙄𝙣𝙩𝙚𝙧𝙫𝙞𝙚𝙬 𝘼𝙥𝙥𝙧𝙤𝙖𝙘𝙝
  * When asked "How do you troubleshoot ImagePullBackOff?", explain this order:
    * ✅ Check the Pod events using `kubectl describe pod`.
    * ✅ Verify the `image name` and `tag`.
@@ -71,7 +71,7 @@
    * ✅ Verify node connectivity to the registry.
    * ✅ Check if the registry is available or if `rate limits` have been reached.
 
-## 🎯 Interview One-Liner
+## 🎯 ✨ 𝐼𝑛𝑡𝑒𝑟𝑣𝑖𝑒𝑤 𝑂𝑛𝑒-𝐿𝑖𝑛𝑒𝑟 ✨
  * ImagePullBackOff occurs when Kubernetes cannot pull a container image.
  * The most common causes are an `incorrect image name` or `tag`, missing authentication for a `private registry`, a `deleted image`, network connectivity issues, registry outages, or registry rate limits (ex., `200 pulls per 6 hours`.).
  * The first troubleshooting step is to `inspect the Pod events` using `kubectl describe pod`. ☸️🐳🚀
