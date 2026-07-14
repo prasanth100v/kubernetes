@@ -1,4 +1,4 @@
-#  ꧁𓊈𒆜﻿𝕂𝕦𝕓𝕖𝕣𝕟𝕖𝕥𝕖𝕤　𝔼𝕣𝕣𝕠𝕣　𝟛：　ℙ𝕖𝕟𝕕𝕚𝕟𝕘　ℙ𝕠𝕕𝕤𒆜𓊉꧂ 
+# 𝕂𝕦𝕓𝕖𝕣𝕟𝕖𝕥𝕖𝕤 𝔼𝕣𝕣𝕠𝕣 𝟛: ℙ𝕖𝕟𝕕𝕚𝕟𝕘 ℙ𝕠𝕕𝕤 
  * A Pod remains in the Pending state because Kubernetes is `unable to schedule it on any node`.
 
 ## Common Reasons
