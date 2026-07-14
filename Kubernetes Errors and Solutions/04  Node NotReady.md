@@ -111,4 +111,4 @@ worker1   NotReady   <none>          15d   v1.31.0
 ### 🎯 Interview One-Liner
  * A Node NotReady status means the control plane considers the 𝐧𝐨𝐝𝐞 𝐮𝐧𝐡𝐞𝐚𝐥𝐭𝐡𝐲 or 𝐮𝐧𝐫𝐞𝐚𝐜𝐡𝐚𝐛𝐥𝐞.
  * Common causes include disk pressure, memory pressure, PID exhaustion, kubelet or container runtime failures, network connectivity issues, certificate problems, or cloud infrastructure issues.
- * The first troubleshooting step is to inspect the node using 𝐤𝐮𝐛𝐞𝐜𝐭𝐥 𝐝𝐞𝐬𝐜𝐫𝐢𝐛𝐞 𝐧𝐨𝐝𝐞 <𝐧𝐨𝐝𝐞-𝐧𝐚𝐦𝐞>. ☸️🚀
+ * The first troubleshooting step is to inspect the node using 𝐤𝐮𝐛𝐞𝐜𝐭𝐥 𝐝𝐞𝐬𝐜𝐫𝐢𝐛𝐞 𝐧𝐨𝐝𝐞 <𝐧𝐨𝐝𝐞-𝐧𝐚𝐦𝐞>.
