@@ -1,6 +1,16 @@
 # 🚨 Kubernetes Error: Evicted Pods
-### 📌 What is an Evicted Pod?
+### 📌 What is an Evicted Pod❓
  * An Evicted Pod is a pod that Kubernetes forcibly removes from a node because the `node doesn't have enough resources` to keep it running.
+
+### ✅ Identify Evicted Pods
+```hcl
+kubectl get pods
+
+---
+
+NAME          READY   STATUS     RESTARTS   AGE
+nginx-abc     0/1     𝔼𝕧𝕚𝕔𝕥𝕖𝕕    0          5m
+```
 
 ## 🚀 Evicted Pod Troubleshooting Flow
 ```hcl
@@ -49,9 +59,14 @@ New Pod Created Successfully ✅
 | `kubectl get events --sort-by=.metadata.creationTimestamp` | View recent cluster events                                        |
 | `kubectl delete pod <pod-name>`                            | Remove an evicted pod                                             |
 
+# 🎯 Interview Answer
+## How do you troubleshoot an Evicted Pod❓
+ * Run 𝗸𝘂𝗯𝗲𝗰𝘁𝗹 𝗱𝗲𝘀𝗰𝗿𝗶𝗯𝗲 𝗽𝗼𝗱 <𝗽𝗼𝗱-𝗻𝗮𝗺𝗲> to identify the eviction reason.
+ * Check node conditions using 𝙠𝙪𝙗𝙚𝙘𝙩𝙡 𝙙𝙚𝙨𝙘𝙧𝙞𝙗𝙚 𝙣𝙤𝙙𝙚 <𝙣𝙤𝙙𝙚-𝙣𝙖𝙢𝙚>.
+ * Verify disk, memory, and ephemeral storage usage.
+ * Review `CPU` and `memory` utilization with 𝗸𝘂𝗯𝗲𝗰𝘁𝗹 𝘁𝗼𝗽 𝗻𝗼𝗱𝗲 and 𝗸𝘂𝗯𝗲𝗰𝘁𝗹 𝘁𝗼𝗽 𝗽𝗼𝗱.
+ * Clean up unused images/logs, optimize resource requests, or add more nodes if needed.
 
-
-
-
-
-
+## 🎯 Interview One-Liner
+ * ☸️ A Pod is evicted when the kubelet removes it to protect node stability, typically due to disk pressure, memory pressure, ephemeral storage exhaustion, or overall resource exhaustion.
+ * 🚀 The first step is to inspect the eviction reason with 𝗸𝘂𝗯𝗲𝗰𝘁𝗹 𝗱𝗲𝘀𝗰𝗿𝗶𝗯𝗲 𝗽𝗼𝗱, then check node conditions and resource usage before freeing resources or scaling the cluster. 
