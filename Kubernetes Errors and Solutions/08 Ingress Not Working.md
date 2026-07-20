@@ -55,7 +55,6 @@ Application Accessible ✅
 | 🏷️ **Wrong Ingress Class**              | Ingress is using an incorrect or missing `ingressClassName`           | Set the correct Ingress class supported by the controller          | `kubectl get ingressclass`                |
 | 📦 **Pods Not Ready**                   | Backend Pods are failing readiness checks                             | Fix Pod health issues so endpoints become available                | `kubectl get pods`                        |
 
-
 ## 🔍 Useful Troubleshooting Commands
 | 💻 Command                                       | 🎯 Purpose                      |
 | ------------------------------------------------ | ------------------------------- |
@@ -73,6 +72,17 @@ Application Accessible ✅
 | `kubectl logs -n ingress-nginx <controller-pod>` | Review controller logs              |
 | `nslookup <domain>` / `dig <domain>`             | Verify DNS resolution               |
 
+## 🎯 Interview Answer
+### Q: How do you troubleshoot an Ingress that is not working?
+ * Verify the Ingress controller is running.
+ * Inspect the Ingress resource using 𝙠𝙪𝙗𝙚𝙘𝙩𝙡 𝙙𝙚𝙨𝙘𝙧𝙞𝙗𝙚 𝙞𝙣𝙜𝙧𝙚𝙨𝙨.
+ * Check that the backend `Service name` and `port` are correct.
+ * Ensure the Service has healthy endpoints.
+ * Verify DNS points to the 𝙄𝙣𝙜𝙧𝙚𝙨𝙨 𝙚𝙭𝙩𝙚𝙧𝙣𝙖𝙡 𝙄𝙋 or 𝙇𝙤𝙖𝙙𝘽𝙖𝙡𝙖𝙣𝙘𝙚𝙧.
+ * Validate the `TLS Secret` and `certificate` configuration.
+ * Check for `NetworkPolicy` or `firewall rules` blocking `HTTP/HTTPS traffic`.
 
-
+## 🎯 Interview One-Liner
+ * ☸️ An Ingress usually fails because the Ingress controller is unavailable, the Ingress rules are incorrect, the backend Service or endpoints are misconfigured, DNS does not resolve to the Ingress IP, TLS is invalid, or traffic is blocked by NetworkPolicies or firewalls.
+ * 🚀 The first troubleshooting step is to inspect the Ingress using 𝙠𝙪𝙗𝙚𝙘𝙩𝙡 𝙙𝙚𝙨𝙘𝙧𝙞𝙗𝙚 𝙞𝙣𝙜𝙧𝙚𝙨𝙨 and verify the controller, Service, and endpoints. 
 
