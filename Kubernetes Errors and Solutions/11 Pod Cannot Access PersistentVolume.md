@@ -13,7 +13,7 @@
 kubectl get pvc
 ---
 NAME         STATUS    VOLUME   CAPACITY   STORAGECLASS
-mysql-pvc    🅿🅴🅽🅳🅸🅽🅶                                    # If the PVC status is Pending, it is not bound to a PV.
+mysql-pvc    ℙ𝕖𝕟𝕕𝕚𝕟𝕘                                        # If the PVC status is Pending, it is not bound to a PV.
 ```
 
 ## 🚀 PersistentVolume Troubleshooting Flow
