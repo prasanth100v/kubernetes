@@ -71,7 +71,7 @@ Pod Starts Successfully ✅
 
 ## 🎯 Interview Answer
 ### Q: How do you troubleshoot PV/PVC issues in Kubernetes?
- * Check the PVC status using 𝙠𝙪𝙗𝙚𝙘𝙩𝙡 𝙜𝙚𝙩 𝙥𝙫𝙘 and 𝙠𝙪𝙗𝙚𝙘𝙩𝙡 𝙙𝙚𝙨𝙘𝙧𝙞𝙗𝙚 𝙥𝙫𝙘.
+ * I first check the PVC status using 𝙠𝙪𝙗𝙚𝙘𝙩𝙡 𝙜𝙚𝙩 𝙥𝙫𝙘. If the PVC is in the Pending state, I run 𝙠𝙪𝙗𝙚𝙘𝙩𝙡 𝙙𝙚𝙨𝙘𝙧𝙞𝙗𝙚 𝙥𝙫𝙘 to identify the reason.
  * Verify that the PVC is bound to a PV.
  * Ensure the StorageClass matches between the PV and PVC.
  * Confirm the 𝗿𝗲𝗾𝘂𝗲𝘀𝘁𝗲𝗱 𝘀𝘁𝗼𝗿𝗮𝗴𝗲 𝘀𝗶𝘇𝗲 and 𝗮𝗰𝗰𝗲𝘀𝘀 𝗺𝗼𝗱𝗲𝘀 are compatible.
