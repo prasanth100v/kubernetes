@@ -54,8 +54,8 @@ Node Ready ✅
 | `crictl ps -a`                      | List all containers                        |
 | `journalctl --disk-usage`           | Check systemd journal disk usage           |
 
-## 🎯 Interview Answer
-### Q: How do you troubleshoot a node with DiskPressure=True?
+# 🎯 Interview Answers
+## Q: How do you troubleshoot a node with DiskPressure=True?
  * Check the node condition using `kubectl describe node <node-name>`.
  * Verify disk usage with `df -h`.
  * Identify large directories using `du -sh`.
