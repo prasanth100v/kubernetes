@@ -69,8 +69,7 @@ Node Ready ✅
  * 🚀 Common causes include a nearly full root filesystem, unused container images, large log files, stopped containers, excessive persistent data, and high ephemeral storage usage.
  * 🚀 The first troubleshooting step is to inspect the node with `kubectl describe node` and check disk utilization using `df -h`.
 
-# 💡 Interview Tip
-### Q: What is Node Disk Pressure in Kubernetes, and how do you troubleshoot it?
+## 💡 Q: What is Node Disk Pressure in Kubernetes, and how do you troubleshoot it?
  * Node Disk Pressure occurs when a worker node runs low on available disk space.
  * Kubernetes marks the node with the DiskPressure=True condition, may stop scheduling new pods, and can evict existing pods to protect node stability.
  * I troubleshoot it by checking the node status with kubectl describe node, verifying disk usage using df -h, identifying large files or directories, cleaning up unused container images, containers, and logs, and checking ephemeral storage usage.
