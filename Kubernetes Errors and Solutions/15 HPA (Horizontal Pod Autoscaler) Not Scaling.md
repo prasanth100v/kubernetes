@@ -39,8 +39,30 @@ Generate Test Load
 HPA Increases Replicas ✅
 ```
 
+## 🔍 Useful Troubleshooting Commands
+| 💻 Command                                                 | 🎯 Purpose                             |
+| ---------------------------------------------------------- | -------------------------------------- |
+| `kubectl get hpa`                                          | List Horizontal Pod Autoscalers        |
+| `kubectl describe hpa <hpa-name>`                          | View HPA status and events             |
+| `kubectl top pod`                                          | Check pod CPU and memory usage         |
+| `kubectl top node`                                         | Check node resource usage              |
+| `kubectl get pods -n kube-system \| grep metrics-server`   | Verify Metrics Server                  |
+| `kubectl get apiservices \| grep metrics`                  | Verify Metrics API availability        |
+| `kubectl edit deployment <deployment-name>`                | Configure resource requests and limits |
+| `kubectl describe deployment <deployment-name>`            | Verify CPU and memory requests         |
+| `kubectl get events --sort-by=.metadata.creationTimestamp` | View recent events                     |
 
 
+# 💡 Interview Tip
+## Q: How do you troubleshoot an HPA that is not scaling?
+ * I first check the HPA status using `kubectl describe hpa` to review the current metrics, desired replicas, and recent events.
+ * Then I verify that `CPU or memory metrics` are available with `kubectl top pod` and ensure the Metrics Server is running and the `metrics.k8s.io` API is healthy.
+ * Next, I confirm that the deployment defines appropriate CPU and/or memory requests, because HPA uses these values to calculate utilization.
+ * I also verify the HPA configuration, including minReplicas, maxReplicas, and target utilization.
+ * Finally, I generate application load, monitor the HPA with `kubectl get hpa -w`, and confirm that the replica count increases as expected.
+#### Tip: If kubectl top pod returns Metrics API not available, the first thing to check is whether the Metrics Server is installed and running. This is one of the most common causes of HPA scaling issues.
 
-
+## 🎯 Interview One-Liner
+ * An HPA typically fails to scale because the Metrics Server is unavailable, resource requests are missing, resource utilization is below the configured threshold, the HPA configuration is incorrect, the metrics.k8s.io API is unavailable, or the stabilization window is delaying scaling.
+ * The first troubleshooting step is to inspect the HPA with kubectl describe hpa and verify metrics availability. ☸️📈🚀
 
