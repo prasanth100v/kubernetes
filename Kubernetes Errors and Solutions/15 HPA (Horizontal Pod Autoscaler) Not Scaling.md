@@ -18,4 +18,29 @@
 | 📦 **Deployment Already at Max Replicas** | HPA cannot scale beyond the configured maximum                 | Increase `maxReplicas` if appropriate                                              | `kubectl get hpa`                               |
 | 🔒 **Pods Not Ready**                     | New Pods fail readiness checks                                 | Fix readiness probe or application startup issues                                  | `kubectl get pods`                              |
 
+## 🚀 HPA Troubleshooting Flow
+```hcl
+HPA Not Scaling
+        ↓
+kubectl describe hpa / kubectl get hpa
+        ↓
+Metrics Available?
+        ↓
+kubectl top pod
+        ↓
+Metrics Server Running?
+        ↓
+CPU Requests Configured?
+        ↓
+Target Utilization Reached?
+        ↓
+Generate Test Load
+        ↓
+HPA Increases Replicas ✅
+```
+
+
+
+
+
 
